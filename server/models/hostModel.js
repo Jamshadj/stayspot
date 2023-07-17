@@ -1,0 +1,43 @@
+import mongoose from 'mongoose';
+const hostSchema=mongoose.Schema({
+    firstName:{
+        type:String,
+        required:true
+    },
+    lastName:{
+        type:String,
+        required:true
+    },
+    email:{
+        type:String,
+        required:true
+    },
+    phoneNumber:{
+        type:Number
+        
+    },
+    googleId: {
+        type: String,
+        allowNull: true
+    },
+    loginWithGoogle: {
+        type: Boolean,
+        default: false
+    },
+    password:{
+        type:String,
+        required:true
+    },
+    blocked: {
+        type: Boolean,
+        default:false
+    },
+    image: {
+        type: Object,
+    }
+
+    
+})
+
+const hostModel=mongoose.model('hostDetails',hostSchema)
+export default hostModel;

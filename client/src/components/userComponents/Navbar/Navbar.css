@@ -1,0 +1,13 @@
+.logo{
+    width: 3rem;
+   
+}
+.header{
+    display: flex;
+}
+.name{
+    display: flex;
+    align-items: center;
+    margin-left: 13px;
+    margin-top: 7px;
+}
