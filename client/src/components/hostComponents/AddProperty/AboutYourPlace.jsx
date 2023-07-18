@@ -1,27 +1,38 @@
-import React from 'react'
-import PropertyNavbar from './PropertyNavbar'
-import home from "../../../assets/animation/home.png"
-function AboutYourPlace() {
-  return (
-    <div>
-      <PropertyNavbar/>
-      <div className='mx-auto w-full inline-flex'>
-        <div className=' w-1/2 ml-10'>
-          <div className='p-28 p-44'>
-          <h5>Step 1
-          </h5>
-          <h2>Tell about your place</h2>
-          <p>In this step, we'll ask you which type of property you have and if guests will book the entire place or just a room. Then let us know the location and how many guests can stay.</p>
-        </div>
-        </div>
-        <div className='w-1/2 '>
-         <img src={home} alt="" />
-        </div>
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import PropertyNavbar from './PropertyNavbar';
+import home from '../../../assets/animation/home.png';
+import Footer from './Footer';
+import Structure from './Structure';
 
-      
+function AboutYourPlace() {
+  const navigate = useNavigate();
+
+  const handleNext = () => {
+    navigate('/host/structure');
+  };
+
+  return (
+    <div className="flex flex-col min-h-screen">
+      <PropertyNavbar />
+      <div className="flex-grow mx-auto w-full flex flex-col md:flex-row justify-center items-center">
+        <div className="w-full md:w-1/2 ml-10">
+          <div className="p-4 md:p-28">
+            <h5>Step 1</h5>
+            <h2>Tell about your place</h2>
+            <p>
+              In this step, we'll ask you which type of property you have and if guests will book the entire place or just
+              a room. Then let us know the location and how many guests can stay.
+            </p>
+          </div>
+        </div>
+        <div className="w-full md:w-1/2 mt-4 md:mt-0">
+          <img src={home} alt="" className="mx-auto" />
+        </div>
       </div>
-      </div>
-  )
+      <Footer onNext={handleNext} />
+    </div>
+  );
 }
 
-export default AboutYourPlace
+export default AboutYourPlace;

@@ -7,6 +7,7 @@ import HostHome from "../pages/HostPages/HostHome";
 import HostLogin from "../pages/HostPages/HostLogin";
 import AboutYourPlace from "../components/hostComponents/AddProperty/AboutYourPlace.jsx";
 import AboutProperty from "../pages/HostPages/AboutProperty.jsx";
+import SelectStructure from "../pages/HostPages/SelectStructure.jsx";
 
 export default function HostRoutes() {
   const { host, refresh } = useSelector((state) => state);
@@ -32,6 +33,7 @@ export default function HostRoutes() {
           <Route path="/otp" element={<Navigate to="/host" replace />} />
           <Route path="/login" element={<Navigate to="/host" replace />} />
           <Route path="/about-your-place" element={<AboutProperty/>}/>
+          <Route path="/structure" element={<SelectStructure/>}/>
           <Route path="/" element={<HostHome />} />
         </>
       ) : (
