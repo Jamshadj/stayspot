@@ -1,14 +1,12 @@
 import React, { useEffect } from "react";
 import { Route, Routes, Navigate } from "react-router-dom";
-import SignUp from "../components/hostComponents/Signup/SignUp";
-import Home from "../components/hostComponents/Home/Home";
-import Login from "../components/hostComponents/Login/Login";
-import OTPModal from "../components/userComponents/Otp/Otp";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "../axios.js";
 import HostSignup from "../pages/HostPages/HostSignup";
 import HostHome from "../pages/HostPages/HostHome";
 import HostLogin from "../pages/HostPages/HostLogin";
+import AboutYourPlace from "../components/hostComponents/AddProperty/AboutYourPlace.jsx";
+import AboutProperty from "../pages/HostPages/AboutProperty.jsx";
 
 export default function HostRoutes() {
   const { host, refresh } = useSelector((state) => state);
@@ -33,7 +31,7 @@ export default function HostRoutes() {
           <Route path="/signup" element={<Navigate to="/host" replace />} />
           <Route path="/otp" element={<Navigate to="/host" replace />} />
           <Route path="/login" element={<Navigate to="/host" replace />} />
-
+          <Route path="/about-your-place" element={<AboutProperty/>}/>
           <Route path="/" element={<HostHome />} />
         </>
       ) : (
