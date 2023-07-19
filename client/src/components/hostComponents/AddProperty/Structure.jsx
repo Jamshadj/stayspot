@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropertyNavbar from './PropertyNavbar';
 import Footer from './Footer';
 import { AiOutlineHome } from 'react-icons/ai';
 import { MdApartment, MdOutlineCabin, MdOutlineHouseboat, MdOutlineBedroomChild } from 'react-icons/md';
 import { GiBarn, GiTreehouse, GiCaveEntrance, GiCampingTent } from 'react-icons/gi';
 import { LuHotel } from 'react-icons/lu';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
 function Structure() {
   const categories = [
@@ -87,29 +89,49 @@ function Structure() {
     // Add more categories as needed
     // ...
   ];
-
+  const [selectedCategory, setSelectedCategory] = useState(null);
+  const dispatch = useDispatch();
   const rows = Math.ceil(categories.length / 4); // Calculate the number of rows needed
+  const navigate = useNavigate();
+  const handleClick = (categoryType) => {
+    setSelectedCategory(categoryType);
+    console.log(categoryType);
+  };
+ 
+  const handleNext = () => {
+    if (selectedCategory) {
+      dispatch({ type: 'propertyDetails', payload: { structure: selectedCategory } });
+      navigate('/host/privacy-type');
+    }
+  };
 
   return (
     <div className="flex flex-col min-h-screen">
-      <PropertyNavbar />
-      <div className="mx-auto h-auto max-w-screen-xl px-4">
+      <header className="fixed top-0 left-0 w-full z-10 bg-white">
+        <PropertyNavbar />
+      </header>
+      <main className="flex-grow mx-auto max-w-screen-xl mt-24 px-4">
         <div>
           <h2 className="pt-3 text-2xl font-bold">Which of these best describes your place?</h2>
         </div>
         <div className="mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {categories.map((category, index) => (
-            <div
+            <button
+              onClick={() => handleClick(category.type)}
               key={index}
-              className="flex flex-col items-center justify-center border border-gray-900 p-4 rounded-lg hover:bg-gray-200 transition-colors duration-300 ease-in-out"
+              className={`flex flex-col items-center justify-center border p-4 rounded-lg transition-colors duration-300 ease-in-out focus:bg-blue-gray-200 ${
+                category.type === selectedCategory ? 'bg-blue-200' : ''
+              }`}
             >
               <div className="text-4xl mb-2">{category.icon}</div>
               <p className="font-medium text-center">{category.type}</p>
-            </div>
+            </button>
           ))}
         </div>
-      </div>
-      <Footer />
+      </main>
+      <footer className="fixed bottom-0 left-0 w-full z-10 bg-white">
+        <Footer onNext={handleNext} disabled={selectedCategory === null} />
+      </footer>
     </div>
   );
 }

@@ -4,8 +4,11 @@ const initialState = {
   user: { login: null },
   admin: { login: null },
   host: { login: null },
-  propertyDetails: [],
-  refresh: true
+  propertyDetails: {
+    structure: null,
+    privacyType: null
+  },
+  refresh: true,
 };
 
 function reducer(state = initialState, action) {
@@ -18,8 +21,11 @@ function reducer(state = initialState, action) {
       return { ...state, admin: action.payload };
     case 'refresh':
       return { ...state, refresh: !state.refresh };
-    case 'addPropertyDetails':
-      return { ...state, propertyDetails: [...state.propertyDetails, action.payload] };
+    case 'propertyDetails':
+      return {
+        ...state,
+        propertyDetails: { ...state.propertyDetails, ...action.payload },
+      };
     default:
       return state;
   }

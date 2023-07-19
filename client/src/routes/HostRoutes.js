@@ -5,12 +5,13 @@ import axios from "../axios.js";
 import HostSignup from "../pages/HostPages/HostSignup";
 import HostHome from "../pages/HostPages/HostHome";
 import HostLogin from "../pages/HostPages/HostLogin";
-import AboutYourPlace from "../components/hostComponents/AddProperty/AboutYourPlace.jsx";
 import AboutProperty from "../pages/HostPages/AboutProperty.jsx";
 import SelectStructure from "../pages/HostPages/SelectStructure.jsx";
+import PrivacyType from "../pages/HostPages/PrivacyType.jsx";
+import AddLocation from "../pages/HostPages/AddLocation.jsx";
 
 export default function HostRoutes() {
-  const { host, refresh } = useSelector((state) => state);
+  const { host, refresh,propertyDetails } = useSelector((state) => state);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -24,7 +25,7 @@ export default function HostRoutes() {
         console.log(error);
       });
   }, [refresh, dispatch]);
-
+console.log(propertyDetails);
   return (
     <Routes>
       {host.login ? (
@@ -34,6 +35,8 @@ export default function HostRoutes() {
           <Route path="/login" element={<Navigate to="/host" replace />} />
           <Route path="/about-your-place" element={<AboutProperty/>}/>
           <Route path="/structure" element={<SelectStructure/>}/>
+          <Route path="/privacy-type" element={<PrivacyType/>}/>
+          <Route path="/location" element={<AddLocation/>}/>
           <Route path="/" element={<HostHome />} />
         </>
       ) : (
