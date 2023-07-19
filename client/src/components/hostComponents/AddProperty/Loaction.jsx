@@ -1,30 +1,59 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropertyNavbar from './PropertyNavbar';
 import { Footer } from 'flowbite-react';
-import PlacesAutocomplete, {
-  geocodeByAddress,
-  getLatLng
-} from 'react-places-autocomplete';
+import mapboxgl from 'mapbox-gl';
+import 'mapbox-gl/dist/mapbox-gl.css';
+import ReactMapGL, { GeolocateControl } from 'react-map-gl';
+import Geocoder from 'react-map-gl-geocoder';
+
+mapboxgl.accessToken = 'YOUR_MAPBOX_ACCESS_TOKEN';
 
 function Location() {
+  const [viewport, setViewport] = useState({
+    latitude: 0,
+    longitude: 0,
+    zoom: 12,
+  });
   const [address, setAddress] = useState('');
 
-  const handleChange = (newAddress) => {
-    setAddress(newAddress);
+  const handleViewportChange = (newViewport) => {
+    setViewport(newViewport);
   };
 
-  const handleSelect = (selectedAddress) => {
-    setAddress(selectedAddress);
-    geocodeByAddress(selectedAddress)
-      .then((results) => getLatLng(results[0]))
-      .then((latLng) => {
-        // Use latLng object to access latitude and longitude
-        console.log('Coordinates:', latLng);
-      })
-      .catch((error) => {
-        console.error('Error:', error);
-      });
+  const handleGeocoderViewportChange = (newViewport) => {
+    const geocoderDefaultOverrides = { transitionDuration: 1000 };
+
+    return handleViewportChange({
+      ...newViewport,
+      ...geocoderDefaultOverrides,
+    });
   };
+
+  const handleGeocoderResult = (event) => {
+    const selectedAddress = event.result.place_name;
+    setAddress(selectedAddress);
+    const coordinates = event.result.geometry.coordinates;
+    console.log('Coordinates:', coordinates);
+    // Save the coordinates to your MongoDB database
+  };  
+
+  useEffect(() => {
+    if ('geolocation' in navigator) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          setViewport((prevState) => ({
+            ...prevState,
+            latitude,
+            longitude,
+          }));
+        },
+        (error) => {
+          console.error('Error getting geolocation:', error);
+        }
+      );
+    }
+  }, []);
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -36,43 +65,31 @@ function Location() {
           <h2 className="pt-3 text-2xl font-bold">Which of these best describes your place?</h2>
         </div>
         <div className="mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <PlacesAutocomplete
-            value={address}
-            onChange={handleChange}
-            onSelect={handleSelect}
+          <ReactMapGL
+            {...viewport}
+            width="100%"
+            height="300px"
+            mapboxApiAccessToken={mapboxgl.accessToken}
+            onViewportChange={handleViewportChange}
           >
-            {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
-              <div>
-                <input
-                  {...getInputProps({
-                    placeholder: 'Start typing your location...',
-                    className: 'w-full px-4 py-2 border border-gray-300 rounded',
-                  })}
-                />
-                <div>
-                  {loading ? <div>Loading...</div> : null}
-
-                  {suggestions.map((suggestion) => {
-                    const style = {
-                      backgroundColor: suggestion.active ? '#e2e8f0' : '#ffffff',
-                      cursor: 'pointer',
-                      padding: '0.5rem',
-                    };
-
-                    return (
-                      <div {...getSuggestionItemProps(suggestion, { style })}>
-                        {suggestion.description}
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-            )}
-          </PlacesAutocomplete>
+            <GeolocateControl
+              positionOptions={{ enableHighAccuracy: true }}
+              trackUserLocation={true}
+              showUserLocation={true}
+              fitBoundsOptions={{ maxZoom: 15 }}
+            />
+            <Geocoder
+              mapboxApiAccessToken={mapboxgl.accessToken}
+              onViewportChange={handleGeocoderViewportChange}
+              onResult={handleGeocoderResult}
+              placeholder="Start typing your location..."
+              position="top-left"
+            />
+          </ReactMapGL>
         </div>
       </main>
       <footer className="fixed bottom-0 left-0 w-full z-10 bg-white">
-        <Footer/>
+        <Footer />
       </footer>
     </div>
   );
