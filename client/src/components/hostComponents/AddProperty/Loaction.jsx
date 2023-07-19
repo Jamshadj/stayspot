@@ -35,7 +35,7 @@ function Location() {
     const coordinates = event.result.geometry.coordinates;
     console.log('Coordinates:', coordinates);
     // Save the coordinates to your MongoDB database
-  };  
+  };    
 
   useEffect(() => {
     if ('geolocation' in navigator) {
