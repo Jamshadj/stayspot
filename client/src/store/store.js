@@ -6,7 +6,9 @@ const initialState = {
   host: { login: null },
   propertyDetails: {
     structure: null,
-    privacyType: null
+    privacyType: null,
+    location:null,
+    coordinates:null
   },
   refresh: true,
 };

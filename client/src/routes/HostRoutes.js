@@ -9,6 +9,7 @@ import AboutProperty from "../pages/HostPages/AboutProperty.jsx";
 import SelectStructure from "../pages/HostPages/SelectStructure.jsx";
 import PrivacyType from "../pages/HostPages/PrivacyType.jsx";
 import AddLocation from "../pages/HostPages/AddLocation.jsx";
+import SetFloorplan from "../pages/HostPages/SetFloorplan.jsx";
 
 export default function HostRoutes() {
   const { host, refresh,propertyDetails } = useSelector((state) => state);
@@ -37,6 +38,7 @@ console.log(propertyDetails);
           <Route path="/structure" element={<SelectStructure/>}/>
           <Route path="/privacy-type" element={<PrivacyType/>}/>
           <Route path="/location" element={<AddLocation/>}/>
+          <Route path="/floor-plan" element={<SetFloorplan/>}/>
           <Route path="/" element={<HostHome />} />
         </>
       ) : (
