@@ -1,6 +1,6 @@
 import React from 'react';
 import { MDBContainer } from 'mdb-react-ui-kit';
-
+import { ToastContainer } from 'react-toastify';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import UserRoutes from './routes/UserRoutes';
 import HostRoutes from './routes/HostRoutes';
@@ -14,7 +14,9 @@ function App() {
           <Route element={<UserRoutes />} path='/*' />
           <Route element={<HostRoutes />} path='/host/*' />
           <Route element={<AdminRoutes />} path='/admin/*' />
+
         </Routes>
+        <ToastContainer />
       </Router>
     </div>
 

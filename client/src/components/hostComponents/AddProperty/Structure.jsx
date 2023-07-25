@@ -1,3 +1,5 @@
+// Structure.js
+
 import React, { useState } from 'react';
 import PropertyNavbar from './PropertyNavbar';
 import Footer from './Footer';
@@ -7,8 +9,10 @@ import { GiBarn, GiTreehouse, GiCaveEntrance, GiCampingTent } from 'react-icons/
 import { LuHotel } from 'react-icons/lu';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+import Swal from 'sweetalert2'; // Import SweetAlert library
 
 function Structure() {
+  // Categories array with types and corresponding icons
   const categories = [
     {
       type: 'House',
@@ -86,23 +90,38 @@ function Structure() {
         </svg>
       ),
     },
-    // Add more categories as needed
-    // ...
   ];
+
   const [selectedCategory, setSelectedCategory] = useState(null);
   const dispatch = useDispatch();
   const rows = Math.ceil(categories.length / 4); // Calculate the number of rows needed
   const navigate = useNavigate();
+
+  // Function to handle category button click
   const handleClick = (categoryType) => {
-    setSelectedCategory(categoryType);
-    console.log(categoryType);
+    setSelectedCategory(categoryType); // Set the selected category
   };
- 
+
+  // Function to handle the Next button click
   const handleNext = () => {
     if (selectedCategory) {
+      // If a category is selected, proceed to the next step
       dispatch({ type: 'propertyDetails', payload: { structure: selectedCategory } });
-      navigate('/host/privacy-type');
+      navigate('/host/privacy-type'); // Navigate to the privacy type page
+    } else {
+      // If no category is selected, show a SweetAlert warning
+      showSelectCategoryAlert();
     }
+  };
+
+  // Function to show a SweetAlert warning for selecting a category
+  const showSelectCategoryAlert = () => {
+    Swal.fire({
+      title: 'Select Category',
+      text: 'Please select a category that best describes your place.',
+      icon: 'warning',
+      confirmButtonText: 'OK',
+    });
   };
 
   return (

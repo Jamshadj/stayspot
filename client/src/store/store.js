@@ -8,7 +8,15 @@ const initialState = {
     structure: null,
     privacyType: null,
     location:null,
-    coordinates:null
+    coordinates:null,
+    address:[],
+    floorPlan:[],
+    amenities:[],
+    images:[],
+    title:null,
+    description:null,
+    pricePerNight:null,
+    hostId:null
   },
   refresh: true,
 };

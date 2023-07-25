@@ -1,39 +1,57 @@
 import React, { useState } from 'react';
 import PropertyNavbar from './PropertyNavbar';
 import Footer from './Footer';
-
 import { BsDoorOpen, BsHouseDoor, BsShareFill } from 'react-icons/bs';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2'; // Import SweetAlert library
 
 function Privacy() {
+  // Categories array with types, descriptions, and icons
   const categories = [
     {
       type: 'A Entire place',
-      description: 'Guest have the whole place to themselves',
+      description: 'Guest has the whole place to themselves',
       icon: <BsHouseDoor />,
     },
     {
       type: 'A room',
-      description: 'Guest has own room in home, plus access to shared places',
+      description: 'Guest has their own room in the home, plus access to shared places',
       icon: <BsDoorOpen />,
     },
     {
       type: 'A shared room',
-      description: 'Guest sleep in a room or common area that may be shared with you or others',
+      description: 'Guest sleeps in a room or common area that may be shared with others',
       icon: <BsShareFill />,
     },
+    // Add more categories as needed
+    // ...
   ];
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [privacyType, setPrivacyType] = useState('');
 
+  // Function to handle the Next button click
   const handleNext = () => {
     if (privacyType) {
+      // If a privacy type is selected, proceed to the next step
       dispatch({ type: 'propertyDetails', payload: { privacyType: privacyType } });
       navigate('/host/location');
+    } else {
+      // If no privacy type is selected, show a SweetAlert warning
+      showSelectPrivacyTypeAlert();
     }
-   
+  };
+
+  // Function to show a SweetAlert warning for selecting a privacy type
+  const showSelectPrivacyTypeAlert = () => {
+    Swal.fire({
+      title: 'Select Privacy Type',
+      text: 'Please select a privacy type that best describes your place.',
+      icon: 'warning',
+      confirmButtonText: 'OK',
+    });
   };
 
   return (
@@ -60,7 +78,7 @@ function Privacy() {
         </div>
       </div>
       <footer className="fixed bottom-0 left-0 w-full z-10 bg-white">
-        <Footer onNext={handleNext} disabled={privacyType === null} />
+        <Footer onNext={handleNext} disabled={privacyType === ''} />
       </footer>
     </div>
   );
