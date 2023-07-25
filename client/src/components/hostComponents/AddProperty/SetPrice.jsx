@@ -14,12 +14,14 @@ function SetPrice() {
 
   const handleNext = async () => {
     dispatch({ type: 'propertyDetails', payload: { pricePerNight: price, hostId: host.details._id } });
-
+console.log("dd");
     // Check if both price and hostId are present in propertyDetails before making the API call
     if (propertyDetails.pricePerNight && propertyDetails.hostId) {
       try {
+        console.log("ddd");
         const response = await postAddProperty(propertyDetails);
         if (response.success) {
+          console.log("dddd");
           // If API call is successful, navigate to the "/host" page
           navigate('/host');
         } else {
@@ -59,7 +61,13 @@ function SetPrice() {
           <p>You can change it any time</p>
         </div>
         <input
-          style={{ border: 'black solid 0.5px' }}
+           style={{
+            border: 'black solid 0.5px',
+            fontSize: '26px',
+            verticalAlign: 'top',  // Align the text at the top
+            whiteSpace: 'normal',   // Allow the text to wrap to the next line
+            wordWrap: 'break-word'  // Enable word wrap to handle long words
+          }}
           type="text"
           className="mt-10 h-48 w-full border-black"
           value={price}

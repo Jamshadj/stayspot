@@ -16,6 +16,7 @@ export async function postHostOtp(otp, formData) {
     return axios.post('/host/logout');
   };
   export const postAddProperty = (data) => {
+    console.log("dde");
     return axios.post('/host/add-property',{...data});
   };
   

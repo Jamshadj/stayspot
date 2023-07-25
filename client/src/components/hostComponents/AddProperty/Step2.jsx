@@ -19,8 +19,7 @@ function Step2() {
               <h5>Step 2</h5>
               <h2>Make your place standout</h2>
               <p>
-                In this step, we'll ask you which type of property you have and if guests will book the entire place or just
-                a room. Then let us know the location and how many guests can stay.
+              In this step, you’ll add some of the amenities your place offers, plus 5 or more photos. Then you’ll create a title and description.
               </p>
             </div>
           </div>

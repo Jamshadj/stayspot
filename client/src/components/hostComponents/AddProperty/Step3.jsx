@@ -20,8 +20,7 @@ function Step3() {
           <h5>Step 3</h5>
           <h2>Finish up and publish</h2>
           <p>
-            In this step, we'll ask you which type of property you have and if guests will book the entire place or just
-            a room. Then let us know the location and how many guests can stay.
+          Finally, you’ll choose if you'd like to start with an experienced guest, then you'll set your nightly price. Answer a few quick questions and publish when you're ready.
           </p>
         </div>
       </div>
