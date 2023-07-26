@@ -36,10 +36,12 @@ import {
   IconButton,
 } from "@material-tailwind/react";
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
  
 export default function Example() {
   const [openNav, setOpenNav] = useState(false);
   const { host } = useSelector((state) => state);
+  const navigate=useNavigate()
   useEffect(() => {
     window.addEventListener("resize", () => window.innerWidth >= 960 && setOpenNav(false));
   }, []);
@@ -84,6 +86,16 @@ export default function Example() {
       >
         <p href="#" className="flex items-center">
           Docs
+        </p>
+      </Typography>
+      <Typography
+        as="li"
+        variant="small"
+        color="blue-gray"
+        className="p-1 font-normal"
+      >
+        <p onClick={()=>navigate('/host/listings')}  className="flex items-center">
+          Listings
         </p>
       </Typography>
     </ul>

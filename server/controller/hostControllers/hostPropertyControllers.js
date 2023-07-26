@@ -5,25 +5,18 @@ import propertyModel from '../../models/propertyModel.js';
 export default {
   postAddProperty: async (req, res) => {
     try {
-      console.log("fe");
       // Get the property details from the request body
       const propertyDetails = req.body;
-      console.log(req.body);
-  
       
-      // console.log(propertyDetails.image.map((img)=>{
-
-      // }));
-     
       // Create a new document in the property collection with the provided property details
-      let images=[]
-      for(let item of req.body.images){
+      let images = [];
+      for (let item of req.body.images) {
         const result = await cloudinary.uploader.upload(item, {  //uploading to cloudinary
           folder: 'property'
         });
-        images.push(result)
-      }
-      console.log(images)
+        images.push(result);
+      } 
+      console.log(images);
       const newProperty = await propertyModel.create({
         structure: propertyDetails.structure,
         privacyType: propertyDetails.privacyType,
@@ -51,15 +44,50 @@ export default {
         title: propertyDetails.title,
         description: propertyDetails.description,
         pricePerNight: propertyDetails.pricePerNight,
-        hostId:propertyDetails.hostId
+        hostId: propertyDetails.hostId
+        
       });
-  
+      console.log("zsws");
+      res.json({ error: false, property: newProperty });
       // Respond with a success message and the newly created property document
-      res.status(201).json({ success: true, property: newProperty });
     } catch (error) {
       // If an error occurs, respond with an error message and status code 500
-      console.error(error);
-      res.status(500).json({ success: false, message: 'Internal Server Error' });
+      console.error("zsws", error);
+      res.status(500).json({ error: true, message: 'Internal Server Error' });
     }   
   },
+  setDates: async (req, res) => {
+    const { startDate, endDate, minimumStay, maximumStay } = req.body;
+    console.log("gfsd",req.body);
+
+    try {
+      // Assuming you want to update the 'startDate', 'endDate', 'minimumStay', and 'maximumStay' fields in propertyModel
+      await propertyModel.updateMany({}, { 
+        $set: {
+          startDate,
+          endDate,
+          minimumStay,
+          maximumStay
+        }
+      });
+      res.status(200).json({ success: true, message: 'Dates updated successfully' });
+    } catch (error) {
+      console.error('Error occurred during updating dates:', error);
+      res.status(500).json({ success: false, message: 'Error occurred during updating dates' });
+    }
+  },
+  getProperties: async (req, res) => {
+    try {
+      const hostId = req.params.hostId; // Extract the hostId from the request parameters
+      console.log('Host ID:', hostId);
+  
+      const properties = await propertyModel.find({ hostId: hostId });
+      console.log('Properties:', properties);
+  
+      res.json({ properties });
+    } catch (error) {
+      console.error('Error fetching properties:', error);
+      res.status(500).json({ error: 'Failed to fetch properties' });
+    }
+  }
 };

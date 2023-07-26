@@ -12,4 +12,7 @@ router.post('/logout',hostAuth.hostLogout)
 router.get('/auth',hostAuth.getLoggedInHost)
 router.post("/auth/login/google" , hostAuth.googleAuth)
 router.post('/add-property',hostPropertyControllers.postAddProperty)
+router.post('/set-date',hostPropertyControllers.setDates)
+router.get('/properties/:hostId', hostPropertyControllers.getProperties);
+
 export default router;

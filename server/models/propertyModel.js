@@ -79,6 +79,30 @@ const propertySchema = mongoose.Schema({
     type: String,
     required: true,
   },
+  minimumDate: {
+    type: Date,
+   
+  },
+ maximumDate: {
+    type: Date,
+   
+  },
+  availableDate:{
+    from:Date,
+    to:Date
+  },
+  hostId: {
+    type: String,
+    required: true,
+  },
+  instantBooking: {
+    type: String,
+    default: "on",
+  },
+  status: {
+    type: String,
+    default:"inProgress"
+  },
 });
 
 const propertyModel = mongoose.model("propertyDetails", propertySchema);

@@ -5,7 +5,15 @@ import './Home.css';
 import TodayReversation from '../Reversations/TodayReversation';
 import ArrivingSoon from '../Reversations/ArrivingSoon';
 import { Link } from 'react-router-dom';
-
+import SelectCalendar from '../SetCalendar/SelectCalendar';
+import {
+  Card,
+  CardBody,
+  CardFooter,
+  Typography,
+  Button,
+} from "@material-tailwind/react";
+ 
 function Home() {
   const [reservation, setReservation] = useState(<TodayReversation />);
   const [selectedButton, setSelectedButton] = useState('today'); // Added state for selected button
@@ -47,6 +55,9 @@ function Home() {
         </button>
       </div>
       <div>{reservation}</div>
+      <div>
+       <SelectCalendar/>
+      </div>
     </div>
   );
 }

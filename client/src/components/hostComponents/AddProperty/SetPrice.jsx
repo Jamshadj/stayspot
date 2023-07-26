@@ -5,6 +5,7 @@ import Footer from './Footer';
 import { useDispatch, useSelector } from 'react-redux';
 import { postAddProperty } from '../../../api/hostApi';
 import Swal from 'sweetalert2';
+import 'sweetalert2/dist/sweetalert2.css';
 
 function SetPrice() {
   const [price, setPrice] = useState('');
@@ -13,41 +14,49 @@ function SetPrice() {
   const { propertyDetails, host } = useSelector((state) => state);
 
   const handleNext = async () => {
-    dispatch({ type: 'propertyDetails', payload: { pricePerNight: price, hostId: host.details._id } });
-console.log("dd");
-    // Check if both price and hostId are present in propertyDetails before making the API call
-    if (propertyDetails.pricePerNight && propertyDetails.hostId) {
-      try {
-        console.log("ddd");
-        const response = await postAddProperty(propertyDetails);
-        if (response.success) {
-          console.log("dddd");
-          // If API call is successful, navigate to the "/host" page
-          navigate('/host');
-        } else {
-          // Handle error scenario
-          showErrorAlert('Error occurred during API call');
-        }
-      } catch (error) {
-        // Handle API call error
-        showErrorAlert('Error occurred during API call');
-        console.log('Error occurred during API call:', error);
+    try {
+      // Show a SweetAlert popup indicating that the API call is in progress
+      Swal.fire({
+        title: 'Please wait',
+        text: 'Saving your property...',
+        allowOutsideClick: false,
+        showConfirmButton: false,
+        onOpen: () => {
+          Swal.showLoading();
+        },
+      });
+
+      await dispatch({ type: 'propertyDetails', payload: { pricePerNight: price, hostId: host.details._id } });
+
+      const response = await postAddProperty(propertyDetails);
+      console.log("response", response);
+      if (response && response.data.error === false) {
+        // If API call is successful, close the SweetAlert popup and navigate to the "/host" page
+        Swal.close();
+        navigate('/host');
+      } else {
+        // Handle error scenario
+        Swal.fire({
+          title: 'Error',
+          text: 'Error occurred during API call',
+          icon: 'error',
+          confirmButtonText: 'OK',
+        });
       }
+    } catch (error) {
+      // Handle API call error
+      Swal.fire({
+        title: 'Error',
+        text: 'Error occurred during API call',
+        icon: 'error',
+        confirmButtonText: 'OK',
+      });
+      console.log('Error occurred during API call:', error);
     }
   };
 
   const handlePriceChange = (e) => {
     setPrice(e.target.value);
-  };
-
-  // Helper function to show error alert
-  const showErrorAlert = (message) => {
-    Swal.fire({
-      title: 'Error',
-      text: message,
-      icon: 'error',
-      confirmButtonText: 'OK',
-    });
   };
 
   return (
@@ -61,7 +70,7 @@ console.log("dd");
           <p>You can change it any time</p>
         </div>
         <input
-           style={{
+          style={{
             border: 'black solid 0.5px',
             fontSize: '26px',
             verticalAlign: 'top',  // Align the text at the top
