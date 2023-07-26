@@ -34,7 +34,7 @@ export default function AdminRoutes() {
           <Route path="/login" element={<Navigate to="/admin" replace />} />
           <Route path="/" element={<AdminHome />} />
           <Route path="/users" element={<AdminUsers/>}/>
-          <Route path="/hosts" element={<AdminHosts/>}/>
+          <Route path="/hosts" element={<AdminHosts/>}/>z
         </>
       ) : (
         <>

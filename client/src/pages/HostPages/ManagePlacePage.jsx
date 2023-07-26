@@ -3,7 +3,8 @@ import ManagePlace from '../../components/hostComponents/ManagePlace/ManagePlace
 
 function ManagePlacePage() {
   return (
-    <div><ManagePlace/></div>
+    <div><ManagePlace/>
+    </div>
   )
 }
 

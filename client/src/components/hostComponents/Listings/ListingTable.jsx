@@ -58,7 +58,7 @@ function ListingTable() {
         <tbody>
           {properties.map((property) => (
             <tr key={property._id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-             <th onClick={() => navigate(`/host/manage-your-place/${property._id}`)} scope="row" style={{ display: "flex", alignItems: "center" }} className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+             <th onClick={() => navigate(`/host/manage-your-place/${property._id}/details`)} scope="row" style={{ display: "flex", alignItems: "center" }} className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                 <img src={property.images[0].secure_url} alt="" style={{ width: '100px', height: '100px' }} />
                 <p style={{"font-size": "13px",
     "padding-left": "20px"}}>{property.title}</p>

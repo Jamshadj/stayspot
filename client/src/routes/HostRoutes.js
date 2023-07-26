@@ -62,7 +62,8 @@ export default function HostRoutes() {
           <Route path="/set-avaliblity" element={<SetAvaliableDatesPage/>}/>
           <Route path="/listings" element={<PropertyListingPage/>}/>
           <Route path="/instant" element={<SetInstantBooking/>}/>
-          <Route path="/manage-your-place" element={<ManagePlacePage/>}/>
+          <Route path="/manage-your-place/:propertyId/details" element={<ManagePlacePage />} />
+
           <Route path="/" element={<HostHome />} />
         </>
       ) : (

@@ -14,5 +14,5 @@ router.post("/auth/login/google" , hostAuth.googleAuth)
 router.post('/add-property',hostPropertyControllers.postAddProperty)
 router.post('/set-date',hostPropertyControllers.setDates)
 router.get('/properties/:hostId', hostPropertyControllers.getProperties);
-
+router.get('/property/:propertyId', hostPropertyControllers.getProperty);
 export default router;
