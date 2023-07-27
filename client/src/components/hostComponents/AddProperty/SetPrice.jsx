@@ -33,6 +33,7 @@ function SetPrice() {
       if (response && response.data.error === false) {
         // If API call is successful, close the SweetAlert popup and navigate to the "/host" page
         Swal.close();
+        dispatch({type:"refresh"})
         navigate('/host');
       } else {
         // Handle error scenario

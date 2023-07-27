@@ -90,18 +90,14 @@ export default {
       res.status(500).json({ error: 'Failed to fetch properties' });
     }
   },getProperty: async (req, res) => {
-    try {
-      console.log("rfffffffff");
-      const propertyId= req.params.propertyId; // Extract the hostId from the request parameters
-
-  
-      const property = await propertyModel.find({ _id: propertyId });
-   
-
-      res.json({ property });
-    } catch (error) {
-      console.error('Error fetching properties:', error);
-      res.status(500).json({ error: 'Failed to fetch properties' });
-    }
+  try {
+    console.log("rfffffffff");
+    const propertyId = req.params.propertyId;
+    const propertyDetails = await propertyModel.findOne({ _id: propertyId }); // Use findOne instead of find
+    res.json({ propertyDetails });
+  } catch (error) {
+    console.error('Error fetching properties:', error);
+    res.status(500).json({ error: 'Failed to fetch properties' });
   }
+}
 };

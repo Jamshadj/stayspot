@@ -107,3 +107,4 @@ const propertySchema = mongoose.Schema({
 
 const propertyModel = mongoose.model("propertyDetails", propertySchema);
 export default propertyModel;
+ 
