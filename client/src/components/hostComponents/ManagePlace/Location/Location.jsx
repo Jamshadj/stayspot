@@ -1,29 +1,23 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Swal from 'sweetalert2';
+import axios from '../../../../axios';
 
 function Location() {
+  const dispatch = useDispatch();
   const { propertyDetails } = useSelector((state) => state);
 
-  // State to manage the modal
   const [showModal, setShowModal] = useState(false);
 
   // State to manage the edited address fields
   const [editedAddress, setEditedAddress] = useState({
-    country: '',
-    city: '',
-    postCode: '',
-    region: '',
-    houseNumber: '',
-    area: '',
-    streetAddress: '',
-    landMark: '',
+    ...propertyDetails.address, // Use the spread operator to copy the values from propertyDetails.address
   });
 
   // Function to handle opening the modal and pre-filling the address fields
   const handleEditAddress = () => {
-    setEditedAddress(propertyDetails.address); // Set the edited address fields to the current address values
-    setShowModal(true); // Show the modal
+    setEditedAddress({ ...propertyDetails.address }); // Use the spread operator to copy the values from propertyDetails.address
+    setShowModal(true);
   };
 
   // Function to handle changes in the address fields
@@ -33,22 +27,39 @@ function Location() {
   };
 
   // Function to handle saving the edited address
-  const handleSaveAddress = () => {
-    // Perform any validation you need here before saving the address
-    // For example, checking if the fields are not empty or if the format is correct.
+  const handleSaveAddress = async () => {
+    try {
+      const response = await axios.post('/host/edit-address', {
+        editedAddress,
+        propertyId: propertyDetails._id,
+      });
 
-    // Save the edited address to the backend or do whatever you need to do with it
-    // Here, you can use axios or any other library to make an API call to save the address.
+      console.log('Data update response:', response.data);
 
-    // After successfully saving the address, close the modal and show a success message
-    setShowModal(false);
+      if (response.data.success) {
+        dispatch({
+          type: 'propertyDetails',
+          payload: {
+            address: editedAddress,
+          },
+        });
+        setShowModal(false);
 
-    Swal.fire({
-      icon: 'success',
-      title: 'Address updated successfully!',
-      showConfirmButton: false,
-      timer: 1500,
-    });
+        Swal.fire({
+          icon: 'success',
+          title: 'Data updated successfully!',
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      }
+    } catch (error) {
+      console.error('Error updating data:', error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Something went wrong!',
+      });
+    }
   };
 
   if (!propertyDetails) {
@@ -61,21 +72,30 @@ function Location() {
       <div className='mt-3'>
         <div>
           <h6>
-           
-            <a href='#' onClick={handleEditAddress} className='text-black hover:underline float-right'>
+            <button onClick={handleEditAddress} className='text-black hover:underline float-right'>
               Edit
-            </a>
+            </button>
           </h6>
           <p>{propertyDetails.location}</p>
           <hr />
         </div>
       </div>
 
-      {/* Modal for editing the address */}
       {showModal && (
         <div className='fixed inset-0 flex justify-center items-center bg-black bg-opacity-50'>
           <div className='bg-white p-4 rounded-lg'>
             <h6 className='font-bold'>Edit Address</h6>
+            {/* The address input fields */}
+            <div>
+              <label>Country</label>
+              <input
+                type='text'
+                name='country'
+                value={editedAddress.country}
+                onChange={handleAddressChange}
+                className='w-full border rounded-lg p-2'
+              />
+            </div>
             <div>
               <label>Country</label>
               <input

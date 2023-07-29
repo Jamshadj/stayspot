@@ -16,4 +16,5 @@ router.post('/set-date',hostPropertyControllers.setDates)
 router.get('/properties/:hostId', hostPropertyControllers.getProperties);
 router.get('/property/:propertyId', hostPropertyControllers.getProperty);
 router.post('/edit-data',hostPropertyControllers.postPropertyEditBasics)
+router.post('/update-property-field',hostPropertyControllers.postPropertyEditProperty)
 export default router;

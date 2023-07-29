@@ -124,5 +124,53 @@ export default {
       console.error('Error occurred during updating listing basics:', error);
       res.status(500).json({ success: false, message: 'Error occurred during updating listing basics' });
     }
+  },
+
+ postPropertyEditProperty:async(req,res)=>{
+  try {
+    const { propertyId, fieldName, fieldValue } = req.body;
+    const allowedFields = ["structure", "floorPlan", "privacyType"];
+
+    if (!allowedFields.includes(fieldName)) {
+      return res.status(400).json({ success: false, message: 'Invalid field name' });
+    }
+
+    // Construct the update object based on the field name
+    const updateData = { [fieldName]: fieldValue };
+    console.log(updateData);
+    // Update the property document in the database using Mongoose findByIdAndUpdate
+    // Assuming propertyModel is a Mongoose model representing the property collection
+    const updatedProperty = await propertyModel.findByIdAndUpdate(propertyId, updateData, { new: true });
+    
+    if (!updatedProperty) {
+      return res.status(404).json({ success: false, message: 'Property not found' });
+    }
+
+    res.status(200).json({ success: true, message: 'Field updated successfully', data: updatedProperty });
+  } catch (error) {
+    console.error('Error occurred during updating field:', error);
+    res.status(500).json({ success: false, message: 'Error occurred during updating field' });
   }
+ },
+ postPropertyEditPrice:async(req,res)=>{
+  try {
+    const { propertyId, pricePerNight } = req.body;
+
+    const updatedProperty = await propertyModel.findByIdAndUpdate(
+      propertyId,
+      { pricePerNight }, // Update the pricePerNight field
+      { new: true }
+    );
+
+    if (!updatedProperty) {
+      return res.status(404).json({ success: false, message: 'Property not found' });
+    }
+
+    res.status(200).json({ success: true, message: 'Price per night updated successfully', data: updatedProperty });
+  } catch (error) {
+    console.error('Error occurred during updating price per night:', error);
+    res.status(500).json({ success: false, message: 'Error occurred during updating price per night' });
+  }
+
+ }
 };
