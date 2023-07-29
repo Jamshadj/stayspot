@@ -28,7 +28,7 @@ function PricePerNight() {
       });
       setShowPriceModal(false);
       dispatch({
-        type: 'UPDATE_PROPERTY_DETAILS',
+        type: 'propertyDetails',
         payload: {
           pricePerNight: editedPricePerNight,
         },

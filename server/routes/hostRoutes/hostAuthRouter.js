@@ -17,4 +17,5 @@ router.get('/properties/:hostId', hostPropertyControllers.getProperties);
 router.get('/property/:propertyId', hostPropertyControllers.getProperty);
 router.post('/edit-data',hostPropertyControllers.postPropertyEditBasics)
 router.post('/update-property-field',hostPropertyControllers.postPropertyEditProperty)
+router.post('/update-price',hostPropertyControllers.postPropertyEditPrice)
 export default router;

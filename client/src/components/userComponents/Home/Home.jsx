@@ -5,7 +5,10 @@ import './Home.css'
 function Home() {
   return (
     <div>
+      <div className=''>
+
       <NavbarWithCTAButton/>
+      </div>
       <hr className='mt-4' />
       <div className="card-container">
         <CardWithDecorativeImage />
