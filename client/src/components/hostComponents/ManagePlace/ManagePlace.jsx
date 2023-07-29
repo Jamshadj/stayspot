@@ -9,6 +9,7 @@ import ListingImages from './ListingImages/ListingImages';
 import ListingBasics from './ListingBasics/ListingBasics';
 import Location from './Location/Location';
 import RoomManage from './RoomManage/RoomManage';
+import PricePerNight from './PricePerNight/PricePerNight';
 
 function ManagePlace() {
   // Get the propertyId from the URL params
@@ -80,6 +81,10 @@ function ManagePlace() {
             <div className="w-full">
               {/* ListingBasics component goes here */}
               <RoomManage  />
+            </div>
+            <div className="w-full">
+              {/* ListingBasics component goes here */}
+              <PricePerNight  />
             </div>
           </div>
         </div>
