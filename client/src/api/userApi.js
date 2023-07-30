@@ -23,3 +23,4 @@ export const postLogout = () => {
 export const getListings=()=>{
   return axios.get('/getListings')
 }
+
