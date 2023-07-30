@@ -4,6 +4,7 @@ import bcrypt from 'bcrypt';
 import adminModel from "../../models/adminModel.js";
 import userModel from "../../models/userModel.js";
 import hostModel from "../../models/hostModel.js";
+import propertyModel from "../../models/propertyModel.js";
 
 export default {
   postLogIn: async (req, res) => {
@@ -155,6 +156,17 @@ export default {
       maxAge: 0, // Set the maxAge to 0 to expire the cookie immediately
       sameSite: "none",
   }).json({ err: false, message: 'Logged out successfully' });
-  }
+  },
+  getProperties: async (req, res) => {
+    try {
+console.log("propr");
+      const properties = await propertyModel.find().lean();
 
+      res.json(properties);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: error });
+    }
+  },
+ 
 };

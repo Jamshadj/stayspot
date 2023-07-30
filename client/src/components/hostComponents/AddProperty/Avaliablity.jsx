@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import { Card, Input, Button, Typography } from '@material-tailwind/react';
-import { setDates } from '../../../api/hostApi';
+import { Card, Input, Typography } from '@material-tailwind/react'; // Removed unused Button import
+import { useDispatch } from 'react-redux'; // Added import for useDispatch
 import { useNavigate } from 'react-router-dom';
+import PropertyNavbar from './PropertyNavbar';
+import Footer from './Footer';
 
 function Avaliablity() {
   const [minimumStay, setMinimumStay] = useState('');
@@ -9,30 +11,30 @@ function Avaliablity() {
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const navigate = useNavigate();
+  const dispatch = useDispatch(); // Initialized the dispatch function
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
+    // Handle form submission if needed
+  };
 
-    // Call the setDates API with the required data
-    try {
-      const response = await setDates({ startDate, endDate, minimumStay, maximumStay });
-      console.log(response.data.message); // Success message from the backend
+  const handleNext = () => {
+    const payload = {
+      minimumStay,
+     maximumStay,
+      availablity: [startDate, endDate],
+    };
 
-      // If API call is successful, navigate to the "/host" page
-      navigate('/host');
-    } catch (error) {
-      console.log('Error occurred during updating dates:', error);
-    }
-
-    // Process the form data or perform any necessary actions with the state values
-    console.log('Minimum Stay:', minimumStay);
-    console.log('Maximum Stay:', maximumStay);
-    console.log('Start Date:', startDate);
-    console.log('End Date:', endDate);
+    dispatch({ type: 'propertyDetails', payload }); // Dispatch the action with the payload
+    navigate('/host/setPrice');
   };
 
   return (
-    <div className="flex justify-center items-center h-screen">
+    <div className="flex flex-col min-h-screen">
+     <header className="fixed top-0 left-0 w-full z-10 bg-white">
+        <PropertyNavbar />
+      </header>
+      <main className="flex-grow mx-auto max-w-screen-xl mt-24 px-4">
       <Card color="transparent" shadow={false}>
         <Typography variant="h4" color="blue-gray">
           Set up your calendar
@@ -61,7 +63,7 @@ function Avaliablity() {
             />
           </div>
           <Typography variant="h6" color="blue-gray">
-            Select Dates from and to
+            Select Dates start and end
           </Typography>
           <Input
             size="lg"
@@ -77,12 +79,12 @@ function Avaliablity() {
             value={endDate}
             onChange={(e) => setEndDate(e.target.value)}
           />
-
-          <Button className="mt-6" type="submit" fullWidth>
-            Register
-          </Button>
         </form>
       </Card>
+      </main>
+      <footer className="fixed bottom-0 left-0 w-full z-10 bg-white">
+        <Footer onNext={handleNext} />
+      </footer>
     </div>
   );
 }

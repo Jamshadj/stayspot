@@ -10,6 +10,7 @@ import AdminLogin from "../pages/AdminPages/AdminLogin";
 import AdminHosts from "../pages/AdminPages/AdminHosts";
 import AdminUsers from "../pages/AdminPages/AdminUsers";
 import AdminHome from "../pages/AdminPages/AdminHome";
+import AdminProperties from "../pages/AdminPages/AdminProperties";
 
 export default function AdminRoutes() {
   const { admin, refresh } = useSelector((state) => state);
@@ -34,7 +35,8 @@ export default function AdminRoutes() {
           <Route path="/login" element={<Navigate to="/admin" replace />} />
           <Route path="/" element={<AdminHome />} />
           <Route path="/users" element={<AdminUsers/>}/>
-          <Route path="/hosts" element={<AdminHosts/>}/>z
+          <Route path="/hosts" element={<AdminHosts/>}/>
+          <Route path="/properties" element={<AdminProperties/>}/>
         </>
       ) : (
         <>

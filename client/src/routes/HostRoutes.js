@@ -22,6 +22,8 @@ import SetAvaliableDatesPage from "../pages/HostPages/SetAvaliableDatesPage.jsx"
 import SetInstantBooking from "../pages/HostPages/SetInstantBooking.jsx";
 import PropertyListingPage from "../pages/HostPages/PropertyListingPage.jsx";
 import ManagePlacePage from "../pages/HostPages/ManagePlacePage.jsx";
+import SetAvalibality from "../pages/HostPages/SetAvalibality.jsx";
+import PropertyDetailsPage from "../pages/HostPages/PropertyDetailsPage.jsx";
 
 
 export default function HostRoutes() {
@@ -58,8 +60,10 @@ export default function HostRoutes() {
           <Route path="/add-title" element={<AddTitlePage/>}/>
           <Route path="/add-description" element={<AddDescriptonPage/>}/>
           <Route path="/step-3" element={<Step3Page/>}/>
+          <Route path="/set-avaliblity" element={<SetAvalibality/>}/>
           <Route path="/setPrice" element={<SetPricePage/>}/>
-          <Route path="/set-avaliblity" element={<SetAvaliableDatesPage/>}/>
+          <Route path="/property-details-page" element={<PropertyDetailsPage/>}/>
+          {/* <Route path="/set-avaliblity" element={<SetAvaliableDatesPage/>}/> */}
           <Route path="/listings" element={<PropertyListingPage/>}/>
           <Route path="/instant" element={<SetInstantBooking/>}/>
           <Route path="/manage-your-place/:propertyId/details" element={<ManagePlacePage />} />

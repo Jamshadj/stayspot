@@ -1,95 +1,114 @@
-// Structure.js
-
 import React, { useState } from 'react';
 import PropertyNavbar from './PropertyNavbar';
 import Footer from './Footer';
-import { AiOutlineHome } from 'react-icons/ai';
-import { MdApartment, MdOutlineCabin, MdOutlineHouseboat, MdOutlineBedroomChild } from 'react-icons/md';
-import { GiBarn, GiTreehouse, GiCaveEntrance, GiCampingTent } from 'react-icons/gi';
-import { LuHotel } from 'react-icons/lu';
-import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import Swal from 'sweetalert2'; // Import SweetAlert library
+import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
+import { TbBeach, TbMountain, TbPool } from 'react-icons/tb';
+import { 
+  GiBarn, 
+  GiBoatFishing, 
+  GiCactus, 
+  GiCastle, 
+  GiCaveEntrance, 
+  GiForestCamp, 
+  GiIsland,
+  GiWindmill
+} from 'react-icons/gi';
+import { FaSkiing } from 'react-icons/fa';
+import { BsSnow,BsHouseDoor } from 'react-icons/bs';
+import { IoDiamond } from 'react-icons/io5';
+import { MdOutlineVilla,MdOutlineBedroomChild,MdApartment } from 'react-icons/md';
+// ... (previously defined icon imports)
 
 function Structure() {
   // Categories array with types and corresponding icons
   const categories = [
     {
-      type: 'House',
-      icon: <AiOutlineHome size={40} />,
+      label: 'Appartment',
+      icon: MdApartment,
+      description: 'This property is close to the beach!',
     },
     {
-      type: 'Flat/apartment',
-      icon: <MdApartment size={40} />,
+      label: 'Windmills',
+      icon: GiWindmill,
+      description: 'This property is has windmills!',
     },
     {
-      type: 'Barn',
-      icon: <GiBarn size={40} />,
+      label: 'Modern',
+      icon: MdOutlineVilla,
+      description: 'This property is modern!'
     },
     {
-      type: 'Cabin',
-      icon: <MdOutlineCabin size={40} />,
+      label: 'House',
+      icon: BsHouseDoor,
+      description: 'This property is in arctic environment!'
     },
     {
-      type: 'Cave',
-      icon: <GiCaveEntrance size={40} />,
+      label: 'Room',
+      icon: MdOutlineBedroomChild,
+      description: 'This property is in arctic environment!'
     },
     {
-      type: 'Houseboat',
-      icon: <MdOutlineHouseboat size={40} />,
+      label: 'Beach house',
+      icon: TbBeach,
+      description: 'This property is in the countryside!'
     },
     {
-      type: 'Tent',
-      icon: <GiCampingTent size={40} />,
+      label: 'Pools',
+      icon: TbPool,
+      description: 'This is property has a beautiful pool!'
     },
     {
-      type: 'Room',
-      icon: <MdOutlineBedroomChild size={40} />,
+      label: 'Islands',
+      icon: GiIsland,
+      description: 'This property is on an island!'
     },
     {
-      type: 'Hotel',
-      icon: <LuHotel size={40} />,
+      label: 'Lake',
+      icon: GiBoatFishing,
+      description: 'This property is near a lake!'
     },
     {
-      type: 'Treehouse',
-      icon: <GiTreehouse size={40} />,
+      label: 'Skiing',
+      icon: FaSkiing,
+      description: 'This property has skiing activies!'
     },
     {
-      type: 'Farmhouse',
-      icon: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-          fill="currentColor"
-          className="w-6 h-6"
-        >
-          <path d="M19.006 3.705a.75.75 0 00-.512-1.41L6 6.838V3a.75.75 0 00-.75-.75h-1.5A.75.75 0 003 3v4.93l-1.006.365a.75.75 0 00.512 1.41l16.5-6z" />
-          <path
-            fillRule="evenodd"
-            d="M3.019 11.115L18 5.667V9.09l4.006 1.456a.75.75 0 11-.512 1.41l-.494-.18v8.475h.75a.75.75 0 010 1.5H2.25a.75.75 0 010-1.5H3v-9.129l.019-.006zM18 20.25v-9.565l1.5.545v9.02H18zm-9-6a.75.75 0 00-.75.75v4.5c0 .414.336.75.75.75h3a.75.75 0 00.75-.75V15a.75.75 0 00-.75-.75H9z"
-            clipRule="evenodd"
-          />
-        </svg>
-      ),
+      label: 'Castles',
+      icon: GiCastle,
+      description: 'This property is an ancient castle!'
     },
     {
-      type: 'Cycladic home',
-      icon: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-          fill="currentColor"
-          className="w-6 h-6"
-        >
-          <path d="M19.006 3.705a.75.75 0 00-.512-1.41L6 6.838V3a.75.75 0 00-.75-.75h-1.5A.75.75 0 003 3v4.93l-1.006.365a.75.75 0 00.512 1.41l16.5-6z" />
-          <path
-            fillRule="evenodd"
-            d="M3.019 11.115L18 5.667V9.09l4.006 1.456a.75.75 0 11-.512 1.41l-.494-.18v8.475h.75a.75.75 0 010 1.5H2.25a.75.75 0 010-1.5H3v-9.129l.019-.006zM18 20.25v-9.565l1.5.545v9.02H18zm-9-6a.75.75 0 00-.75.75v4.5c0 .414.336.75.75.75h3a.75.75 0 00.75-.75V15a.75.75 0 00-.75-.75H9z"
-            clipRule="evenodd"
-          />
-        </svg>
-      ),
+      label: 'Caves',
+      icon: GiCaveEntrance,
+      description: 'This property is in a spooky cave!'
     },
+    {
+      label: 'Camping',
+      icon: GiForestCamp,
+      description: 'This property offers camping activities!'
+    },
+    {
+      label: 'Arctic',
+      icon: BsSnow,
+      description: 'This property is in arctic environment!'
+    },
+    {
+      label: 'Desert',
+      icon: GiCactus,
+      description: 'This property is in the desert!'
+    },
+    {
+      label: 'Barns',
+      icon: GiBarn,
+      description: 'This property is in a barn!'
+    },
+    {
+      label: 'Lux',
+      icon: IoDiamond,
+      description: 'This property is brand new and luxurious!'
+    }
   ];
 
   const [selectedCategory, setSelectedCategory] = useState(null);
@@ -99,7 +118,9 @@ function Structure() {
 
   // Function to handle category button click
   const handleClick = (categoryType) => {
-    setSelectedCategory(categoryType); // Set the selected category
+    setSelectedCategory((prevSelectedCategory) =>
+      prevSelectedCategory === categoryType ? null : categoryType
+    );
   };
 
   // Function to handle the Next button click
@@ -136,14 +157,14 @@ function Structure() {
         <div className="mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {categories.map((category, index) => (
             <button
-              onClick={() => handleClick(category.type)}
+              onClick={() => handleClick(category.label)} // Use the category label for click handler
               key={index}
               className={`flex flex-col items-center justify-center border p-4 rounded-lg transition-colors duration-300 ease-in-out focus:bg-blue-gray-200 ${
-                category.type === selectedCategory ? 'bg-blue-200' : ''
+                category.label === selectedCategory ? 'bg-blue-200' : ''
               }`}
             >
-              <div className="text-4xl mb-2">{category.icon}</div>
-              <p className="font-medium text-center">{category.type}</p>
+              <div className="text-4xl mb-2"><category.icon/></div>
+              <p className="font-medium text-center">{category.label}</p>
             </button>
           ))}
         </div>

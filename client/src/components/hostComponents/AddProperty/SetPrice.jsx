@@ -15,35 +15,36 @@ function SetPrice() {
 
   const handleNext = async () => {
     try {
-      // Show a SweetAlert popup indicating that the API call is in progress
-      Swal.fire({
-        title: 'Please wait',
-        text: 'Saving your property...',
-        allowOutsideClick: false,
-        showConfirmButton: false,
-        onOpen: () => {
-          Swal.showLoading();
-        },
-      });
+      // console.log(propertyDetails.availablity);
+      // // Show a SweetAlert popup indicating that the API call is in progress
+      // Swal.fire({
+      //   title: 'Please wait',
+      //   text: 'Saving your property...',
+      //   allowOutsideClick: false,
+      //   showConfirmButton: false,
+      //   onOpen: () => {
+      //     Swal.showLoading();
+      //   },
+      // });
 
-      await dispatch({ type: 'propertyDetails', payload: { pricePerNight: price, hostId: host.details._id } });
-
-      const response = await postAddProperty(propertyDetails);
-      console.log("response", response);
-      if (response && response.data.error === false) {
+      dispatch({ type: 'propertyDetails', payload: { pricePerNight: price, hostId: host.details._id } });
+    // console.log(propertyDetails);
+    //   const response = await postAddProperty(propertyDetails);
+    //   console.log("response", response);
+    //   if (response && response.data.error === false) {
         // If API call is successful, close the SweetAlert popup and navigate to the "/host" page
-        Swal.close();
-        dispatch({type:"refresh"})
-        navigate('/host');
-      } else {
-        // Handle error scenario
-        Swal.fire({
-          title: 'Error',
-          text: 'Error occurred during API call',
-          icon: 'error',
-          confirmButtonText: 'OK',
-        });
-      }
+        // Swal.close();
+        // dispatch({type:"refresh"})
+        navigate('/host/property-details-page');
+      // } else {
+      //   // Handle error scenario
+      //   Swal.fire({
+      //     title: 'Error',
+      //     text: 'Error occurred during API call',
+      //     icon: 'error',
+      //     confirmButtonText: 'OK',
+      //   });
+      
     } catch (error) {
       // Handle API call error
       Swal.fire({

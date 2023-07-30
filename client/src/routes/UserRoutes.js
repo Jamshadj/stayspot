@@ -9,6 +9,7 @@ import Login from "../components/userComponents/Login/Login";
 import UserSignup from "../pages/userPages/UserSignup";
 import UserLogin from "../pages/userPages/UserLogin";
 import UserHome from "../pages/userPages/UserHome";
+import UserIndiviualProperty from "../pages/userPages/UserIndiviualProperty";
 
 
 export default function UserRoutes() {
@@ -34,7 +35,8 @@ export default function UserRoutes() {
           <Route path="/signup" element={<Navigate to="/" replace />} />
           <Route path="/otp" element={<Navigate to="/" replace />} />
           <Route path="/login" element={<Navigate to="/" replace />} />
-
+          <Route path="/rooms/:propertyId" element={<UserIndiviualProperty />} />
+          <Route path="/" element={<UserHome />} />
           <Route path="/" element={<UserHome />} />
         </>
       ) : (

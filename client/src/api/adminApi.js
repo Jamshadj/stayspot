@@ -24,3 +24,6 @@ export async function postUnBlockHost(Id) {
 export async function postAdminLogout(){
 return await axios.post('/admin/logout')
 }
+export async function  getProperties(){
+    return await axios.get('/admin/properties')
+    }

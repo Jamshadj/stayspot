@@ -8,7 +8,7 @@ function Step3() {
     const handleNext = () => {
   
       //   dispatch({ type: 'propertyDetails', payload: { structure: selectedCategory } });
-        navigate('/host/setPrice');
+        navigate('/host/set-avaliblity');
   
     };
   return (

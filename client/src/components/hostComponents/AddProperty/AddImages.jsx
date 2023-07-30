@@ -62,7 +62,7 @@ function AddImages() {
         {/* Render selected images */}
         <div className="flex flex-wrap justify-center">
           {selectedImages.map((image, index) => (
-            <div key={index} className="max-w-full max-h-64 w-1/3 m-4">
+            <div key={index} className="max-w-full max-h-64 w-3/3 m-4">
               <img
                 src={image}
                 alt={`Image ${index + 1}`}

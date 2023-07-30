@@ -23,4 +23,7 @@ export const postLogout = () => {
 export const getListings=()=>{
   return axios.get('/getListings')
 }
+export const getListingById = (propertyId) => {
+  return axios.get(`/getListingById/${propertyId}`);
+};
 

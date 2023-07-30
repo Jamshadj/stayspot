@@ -10,6 +10,7 @@ router.post('/otp',userAuth.postOtpVerify)
 router.post('/login',userAuth.postLogIn)
 router.post('/logout',userAuth.userLogout)
 router.get('/getListings',userPropertyController.getListings)
+router.get('/getListingById/:propertyId',userPropertyController.getListingById)
 router.get('/auth',userAuth.getLoggedInUser)
 router.post("/auth/login/google" , userAuth.googleAuth)
 export default router;

@@ -24,6 +24,10 @@ function Sidebar() {
       title: "Hosts",
       icon: <UserCircleIcon className="pl-6 w-16 icon" />,
       link: "/admin/hosts",
+    }, {
+      title: "Properties",
+      icon: <UserCircleIcon className="pl-6 w-16 icon" />,
+      link: "/admin/properties",
     }
   ];
 console.log(navBar);

@@ -1,10 +1,10 @@
 import React from 'react'
 import Avaliablity from '../../components/hostComponents/AddProperty/Avaliablity'
 
-function SetAvaliableDatesPage() {
+function SetAvalibality() {
   return (
     <div><Avaliablity/></div>
   )
 }
 
-export default SetAvaliableDatesPage
+export default SetAvalibality

@@ -79,17 +79,16 @@ const propertySchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  minimumDate: {
-    type: Date,
+  minimumStay: {
+    type: Number,
    
   },
- maximumDate: {
-    type: Date,
-   
+ maximumStay: {
+    type: Number,
   },
-  availableDate:{
-    from:Date,
-    to:Date
+  availableDates:{
+   startDate:Date,
+   endDate:Date
   },
   hostId: {
     type: String,

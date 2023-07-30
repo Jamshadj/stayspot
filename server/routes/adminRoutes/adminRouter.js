@@ -9,6 +9,7 @@ router.post('/blockhost',adminControllers.postBlockHost)
 router.post('/unblockhost',adminControllers.postUnBlockHost)
 router.post('/logout',adminControllers.adminLogout)
 router.get('/auth',adminControllers.getLoggedInAdmin)
+router.get('/properties',adminControllers.getProperties)
 
 router.get('/users',adminControllers.getUsers)
 router.get('/hosts',adminControllers.getHosts)

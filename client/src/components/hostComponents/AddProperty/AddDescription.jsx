@@ -30,14 +30,9 @@ function AddDescription() {
           <h2 className="pt-3 text-2xl font-bold">Create your description</h2>
           <p>Share what makes your place special</p>
         </div>
-        <input
-         style={{
-          border: 'black solid 0.5px',
-          fontSize: '26px',
-          verticalAlign: 'top',  // Align the text at the top
-          whiteSpace: 'normal',   // Allow the text to wrap to the next line
-          wordWrap: 'break-word'  // Enable word wrap to handle long words
-        }}
+        <textarea
+          rows={4}
+  
           type="text"
           className="mt-10 h-48 w-full border-black"
           value={description} // Set the value of the input to the description state
