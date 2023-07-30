@@ -43,7 +43,8 @@ export default function UserRoutes() {
           <Route path="/signup" element={<UserSignup />} />
           <Route path="/otp" element={<OTPModal />} />
 
-          <Route path="/" element={<Navigate to="/login" replace />} />
+          <Route path="/" element={<UserHome />} />
+          {/* <Route path="/" element={<Navigate to="/login" replace />} /> */}
         </>
       )}
     </Routes>

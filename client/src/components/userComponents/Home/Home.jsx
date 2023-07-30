@@ -1,20 +1,15 @@
-import React from 'react';
-import NavbarWithCTAButton from '../Navbar/Navbar';
-import CardWithDecorativeImage from '../Card/Card';
+import React, { Children } from 'react';
 import './Home.css'
+import Navbar from '../Navbar/Navbar';
+import Page from '../Page/Page';
 function Home() {
   return (
     <div>
-      <div className=''>
-
-      <NavbarWithCTAButton/>
+      <div>
+        <Navbar/>
       </div>
-      <hr className='mt-4' />
-      <div className="card-container">
-        <CardWithDecorativeImage />
-        <CardWithDecorativeImage />
-        <CardWithDecorativeImage />
-        <CardWithDecorativeImage />
+      <div className='pb-20 pt-20'>
+        <Page/>
       </div>
     </div>
   );
