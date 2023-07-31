@@ -25,7 +25,7 @@ function ListingImages() {
         {propertyDetails.images.map((image, index) => (
           <img
             key={index}
-            src={image.secure_url}
+            src={image}
             alt=""
             className='w-64 h-56 object-cover'
           />

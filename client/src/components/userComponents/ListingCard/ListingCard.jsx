@@ -41,7 +41,7 @@ function ListingCard({ data, currentUser }) {
         <div className="aspect-square w-full relative overflow-hidden rounded-xl">
           <img
             className="object-cover h-full w-full group-hover:scale-110 transition"
-            src={image.secure_url}
+            src={image}
             alt="Listing"
           />
           <div className="absolute top-3 right-3">

@@ -122,7 +122,7 @@ function PropertyManagement() {
             {listing.images.map((image, index) => (
               <img
                 key={index}
-                src={image.secure_url}
+                src={image}
                 alt={`Image ${index + 1}`}
                 className="max-w-sm rounded-md"
               />

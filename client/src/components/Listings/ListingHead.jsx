@@ -10,7 +10,7 @@ function ListingHead({ title, locationValue, imageSrc }) {
       <Heading title={title} subtitle={`${locationValue?.text}`} />
       <div className="w-full h-[60vh] overflow-hidden rounded-xl relative flex">
         <img
-          src={imageSrc[0].secure_url}
+          src={imageSrc[0]}
           alt={`Image 1`}
           className="object-cover h-full w-1/2"
         />
@@ -21,7 +21,7 @@ function ListingHead({ title, locationValue, imageSrc }) {
               {imageSrc.slice(1, 3).map((image, index) => (
                 <img
                   key={index + 1}
-                  src={image.secure_url}
+                  src={image}
                   alt={`Image ${index + 2}`}
                   className="object-cover h-[30vh] w-1/2"
                 />
@@ -34,7 +34,7 @@ function ListingHead({ title, locationValue, imageSrc }) {
               {imageSrc.slice(3, 5).map((image, index) => (
                 <img
                   key={index + 1}
-                  src={image.secure_url}
+                  src={image}
                   alt={`Image ${index + 2}`}
                   className="object-cover h-[30vh] w-1/2"
                 />

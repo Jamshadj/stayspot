@@ -1,6 +1,7 @@
 import React from 'react';
 import { RxAvatar } from 'react-icons/rx';
 import ListingCategory from './ListingCategory';
+import Map from './Map';
 
 function ListingInfo({ user, category, description, floorplan, locationValue, host }) {
   return (
@@ -22,7 +23,7 @@ function ListingInfo({ user, category, description, floorplan, locationValue, ho
               </div>
             ))}
           </div>
-        </div>
+        </div> 
       </div>
       <hr />
       {category && (
@@ -39,6 +40,7 @@ function ListingInfo({ user, category, description, floorplan, locationValue, ho
         {description}
       </div>
       <hr />
+      <Map center={locationValue} />
     </div>
   );
 }

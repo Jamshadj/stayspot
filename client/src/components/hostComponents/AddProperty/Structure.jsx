@@ -60,7 +60,7 @@ function Structure() {
                 category.label === selectedCategory ? 'bg-blue-200' : ''
               }`}
             >
-              <div className="text-4xl mb-2">{category.icon}</div>
+              <div className="text-4xl mb-2">{<category.icon></category.icon>}</div>
               <p className="font-medium text-center">{category.label}</p>
             </button>
           ))}
