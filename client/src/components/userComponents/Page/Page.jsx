@@ -13,7 +13,7 @@ function Page() {
   useEffect(() => {
     const fetchListings = async () => {
       try {
-        const response = await getListings();
+        const response = await getListings("Listed");
         
         if (response && Array.isArray(response.data.listings)) {
           setListings(response.data.listings);

@@ -10,6 +10,7 @@ router.post('/unblockhost',adminControllers.postUnBlockHost)
 router.post('/logout',adminControllers.adminLogout)
 router.get('/auth',adminControllers.getLoggedInAdmin)
 router.get('/properties',adminControllers.getProperties)
+router.post('/property-status-update/:propertyId', adminControllers.postUpdateListingStatus);
 
 router.get('/users',adminControllers.getUsers)
 router.get('/hosts',adminControllers.getHosts)

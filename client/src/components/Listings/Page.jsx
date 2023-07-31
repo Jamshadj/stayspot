@@ -50,7 +50,7 @@ function Page() {
 
   // Render the component content once the listing data is available
   return (
-    <div className='fixed w-full bg-white z-10 shadow-sm'>
+    <div className='w-full bg-white z-10 shadow-sm'>
       <div className='py-3 ' style={{ border: 'solid black 0.2px' }}>
         <Container>
           <div className='flex flex-row items-center justify-between gap-3 md:gap-0'>

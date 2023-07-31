@@ -1,116 +1,12 @@
 import React, { useState } from 'react';
-import PropertyNavbar from './PropertyNavbar';
-import Footer from './Footer';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
-import { TbBeach, TbMountain, TbPool } from 'react-icons/tb';
-import { 
-  GiBarn, 
-  GiBoatFishing, 
-  GiCactus, 
-  GiCastle, 
-  GiCaveEntrance, 
-  GiForestCamp, 
-  GiIsland,
-  GiWindmill
-} from 'react-icons/gi';
-import { FaSkiing } from 'react-icons/fa';
-import { BsSnow,BsHouseDoor } from 'react-icons/bs';
-import { IoDiamond } from 'react-icons/io5';
-import { MdOutlineVilla,MdOutlineBedroomChild,MdApartment } from 'react-icons/md';
-// ... (previously defined icon imports)
+import categories from './StructureData'; // Import the categories array with types and corresponding icons
+import PropertyNavbar from './PropertyNavbar';
+import Footer from './Footer';
 
 function Structure() {
-  // Categories array with types and corresponding icons
-  const categories = [
-    {
-      label: 'Appartment',
-      icon: MdApartment,
-      description: 'This property is close to the beach!',
-    },
-    {
-      label: 'Windmills',
-      icon: GiWindmill,
-      description: 'This property is has windmills!',
-    },
-    {
-      label: 'Modern',
-      icon: MdOutlineVilla,
-      description: 'This property is modern!'
-    },
-    {
-      label: 'House',
-      icon: BsHouseDoor,
-      description: 'This property is in arctic environment!'
-    },
-    {
-      label: 'Room',
-      icon: MdOutlineBedroomChild,
-      description: 'This property is in arctic environment!'
-    },
-    {
-      label: 'Beach house',
-      icon: TbBeach,
-      description: 'This property is in the countryside!'
-    },
-    {
-      label: 'Pools',
-      icon: TbPool,
-      description: 'This is property has a beautiful pool!'
-    },
-    {
-      label: 'Islands',
-      icon: GiIsland,
-      description: 'This property is on an island!'
-    },
-    {
-      label: 'Lake',
-      icon: GiBoatFishing,
-      description: 'This property is near a lake!'
-    },
-    {
-      label: 'Skiing',
-      icon: FaSkiing,
-      description: 'This property has skiing activies!'
-    },
-    {
-      label: 'Castles',
-      icon: GiCastle,
-      description: 'This property is an ancient castle!'
-    },
-    {
-      label: 'Caves',
-      icon: GiCaveEntrance,
-      description: 'This property is in a spooky cave!'
-    },
-    {
-      label: 'Camping',
-      icon: GiForestCamp,
-      description: 'This property offers camping activities!'
-    },
-    {
-      label: 'Arctic',
-      icon: BsSnow,
-      description: 'This property is in arctic environment!'
-    },
-    {
-      label: 'Desert',
-      icon: GiCactus,
-      description: 'This property is in the desert!'
-    },
-    {
-      label: 'Barns',
-      icon: GiBarn,
-      description: 'This property is in a barn!'
-    },
-    {
-      label: 'Lux',
-      icon: IoDiamond,
-      description: 'This property is brand new and luxurious!'
-    }
-  ];
-
   const [selectedCategory, setSelectedCategory] = useState(null);
   const dispatch = useDispatch();
   const rows = Math.ceil(categories.length / 4); // Calculate the number of rows needed
@@ -125,6 +21,7 @@ function Structure() {
 
   // Function to handle the Next button click
   const handleNext = () => {
+    console.log(selectedCategory,"de");
     if (selectedCategory) {
       // If a category is selected, proceed to the next step
       dispatch({ type: 'propertyDetails', payload: { structure: selectedCategory } });
@@ -163,7 +60,7 @@ function Structure() {
                 category.label === selectedCategory ? 'bg-blue-200' : ''
               }`}
             >
-              <div className="text-4xl mb-2"><category.icon/></div>
+              <div className="text-4xl mb-2">{category.icon}</div>
               <p className="font-medium text-center">{category.label}</p>
             </button>
           ))}

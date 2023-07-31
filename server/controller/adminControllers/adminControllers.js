@@ -168,5 +168,19 @@ console.log("propr");
       res.status(500).json({ error: error });
     }
   },
+  postUpdateListingStatus: async (req, res) => {
+    try {
+      console.log("de");
+      const { propertyId } = req.params;
+      const { status } = req.body; 
+      console.log(status);
+     const property= await propertyModel.updateOne({ _id: propertyId }, { status: status });
+      console.log(property);
+      res.json({ message: 'Listing status updated successfully!' });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Failed to update listing status' });
+    }
+  },
  
 };

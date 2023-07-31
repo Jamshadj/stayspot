@@ -16,14 +16,20 @@ export const loginWithGoogle = (data) => {
   return axios.post('/auth/login/google', data);
 };
 
-export const postLogout = () => {
+export const userLogout = () => {
   return axios.post('/logout');
 };
 
-export const getListings=()=>{
-  return axios.get('/getListings')
-}
+export const getListings = (status) => {
+  return axios.get('/getListings', { params: { status: status } });
+};
+
 export const getListingById = (propertyId) => {
   return axios.get(`/getListingById/${propertyId}`);
 };
+export const getHostById = (hostId) => {
+  console.log(hostId);
+  return axios.get(`/getHostById/${hostId}`);
+};
+
 

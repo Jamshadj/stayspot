@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { getProperties } from '../../../api/adminApi';
 import Sidebar from '../Sidebar/Sidebar';
 import { Card, Typography } from '@material-tailwind/react';
+import {  Link } from 'react-router-dom';
 
 function Properties() {
   const [properties, setProperties] = useState([]);
@@ -15,14 +16,7 @@ function Properties() {
         console.error(error);
       });
   }, []);
-
-  // Ensure that the properties data has been fetched before rendering the table
-  if (properties.length === 0) {
-    // Display a loading message or spinner while the data is being fetched
-    return <div>Loading...</div>;
-  }
-
-  const TABLE_HEAD = ["No", "Property", "Title", "Location", "Structure", "PricePerNight", "Status"];
+  const TABLE_HEAD = ["No", "Property", "Title", "Location", "Structure", "PricePerNight", "Status","Details"];
   const TABLE_ROWS = properties.map((property, index) => (
     <tr key={property._id} className="even:bg-blue-gray-50/50">
       <td className="p-4">
@@ -60,15 +54,22 @@ function Properties() {
           {property.status}
         </Typography>
       </td>
+      <td className="p-4">
+        <Link to={`/admin/properties-details/${property._id}`}>
+          <Typography variant="small" color="blue" className="font-normal cursor-pointer">
+            View Details
+          </Typography>
+        </Link>
+      </td>
     </tr>
   ));
 
   return (
     <div className="flex flex-col lg:flex-row">
-     <div className=' h-full' style={{"height":"49rem"}}>
+      <div className=' h-full' style={{ "height": "49rem" }}>
         <Sidebar />
       </div>
-      <div  style={{width:"80%", margin:"30px"}}>
+      <div style={{ width: "80%", margin: "30px" }}>
         <h2 className="mb-4">Property Management</h2>
         <Card className="overflow-scroll h-full w-full">
           <table className="w-full min-w-max table-auto text-left">

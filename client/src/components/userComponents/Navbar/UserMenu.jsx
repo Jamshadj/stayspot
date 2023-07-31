@@ -1,13 +1,17 @@
 import React, { useCallback, useState } from 'react';
 import { AiOutlineMenu } from 'react-icons/ai';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import MenuItem from './MenuItem';
+import Swal from 'sweetalert2';
+import { userLogout } from '../../../api/userApi';
+
 function UserMenu() {
   const { user } = useSelector((state) => state);
-  const currentUser = user.details;
-  const isLoading = !currentUser; // Assume user.details is null until the data is available
+  const currentUser = user;
+  const isLoading = !currentUser;
   const [isOpen, setIsOpen] = useState(false);
+  const dispatch = useDispatch();
   const toggleOpen = useCallback(() => {
     setIsOpen((value) => !value);
   }, []);
@@ -15,9 +19,46 @@ function UserMenu() {
   // Use useNavigate hook to get the navigate function
   const navigate = useNavigate();
 
-  const onHost = () => {
-    // Navigate to the '/host' route when clicked
-    navigate('/host');
+  const handleLogout = async () => {
+    try {
+      // Ask for logout confirmation
+      const shouldLogout = await Swal.fire({
+        title: 'Logout Confirmation',
+        text: 'Are you sure you want to log out?',
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, log out',
+        cancelButtonText: 'Cancel',
+      });
+
+      // If the user confirms the logout, proceed with the logout process
+      if (shouldLogout.isConfirmed) {
+        const response = await userLogout();
+        console.log(response.data.message);
+
+        await Swal.fire({
+          title: 'Logged Out',
+          text: response.data.message,
+          icon: 'success',
+          confirmButtonText: 'OK',
+        });
+
+        // Dispatch a refresh action to update the user state
+        dispatch({ type: 'refresh' });
+
+        // Redirect the user to the login page after successful logout
+        navigate('/login');
+      }
+    } catch (error) {
+      console.error('Error logging out:', error);
+
+      await Swal.fire({
+        title: 'Error',
+        text: 'Failed to log out. Please try again.',
+        icon: 'error',
+        confirmButtonText: 'OK',
+      });
+    }
   };
 
   // Handle the loading state
@@ -30,7 +71,6 @@ function UserMenu() {
     <div className="relative">
       <div className="flex flex-row items-center gap-3">
         <div
-          onClick={onHost} // Use the correct onClick event for Stayspot
           className="
             hidden
             md:block
@@ -44,10 +84,10 @@ function UserMenu() {
             cursor-pointer
           "
         >
-         Stayspot your home
+          Stayspot your home
         </div>
         <div
-          onClick={toggleOpen} // Use toggleOpen for the click event
+          onClick={toggleOpen}
           className="
             p-3
             md:py-1
@@ -66,9 +106,9 @@ function UserMenu() {
         >
           <AiOutlineMenu />
           <div className="hidden md:block">
-            {currentUser.image ? (
+            {currentUser.login ? (
               <img
-                src={currentUser.image}
+                src={currentUser.details.image}
                 alt="User Avatar"
                 className="w-5 h-5 rounded-full"
               />
@@ -78,64 +118,64 @@ function UserMenu() {
           </div>
         </div>
         {isOpen && (
-        <div 
-          className="
-            absolute 
-            rounded-xl 
-            shadow-md
-            w-[40vw]
-            md:w-3/4 
-            bg-white 
-            overflow-hidden 
-            right-0 
-            top-12 
-            text-sm
-          "
-        >
-          <div className="flex flex-col cursor-pointer">
-            {currentUser ? (
-              <>
-                <MenuItem 
-                  label="My trips" 
-                  onClick='/my-trips'
-                />
-                <MenuItem 
-                  label="My favorites" 
-                  onClick='/my-trips'
-                />
-                <MenuItem 
-                  label="My reservations" 
-                  onClick='/my-trips'
-                />
-                <MenuItem 
-                  label="My properties" 
-                  onClick='/my-trips'
-                />
-                <MenuItem 
-                  label="stayspot your home" 
-                  onClick='/my-trips'
-                />
-                <hr />
-                <MenuItem 
-                  label="Logout" 
-                  onClick={() => signOut()}
-                />
-              </>
-            ) : (
-              <>
-                <MenuItem 
-                  label="Login" 
-                  onClick='/login'
-                />
-                <MenuItem 
-                  label="Sign up" 
-                  onClick='/signup'
-                />
-              </>
-            )}
+          <div 
+            className="
+              absolute 
+              rounded-xl 
+              shadow-md
+              w-[40vw]
+              md:w-3/4 
+              bg-white 
+              overflow-hidden 
+              right-0 
+              top-12 
+              text-sm
+            "
+          >
+            <div className="flex flex-col cursor-pointer">
+              {currentUser.login ? (
+                <>
+                  <MenuItem 
+                    label="My trips" 
+                    onClick='/my-trips'
+                  />
+                  <MenuItem 
+                    label="My favorites" 
+                    onClick='/my-trips'
+                  />
+                  <MenuItem 
+                    label="My reservations" 
+                    onClick='/my-trips'
+                  />
+                  <MenuItem 
+                    label="My properties" 
+                    onClick='/my-trips'
+                  />
+                  <MenuItem 
+                    label="stayspot your home" 
+                    onClick='/my-trips'
+                  />
+                  <hr />
+                  <MenuItem 
+                    label="Logout" 
+                    onClick={handleLogout}
+                  />
+                </>
+              ) : (
+                <>
+                  <MenuItem 
+                    label="Login" 
+                   onClick={()=>navigate('/login')}
+                  />
+                  <MenuItem 
+                    label="Sign up" 
+                    onClick={()=>navigate('/signup')}
+                  />
+                </>
+              )}
+            </div>
           </div>
-        </div>
-      )}
+        )}
       </div>
     </div>
   );
