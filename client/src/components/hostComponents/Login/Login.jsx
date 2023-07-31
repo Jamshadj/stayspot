@@ -66,7 +66,7 @@ function Login() {
 
   return (
     <div>
-      <Navbar />
+      {/* <Navbar /> */}
       <hr />
       <div className="flex flex-col items-center justify-center h-screen">
         <div className="max-w-80 sm:max-w-96" style={{ width: "30rem" }}>
