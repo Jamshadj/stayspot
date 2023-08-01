@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { styled, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Swal from 'sweetalert2';
@@ -97,11 +97,28 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 }));
 
 export default function SideDrawer({ dashBoard, user, userData, host, hostsData, onHostStatusChange, onUserStatusChange }) {
-
+ 
   const theme = useTheme();
   const [open, setOpen] = useState(false);
+  const [style,setStyle]=useState(null)
   const navigate = useNavigate();
+  const [selectedItem, setSelectedItem] = useState(null);
+ 
 
+  useEffect(() => {
+    if (dashBoard) {
+      setStyle(dashBoard);
+    } else if (user) {
+      setStyle(user);
+    } else if (host) {
+      setStyle(host);
+    }
+  }, [dashBoard, user, host]);
+
+  console.log(user,"selected");
+  const handleItemClick = (itemType) => {
+    setSelectedItem(itemType);
+  };
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -109,11 +126,12 @@ export default function SideDrawer({ dashBoard, user, userData, host, hostsData,
   const handleDrawerClose = () => {
     setOpen(false);
   };
+  
 
   const handleNavigation = (path) => {
     navigate(path);
   };
-
+  console.log(style,"fr");
   const unBan = (data_id, type) => {
     const unbanConfirmation = (title, text, onSuccess) => {
       Swal.fire({
@@ -257,12 +275,20 @@ export default function SideDrawer({ dashBoard, user, userData, host, hostsData,
         <Divider />
         <List>
           {[
-            { text: 'Dashboard', icon: <DashboardIcon />, path: '/admin' },
-            { text: 'UserList', icon: <GroupIcon />, path: '/admin/users' },
-            { text: 'HostList', icon: <GroupIcon />, path: '/admin/hosts' },
-            { text: 'Properties', icon: <MapsHomeWorkIcon />, path: '/admin/properties' },
-          ].map(({ text, icon, path }, index) => (
-            <ListItem key={text} disablePadding sx={{ display: 'block' }}>
+            { text: 'Dashboard', icon: <DashboardIcon />, path: '/admin', type: 'dashboard' },
+            { text: 'UserList', icon: <GroupIcon />, path: '/admin/users', type:'user' },
+            { text: 'HostList', icon: <GroupIcon />, path: '/admin/hosts', type: 'host' },
+            { text: 'Properties', icon: <MapsHomeWorkIcon />, path: '/admin/properties', type: 'properties' },
+          ].map(({ text, icon, path, type }, index) => (
+            <ListItem
+            
+              key={text}
+              disablePadding
+              sx={{
+                display: 'block',
+                background: type === style ? 'cornflowerblue' : 'transparent', // Add this line
+              }}
+            >
               <ListItemButton
                 onClick={() => handleNavigation(path)}
                 sx={{

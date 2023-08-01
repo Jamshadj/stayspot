@@ -5,7 +5,7 @@ import Swal from 'sweetalert2';
 import { updateListingStatus } from '../../../api/adminApi';
 
 function PropertyManagement() {
-  const { propertyId } = useParams();
+
   const [listing, setListing] = useState(null);
   const [status, setStatus] = useState('');
 
