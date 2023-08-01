@@ -77,7 +77,7 @@ export default {
   },
   postBlockUser: async (req, res) => {
     try {
-      console.log("block");
+      console.log("block user");
       const { userId } = req.body;
       console.log(userId);
       const user = await userModel.findById(userId);
@@ -97,7 +97,7 @@ export default {
   postUnBlockUser: async (req, res) => {
     try {
       const { userId } = req.body;
-      console.log("Unblock", userId);
+      console.log("Unblock user", userId);
       const user = await userModel.findById(userId);
       if (!user) {
         return res.status(404).json({ error: "User not found" });
@@ -113,7 +113,7 @@ export default {
   },
   postBlockHost: async (req, res) => {
     try {
-      console.log("block");
+      console.log("block host");
       const { hostId } = req.body;
 
       const host = await hostModel.findById(hostId);
@@ -133,7 +133,7 @@ export default {
   postUnBlockHost: async (req, res) => {
     try {
       const { hostId } = req.body;
-      console.log("Unbloeeck", hostId);
+      console.log("Unblock host", hostId);
       const host = await hostModel.findById(hostId);
 
       if (!host) {

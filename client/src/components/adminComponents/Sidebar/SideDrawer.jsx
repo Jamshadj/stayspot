@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { styled, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
+import Swal from 'sweetalert2';
 import MuiDrawer from '@mui/material/Drawer';
 import MuiAppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
@@ -27,6 +28,8 @@ import GroupIcon from '@mui/icons-material/Group';
 import MapsHomeWorkIcon from '@mui/icons-material/MapsHomeWork';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import { useNavigate } from 'react-router-dom';
+import { Button } from "@material-tailwind/react";
+import { postBlockHost, postBlockUser, postUnBlockHost, postUnBlockUser } from '../../../api/adminApi';
 
 const drawerWidth = 240;
 
@@ -93,21 +96,8 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
   }),
 }));
 
-const createData = (name, calories, fat, carbs, protein) => {
-  return { name, calories, fat, carbs, protein };
-};
+export default function SideDrawer({ dashBoard, user, userData, host, hostsData, onHostStatusChange, onUserStatusChange }) {
 
-const rows = [
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-  createData('Eclair', 262, 16.0, 24, 6.0),
-  createData('Cupcake', 305, 3.7, 67, 4.3),
-  createData('Gingerbread', 356, 16.0, 49, 3.9),
-];
-
-export default function SideDrawer({ dashBoard, user, userData,host,hostsData }) {
-  console.log('user', user);
-  console.log('userData', userData);
   const theme = useTheme();
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
@@ -122,6 +112,118 @@ export default function SideDrawer({ dashBoard, user, userData,host,hostsData })
 
   const handleNavigation = (path) => {
     navigate(path);
+  };
+
+  const unBan = (data_id, type) => {
+    const unbanConfirmation = (title, text, onSuccess) => {
+      Swal.fire({
+        title,
+        text,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, unban!',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          onSuccess();
+        } else {
+          console.log("Cancelled unBan");
+        }
+      });
+    };
+
+    if (type === "User") {
+      unbanConfirmation(
+        'Are you sure?',
+        'Do you want to unban this user?',
+        () => {
+          // Call the API to unban the user
+          postUnBlockUser(data_id);
+          console.log("unBan", data_id, type);
+          onUserStatusChange("refresh");
+          // Show a success modal
+          Swal.fire({
+            title: 'Un-Ban Successful',
+            icon: 'success',
+            text: 'The user has been successfully un-banned.',
+          });
+        }
+      );
+    } else if (type === "Host") {
+      unbanConfirmation(
+        'Are you sure?',
+        'Do you want to unban this host?',
+        () => {
+          // Call the API to unban the host
+          postUnBlockHost(data_id);
+          console.log("unBan", data_id, type);
+          onHostStatusChange("refresh");
+          // Show a success modal
+          Swal.fire({
+            title: 'Un-Ban Successful',
+            icon: 'success',
+            text: 'The host has been successfully un-banned.',
+          });
+        }
+      );
+    }
+  };
+
+  const ban = (data_id, type) => {
+    const banConfirmation = (title, text, onSuccess) => {
+      Swal.fire({
+        title,
+        text,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, ban!',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          onSuccess();
+        } else {
+          console.log("Cancelled ban");
+        }
+      });
+    };
+
+    if (type === "User") {
+      banConfirmation(
+        'Are you sure?',
+        'Do you want to ban this user?',
+        () => {
+          // Call the API to ban the user
+          postBlockUser(data_id);
+          console.log("ban", data_id, type);
+          onUserStatusChange("refresh");
+          // Show a success modal
+          Swal.fire({
+            title: 'Ban Successful',
+            icon: 'success',
+            text: 'The user has been successfully banned.',
+          });
+        }
+      );
+    } else if (type === "Host") {
+      banConfirmation(
+        'Are you sure?',
+        'Do you want to ban this host?',
+        () => {
+          // Call the API to ban the host
+          postBlockHost(data_id);
+          console.log("ban", data_id, type);
+          onHostStatusChange("refresh");
+          // Show a success modal
+          Swal.fire({
+            title: 'Ban Successful',
+            icon: 'success',
+            text: 'The host has been successfully banned.',
+          });
+        }
+      );
+    }
   };
 
   return (
@@ -157,7 +259,7 @@ export default function SideDrawer({ dashBoard, user, userData,host,hostsData })
           {[
             { text: 'Dashboard', icon: <DashboardIcon />, path: '/admin' },
             { text: 'UserList', icon: <GroupIcon />, path: '/admin/users' },
-            { text: 'HostList', icon: <GroupIcon />, path: '/admin/host' },
+            { text: 'HostList', icon: <GroupIcon />, path: '/admin/hosts' },
             { text: 'Properties', icon: <MapsHomeWorkIcon />, path: '/admin/properties' },
           ].map(({ text, icon, path }, index) => (
             <ListItem key={text} disablePadding sx={{ display: 'block' }}>
@@ -221,26 +323,74 @@ export default function SideDrawer({ dashBoard, user, userData,host,hostsData })
                     <TableCell align="left">Name</TableCell>
                     <TableCell align="left">Email</TableCell>
                     <TableCell align="left">Status</TableCell>
-                    <TableCell align="left">Action</TableCell>``
-                  
+                    <TableCell align="left">Action</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {userData.map((data) => (
+                  {userData.map((data, index) => (
                     <TableRow key={data._id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                       <TableCell component="th" scope="row">
-                        1
+                        {index + 1}
                       </TableCell>
-                      <TableCell align="left">{data.firstName}{data.lasttName}</TableCell>
+                      <TableCell align="left">{`${data.firstName} ${data.lastName}`}</TableCell>
                       <TableCell align="left">{data.email}</TableCell>
-                      <TableCell align="left">{data.blocked==="false" ?("Banned"):("Not-Banned")}</TableCell>
-                      <TableCell align="left">Action</TableCell>
+                      <TableCell align="left">{data.blocked ? "Banned" : "Not-Banned"}</TableCell>
+                      <TableCell align="left">
+                        {data.blocked ? (
+                          <Button onClick={() => unBan(data._id, "User")} color="green">
+                            Un-Ban
+                          </Button>
+                        ) : (
+                          <Button onClick={() => ban(data._id, "User")} color="red">
+                            Ban
+                          </Button>
+                        )}
+                      </TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
               </Table>
             </TableContainer>
-          ) : null
+          ) : (
+            <TableContainer component={Paper}>
+              <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                <TableHead>
+                  <TableRow>
+                    <TableCell>No</TableCell>
+                    <TableCell align="left">Name</TableCell>
+                    <TableCell align="left">Email</TableCell>
+                    <TableCell align="left">Phonenumber</TableCell>
+                    <TableCell align="left">Status</TableCell>
+                    <TableCell align="left">Action</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {hostsData.map((data, index) => (
+                    <TableRow key={data._id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                      <TableCell component="th" scope="row">
+                        {index + 1}
+                      </TableCell>
+                      <TableCell align="left">{`${data.firstName} ${data.lastName}`}</TableCell>
+                      <TableCell align="left">{data.email}</TableCell>
+                      <TableCell align="left">{data.phoneNumber ? data.phoneNumber : "Logged with Google"}</TableCell>
+                      <TableCell align="left">{data.blocked ? "Banned" : "Not-Banned"}</TableCell>
+                      <TableCell align="left">
+                        {data.blocked ? (
+                          <Button onClick={() => unBan(data._id, "Host")} color="green">
+                            Un-Ban
+                          </Button>
+                        ) : (
+                          <Button onClick={() => ban(data._id, "Host")} color="red">
+                            Ban
+                          </Button>
+                        )}
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          )
         ) : (
           <Typography variant="h4" component="div">
             Welcome to the Dashboard

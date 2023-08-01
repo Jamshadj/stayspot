@@ -1,8 +1,5 @@
-import { Card, Typography, Button } from "@material-tailwind/react";
-import Swal from "sweetalert2";
 import React, { useState, useEffect } from "react";
-import Sidebar from '../Sidebar/Sidebar'
-import { getHosts, postBlockHost, postUnBlockHost } from "../../../api/adminApi";
+import { getHosts } from "../../../api/adminApi";
 import SideDrawer from "../Sidebar/SideDrawer";
 
 const Host = () => {
@@ -21,10 +18,15 @@ const Host = () => {
     getHostsData();
   }, []);
 
-
+  // Callback function to handle host status change
+  const handleHostStatusChange = (updatedData) => {
+    // Update the state with the new host data received from the callback
+    console.log(updatedData);
+    getHostsData();
+  };
   return (
    <div>
-     {hostsData.length > 0 && <SideDrawer host={'host'} hostsData={hostsData} />}
+     {hostsData.length > 0 && <SideDrawer hostsData={hostsData} host={'host'} onHostStatusChange={handleHostStatusChange} />}
    </div>
   )
 }

@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { getUsers } from "../../../api/adminApi";
 import SideDrawer from "../Sidebar/SideDrawer";
-// import SideDrawer from "../Sidebar/SideDrawer";
 
 const Users = () => {
   const [usersData, setUsersData] = useState([]);
-
 
   const getUsersData = () => {
     getUsers()
@@ -21,9 +19,18 @@ const Users = () => {
     getUsersData();
   }, []);
 
+  // Callback function to handle user status change
+  const handleUserStatusChange = (updatedData) => {
+    // Update the state with the new user data received from the callback
+    console.log(updatedData);
+    getUsersData();
+  };
+
   return (
     <div>
-      {usersData.length > 0 && <SideDrawer user={'user'} userData={usersData} />}
+      {usersData.length > 0 && (
+        <SideDrawer user={'user'} userData={usersData} onUserStatusChange={handleUserStatusChange} />
+      )}
     </div>
   );
 };

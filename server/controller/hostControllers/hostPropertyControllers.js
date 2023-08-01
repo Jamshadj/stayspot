@@ -61,7 +61,7 @@ export default {
   }
   },
 
-  // Update dates for all properties in the database
+  // Update dates for all properties in  the database
   setDates: async (req, res) => {
     try {
       const { startDate, endDate, minimumStay, maximumStay } = req.body;
