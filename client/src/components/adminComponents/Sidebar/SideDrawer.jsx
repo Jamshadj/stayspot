@@ -105,7 +105,9 @@ const rows = [
   createData('Gingerbread', 356, 16.0, 49, 3.9),
 ];
 
-export default function SideDrawer({dashBoard}) {
+export default function SideDrawer({ dashBoard, user, userData,host,hostsData }) {
+  console.log('user', user);
+  console.log('userData', userData);
   const theme = useTheme();
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
@@ -147,7 +149,7 @@ export default function SideDrawer({dashBoard}) {
       <Drawer variant="permanent" open={open}>
         <DrawerHeader>
           <IconButton onClick={handleDrawerClose}>
-            {theme.direction === 'rtl' ? <GroupIcon /> : <ChevronLeftIcon />}
+            {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
           </IconButton>
         </DrawerHeader>
         <Divider />
@@ -210,32 +212,35 @@ export default function SideDrawer({dashBoard}) {
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <DrawerHeader />
         {dashBoard !== 'dashboard' ? (
-          <TableContainer component={Paper}>
-            <Table sx={{ minWidth: 650 }} aria-label="simple table">
-              <TableHead>
-                <TableRow>
-                  <TableCell>Dessert (100g serving)</TableCell>
-                  <TableCell align="right">Calories</TableCell>
-                  <TableCell align="right">Fat&nbsp;(g)</TableCell>
-                  <TableCell align="right">Carbs&nbsp;(g)</TableCell>
-                  <TableCell align="right">Protein&nbsp;(g)</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {rows.map((row) => (
-                  <TableRow key={row.name} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                    <TableCell component="th" scope="row">
-                      {row.name}
-                    </TableCell>
-                    <TableCell align="right">{row.calories}</TableCell>
-                    <TableCell align="right">{row.fat}</TableCell>
-                    <TableCell align="right">{row.carbs}</TableCell>
-                    <TableCell align="right">{row.protein}</TableCell>
+          user === 'user' ? (
+            <TableContainer component={Paper}>
+              <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                <TableHead>
+                  <TableRow>
+                    <TableCell>No</TableCell>
+                    <TableCell align="left">Name</TableCell>
+                    <TableCell align="left">Email</TableCell>
+                    <TableCell align="left">Status</TableCell>
+                    <TableCell align="left">Action</TableCell>``
+                  
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
+                </TableHead>
+                <TableBody>
+                  {userData.map((data) => (
+                    <TableRow key={data._id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                      <TableCell component="th" scope="row">
+                        1
+                      </TableCell>
+                      <TableCell align="left">{data.firstName}{data.lasttName}</TableCell>
+                      <TableCell align="left">{data.email}</TableCell>
+                      <TableCell align="left">{data.blocked==="false" ?("Banned"):("Not-Banned")}</TableCell>
+                      <TableCell align="left">Action</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          ) : null
         ) : (
           <Typography variant="h4" component="div">
             Welcome to the Dashboard
