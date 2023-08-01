@@ -1,8 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { getProperties } from '../../../api/adminApi';
-import Sidebar from '../Sidebar/Sidebar';
-import { Card, Typography } from '@material-tailwind/react';
-import {  Link } from 'react-router-dom';
 import SideDrawer from '../Sidebar/SideDrawer';
 
 function Properties() {
@@ -18,10 +15,10 @@ function Properties() {
       });
   }, []);
   const TABLE_HEAD = ["No", "Property", "Title", "Location", "Structure", "PricePerNight", "Status","Details"];
-
+console.log(properties);
   return (
     <div>
-     {properties.length > 0 && <SideDrawer data={properties} host={'propertis'} tableHead={TABLE_HEAD} />}
+     {properties.length > 0 && <SideDrawer data={properties} properties={'properties'} tableHead={TABLE_HEAD} />}
    </div>
   );
 }

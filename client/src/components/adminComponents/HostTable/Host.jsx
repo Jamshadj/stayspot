@@ -24,9 +24,10 @@ const Host = () => {
     console.log(updatedData);
     getHostsData();
   };
+  const TABLE_HEAD = ["No", "Name", "Email","PhoneNo", "Status", "Action"];
   return (
    <div>
-     {hostsData.length > 0 && <SideDrawer hostsData={hostsData} host={'host'} onHostStatusChange={handleHostStatusChange} />}
+     {hostsData.length > 0 && <SideDrawer data={hostsData} host={'host'} tableHead={TABLE_HEAD} onHostStatusChange={handleHostStatusChange} />}
    </div>
   )
 }

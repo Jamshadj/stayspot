@@ -96,15 +96,15 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
   }),
 }));
 
-export default function SideDrawer({ dashBoard,data, user, userData, host, hostsData, onHostStatusChange, onUserStatusChange }) {
- 
+export default function SideDrawer({ dashBoard, data, user, userData, host, hostsData, onHostStatusChange, properties, onUserStatusChange, tableHead }) {
+
   const theme = useTheme();
   const [open, setOpen] = useState(false);
-  const [style,setStyle]=useState(null)
+  const [style, setStyle] = useState(null)
   const navigate = useNavigate();
   const [selectedItem, setSelectedItem] = useState(null);
+  const component=user || host;
  
-
   useEffect(() => {
     if (dashBoard) {
       setStyle(dashBoard);
@@ -113,9 +113,12 @@ export default function SideDrawer({ dashBoard,data, user, userData, host, hosts
     } else if (host) {
       setStyle(host);
     }
-  }, [dashBoard, user, host]);
+    else if (host) {
+      setStyle(properties);
+    }
+  }, [dashBoard, user, host,properties]);
 
-  console.log(user,"selected");
+  console.log(user, "selected");
   const handleItemClick = (itemType) => {
     setSelectedItem(itemType);
   };
@@ -126,13 +129,14 @@ export default function SideDrawer({ dashBoard,data, user, userData, host, hosts
   const handleDrawerClose = () => {
     setOpen(false);
   };
-  
+
 
   const handleNavigation = (path) => {
     navigate(path);
   };
-  console.log(style,"fr");
-  const unBan = (data_id, type) => {
+  console.log(style, "fr");
+  const unBan = async (data_id, type) => {
+    console.log("cl", type);
     const unbanConfirmation = (title, text, onSuccess) => {
       Swal.fire({
         title,
@@ -142,22 +146,23 @@ export default function SideDrawer({ dashBoard,data, user, userData, host, hosts
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
         confirmButtonText: 'Yes, unban!',
-      }).then((result) => {
+      }).then(async (result) => {
         if (result.isConfirmed) {
-          onSuccess();
+          await onSuccess();
         } else {
           console.log("Cancelled unBan");
         }
       });
     };
-
-    if (type === "User") {
+  
+    if (type === "user") {
+      console.log("uuuuuuuuu");
       unbanConfirmation(
         'Are you sure?',
         'Do you want to unban this user?',
-        () => {
+        async () => {
           // Call the API to unban the user
-          postUnBlockUser(data_id);
+          await postUnBlockUser(data_id);
           console.log("unBan", data_id, type);
           onUserStatusChange("refresh");
           // Show a success modal
@@ -168,13 +173,13 @@ export default function SideDrawer({ dashBoard,data, user, userData, host, hosts
           });
         }
       );
-    } else if (type === "Host") {
+    } else if (type === "host") {
       unbanConfirmation(
         'Are you sure?',
         'Do you want to unban this host?',
-        () => {
+        async () => {
           // Call the API to unban the host
-          postUnBlockHost(data_id);
+          await postUnBlockHost(data_id);
           console.log("unBan", data_id, type);
           onHostStatusChange("refresh");
           // Show a success modal
@@ -187,8 +192,10 @@ export default function SideDrawer({ dashBoard,data, user, userData, host, hosts
       );
     }
   };
+  
 
-  const ban = (data_id, type) => {
+  const ban = async (data_id, type) => {
+    console.log("cl", type);
     const banConfirmation = (title, text, onSuccess) => {
       Swal.fire({
         title,
@@ -198,22 +205,22 @@ export default function SideDrawer({ dashBoard,data, user, userData, host, hosts
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
         confirmButtonText: 'Yes, ban!',
-      }).then((result) => {
+      }).then( (result) => {
         if (result.isConfirmed) {
-          onSuccess();
+           onSuccess();
         } else {
           console.log("Cancelled ban");
         }
       });
     };
-
-    if (type === "User") {
+  
+    if (type === "user") {
       banConfirmation(
         'Are you sure?',
         'Do you want to ban this user?',
-        () => {
+        async () => {
           // Call the API to ban the user
-          postBlockUser(data_id);
+          await postBlockUser(data_id);
           console.log("ban", data_id, type);
           onUserStatusChange("refresh");
           // Show a success modal
@@ -224,8 +231,8 @@ export default function SideDrawer({ dashBoard,data, user, userData, host, hosts
           });
         }
       );
-    } else if (type === "Host") {
-      banConfirmation(
+    } else if (type === "host") {
+      await banConfirmation(
         'Are you sure?',
         'Do you want to ban this host?',
         () => {
@@ -243,6 +250,7 @@ export default function SideDrawer({ dashBoard,data, user, userData, host, hosts
       );
     }
   };
+  
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -276,12 +284,12 @@ export default function SideDrawer({ dashBoard,data, user, userData, host, hosts
         <List>
           {[
             { text: 'Dashboard', icon: <DashboardIcon />, path: '/admin', type: 'dashboard' },
-            { text: 'UserList', icon: <GroupIcon />, path: '/admin/users', type:'user' },
+            { text: 'UserList', icon: <GroupIcon />, path: '/admin/users', type: 'user' },
             { text: 'HostList', icon: <GroupIcon />, path: '/admin/hosts', type: 'host' },
             { text: 'Properties', icon: <MapsHomeWorkIcon />, path: '/admin/properties', type: 'properties' },
           ].map(({ text, icon, path, type }, index) => (
             <ListItem
-            
+
               key={text}
               disablePadding
               sx={{
@@ -340,83 +348,66 @@ export default function SideDrawer({ dashBoard,data, user, userData, host, hosts
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <DrawerHeader />
         {dashBoard !== 'dashboard' ? (
-          user === 'user' ? (
-            <TableContainer component={Paper}>
-              <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                <TableHead>
-                  <TableRow>
-                    <TableCell>No</TableCell>
-                    <TableCell align="left">Name</TableCell>
-                    <TableCell align="left">Email</TableCell>
-                    <TableCell align="left">Status</TableCell>
-                    <TableCell align="left">Action</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {userData.map((data, index) => (
+          // properties === 'properties' ? (
+          <TableContainer component={Paper}>
+            <Table sx={{ minWidth: 650 }} aria-label="simple table">
+              <TableHead>
+                <TableRow>
+                  {tableHead.map((head) => (
+
+                    <TableCell align="left">{head}</TableCell>
+                  ))}
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {component &&
+                  data.map((data, index) => (
                     <TableRow key={data._id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                       <TableCell component="th" scope="row">
                         {index + 1}
                       </TableCell>
                       <TableCell align="left">{`${data.firstName} ${data.lastName}`}</TableCell>
                       <TableCell align="left">{data.email}</TableCell>
+                      {host && <TableCell align="left">{data.phoneNumber ? data.phoneNumber : "Google loged"}</TableCell>}
                       <TableCell align="left">{data.blocked ? "Banned" : "Not-Banned"}</TableCell>
                       <TableCell align="left">
                         {data.blocked ? (
-                          <Button onClick={() => unBan(data._id, "User")} color="green">
+                          <Button onClick={() => unBan(data._id, component)} color="green">
                             Un-Ban
                           </Button>
                         ) : (
-                          <Button onClick={() => ban(data._id, "User")} color="red">
+                          <Button onClick={() => ban(data._id, component)} color="red">
                             Ban
                           </Button>
                         )}
+                       
                       </TableCell>
                     </TableRow>
                   ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
-          ) : (
-            <TableContainer component={Paper}>
-              <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                <TableHead>
-                  <TableRow>
-                    <TableCell>No</TableCell>
-                    <TableCell align="left">Name</TableCell>
-                    <TableCell align="left">Email</TableCell>
-                    <TableCell align="left">Phonenumber</TableCell>
-                    <TableCell align="left">Status</TableCell>
-                    <TableCell align="left">Action</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {hostsData.map((data, index) => (
-                    <TableRow key={data._id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                      <TableCell component="th" scope="row">
-                        {index + 1}
-                      </TableCell>
-                      <TableCell align="left">{`${data.firstName} ${data.lastName}`}</TableCell>
-                      <TableCell align="left">{data.email}</TableCell>
-                      <TableCell align="left">{data.phoneNumber ? data.phoneNumber : "Logged with Google"}</TableCell>
-                      <TableCell align="left">{data.blocked ? "Banned" : "Not-Banned"}</TableCell>
-                      <TableCell align="left">
-                        {data.blocked ? (
-                          <Button onClick={() => unBan(data._id, "Host")} color="green">
-                            Un-Ban
-                          </Button>
-                        ) : (
-                          <Button onClick={() => ban(data._id, "Host")} color="red">
-                            Ban
-                          </Button>
-                        )}
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
-          )
+                   {properties && // Check if properties is truthy
+                          data.map((data, index) => (
+                            <TableRow key={data._id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                              <TableCell component="th" scope="row">
+                                {index + 1}
+                              </TableCell>
+                              <TableCell align="left" className='w-96'>
+                                <img src= {data.images[0]} className='max-w-[12%]'></img>
+                               
+                                </TableCell>
+                              <TableCell align="left">{data.title}</TableCell>
+                              <TableCell align="left">{data.location}</TableCell>
+                              <TableCell align="left">{data.structure}</TableCell>
+                              <TableCell align="left">₹{data.pricePerNight}</TableCell>
+                              <TableCell align="left">{data.status}</TableCell>
+                              <TableCell align="left">
+                              <Button color="blue">View details</Button>
+                              </TableCell>
+                            </TableRow>
+                          ))}
+              </TableBody>
+
+            </Table>
+          </TableContainer>
         ) : (
           <Typography variant="h4" component="div">
             Welcome to the Dashboard

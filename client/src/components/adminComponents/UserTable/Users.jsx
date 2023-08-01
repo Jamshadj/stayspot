@@ -25,11 +25,11 @@ const Users = () => {
     console.log(updatedData);
     getUsersData();
   };
-
+  const TABLE_HEAD = ["No", "Name", "Email", "Status", "Action"];
   return (
     <div>
       {usersData.length > 0 && (
-        <SideDrawer user={'user'} userData={usersData} onUserStatusChange={handleUserStatusChange} />
+        <SideDrawer user={'user'} tableHead={TABLE_HEAD} data={usersData} onUserStatusChange={handleUserStatusChange} />
       )}
     </div>
   );
