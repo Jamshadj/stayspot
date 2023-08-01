@@ -38,7 +38,7 @@ export default function AdminRoutes() {
           <Route path="/users" element={<AdminUsers/>}/>
           <Route path="/hosts" element={<AdminHosts/>}/>
           <Route path="/properties" element={<AdminProperties/>}/>
-          <Route path="/properties-details/:propertyId" element={<AdminPropertyView/>}/>
+          <Route path="/properties/properties-details/:propertyId" element={<AdminPropertyView/>}/>
         </>
       ) : (
         <>

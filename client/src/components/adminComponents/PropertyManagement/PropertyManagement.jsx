@@ -9,11 +9,12 @@ function PropertyManagement() {
   const [listing, setListing] = useState(null);
   const [status, setStatus] = useState('');
 
-  
+  const propertyId=useParams()
+  console.log(propertyId.propertyId,"propertyid");
   useEffect(() => {
     const fetchListing = async () => {
       try {
-        const response = await getListingById(propertyId);
+        const response = await getListingById(propertyId.propertyId);
         console.log(response);
         if (response && response.data) {
           setListing(response.data); // Set the fetched listing in the state

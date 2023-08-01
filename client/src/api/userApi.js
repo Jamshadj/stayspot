@@ -25,6 +25,7 @@ export const getListings = (status) => {
 };
 
 export const getListingById = (propertyId) => {
+  console.log(propertyId,'eded');
   return axios.get(`/getListingById/${propertyId}`);
 };
 export const getHostById = (hostId) => {

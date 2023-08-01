@@ -14,4 +14,4 @@ router.post('/property-status-update/:propertyId', adminControllers.postUpdateLi
 
 router.get('/users',adminControllers.getUsers)
 router.get('/hosts',adminControllers.getHosts)
-export default router; 
+export default router;  

@@ -1,6 +1,5 @@
 import React from 'react';
-import Sidebar from '../Sidebar/Sidebar';
-import ComplexNavbar from '../Navbar/Navbar';
+
 import NavbarWithCTAButton from '../Navbar/Navbar';
 import SideDrawer from '../Sidebar/SideDrawer';
 

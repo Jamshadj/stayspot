@@ -2,6 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { styled, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Swal from 'sweetalert2';
+import {
+  Card,
+  CardBody,
+  CardFooter,
+} from "@material-tailwind/react";
 import MuiDrawer from '@mui/material/Drawer';
 import MuiAppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
@@ -103,8 +108,8 @@ export default function SideDrawer({ dashBoard, data, user, userData, host, host
   const [style, setStyle] = useState(null)
   const navigate = useNavigate();
   const [selectedItem, setSelectedItem] = useState(null);
-  const component=user || host;
- 
+  const component = user || host;
+
   useEffect(() => {
     if (dashBoard) {
       setStyle(dashBoard);
@@ -116,7 +121,7 @@ export default function SideDrawer({ dashBoard, data, user, userData, host, host
     else if (host) {
       setStyle(properties);
     }
-  }, [dashBoard, user, host,properties]);
+  }, [dashBoard, user, host, properties]);
 
   console.log(user, "selected");
   const handleItemClick = (itemType) => {
@@ -154,7 +159,7 @@ export default function SideDrawer({ dashBoard, data, user, userData, host, host
         }
       });
     };
-  
+
     if (type === "user") {
       console.log("uuuuuuuuu");
       unbanConfirmation(
@@ -192,7 +197,7 @@ export default function SideDrawer({ dashBoard, data, user, userData, host, host
       );
     }
   };
-  
+
 
   const ban = async (data_id, type) => {
     console.log("cl", type);
@@ -205,15 +210,15 @@ export default function SideDrawer({ dashBoard, data, user, userData, host, host
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
         confirmButtonText: 'Yes, ban!',
-      }).then( (result) => {
+      }).then((result) => {
         if (result.isConfirmed) {
-           onSuccess();
+          onSuccess();
         } else {
           console.log("Cancelled ban");
         }
       });
     };
-  
+
     if (type === "user") {
       banConfirmation(
         'Are you sure?',
@@ -250,7 +255,7 @@ export default function SideDrawer({ dashBoard, data, user, userData, host, host
       );
     }
   };
-  
+
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -305,7 +310,7 @@ export default function SideDrawer({ dashBoard, data, user, userData, host, host
                   px: 2.5,
                 }}
               >
-                <ListItemIcon  
+                <ListItemIcon
                   sx={{
                     minWidth: 0,
                     mr: open ? 3 : 'auto',
@@ -380,37 +385,57 @@ export default function SideDrawer({ dashBoard, data, user, userData, host, host
                             Ban
                           </Button>
                         )}
-                       
+
                       </TableCell>
                     </TableRow>
                   ))}
-                   {properties && // Check if properties is truthy
-                          data.map((data, index) => (
-                            <TableRow key={data._id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                              <TableCell component="th" scope="row">
-                                {index + 1}
-                              </TableCell>
-                              <TableCell align="left" className='w-96'>
-                                <img src= {data.images[0]} className='max-w-[12%]'></img>
-                               
-                                </TableCell>
-                              <TableCell align="left">{data.title}</TableCell>
-                              <TableCell align="left">{data.location}</TableCell>
-                              <TableCell align="left">{data.structure}</TableCell>
-                              <TableCell align="left">₹{data.pricePerNight}</TableCell>
-                              <TableCell align="left">{data.status}</TableCell>
-                              <TableCell align="left">
-                              <Button color="blue">View details</Button>
-                              </TableCell>
-                            </TableRow>
-                          ))}
+                {properties && data.map((data, index) => (
+                  <TableRow key={data._id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                    <TableCell component="th" scope="row">
+                      {index + 1}
+                    </TableCell>
+                    <TableCell align="left" className='w-96'>
+                      <img src={data.images[0]} className='max-w-[12%]' alt={data.title} />
+                    </TableCell>
+                    <TableCell align="left">{data.title}</TableCell>
+                    <TableCell align="left">{data.location}</TableCell>
+                    <TableCell align="left">{data.structure}</TableCell>
+                    <TableCell align="left">₹{data.pricePerNight}</TableCell>
+                    <TableCell align="left">{data.status}</TableCell>
+                    <TableCell align="left">
+                      <Button color="blue" onClick={() => navigate(`properties-details/${data._id}`)}>View details</Button>
+                    </TableCell>
+                  </TableRow>
+                ))}
+
               </TableBody>
 
             </Table>
           </TableContainer>
         ) : (
           <Typography variant="h4" component="div">
-            Welcome to the Dashboard
+            <div className='flex gap-14'>
+              <div>
+              <Card className="mt-6 w-64">
+                <CardBody>
+                  <GroupIcon fontSize='20px' />
+                  <Typography variant="h5" color="blue-gray" className="mb-2">
+                    UI/UX Review Check
+                  </Typography>
+                </CardBody>
+              </Card>
+              </div>
+              <div>
+              <Card className="mt-6 w-64">
+                <CardBody>
+                  <GroupIcon fontSize='20px' />
+                  <Typography variant="h5" color="blue-gray" className="mb-2">
+                    UI/UX Review Check
+                  </Typography>
+                </CardBody>
+              </Card>
+              </div>
+            </div>
           </Typography>
         )}
       </Box>

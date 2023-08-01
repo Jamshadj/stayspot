@@ -17,8 +17,9 @@ export default {
 
   getListingById: async (req, res) => {
     try {
-
+     console.log("grt property");
       const { propertyId } = req.params; // Get the propertyId from the request parameters
+      console.log(propertyId.propertyId);
       const property = await propertyModel.findById({ _id: propertyId }).lean();
   
       if (!property) {
