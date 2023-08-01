@@ -101,7 +101,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
   }),
 }));
 
-export default function SideDrawer({ dashBoard, data, user, userData, host, hostsData, onHostStatusChange, properties, onUserStatusChange, tableHead }) {
+export default function SideDrawer({ dashBoard, data, user, userData, host, hostsData, onHostStatusChange, properties, onUserStatusChange, tableHead,userCount,hostCount }) {
 
   const theme = useTheme();
   const [open, setOpen] = useState(false);
@@ -420,7 +420,7 @@ export default function SideDrawer({ dashBoard, data, user, userData, host, host
                 <CardBody>
                   <GroupIcon fontSize='20px' />
                   <Typography variant="h5" color="blue-gray" className="mb-2">
-                    UI/UX Review Check
+                   Users:{userCount}
                   </Typography>
                 </CardBody>
               </Card>
@@ -430,7 +430,7 @@ export default function SideDrawer({ dashBoard, data, user, userData, host, host
                 <CardBody>
                   <GroupIcon fontSize='20px' />
                   <Typography variant="h5" color="blue-gray" className="mb-2">
-                    UI/UX Review Check
+                   Host:{hostCount}
                   </Typography>
                 </CardBody>
               </Card>
