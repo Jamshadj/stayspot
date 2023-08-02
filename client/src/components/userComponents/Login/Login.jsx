@@ -10,6 +10,7 @@ import { useDispatch } from 'react-redux';
 import { useGoogleLogin } from "@react-oauth/google";
 import './Login.css'
 import googleLogo from "../../../assets/logo/googlelogo.png"
+import GoogleAuth from '../GooogleAuth/GoogleAuth';
 function Login() {
   const [error, setError] = useState('');
   const navigate = useNavigate()
@@ -38,33 +39,7 @@ function Login() {
       // Handle error logic here
     }
   };
-  const login = useGoogleLogin(
-    {
-    onSuccess : (codeResponse) => {
-      console.log("login with google");
-      loginWithGoogle(codeResponse)
-      .then((response) => {
-        // checking user status 
-        console.log("res" , response);
-        if(response.data.user.blocked) {
-         
-        }else{
-         
-          console.log("auth sucess");
-          dispatch({type:"refresh"})
-          return navigate('/')
-        }
 
-    
-    }).catch((err) => {
-   
-    } )
-    },
-    onError :(error)=> {
-      console.log("error");
-    
-    }
-  })
 
   return (
     <div>
@@ -113,10 +88,7 @@ function Login() {
                 <Typography className="mb-4 text-center" variant="h4" color="blue-gray">
                   or
                 </Typography>
-                <div onClick={login} className="flex justify-center items-center success-box-border rounded p-2 mt-8 text-black shadow-border">
-  <img src={googleLogo} alt="" className="googleLogo" />
-  <p className="mb-0 font-medium">Continue with Google</p>
-</div>
+<GoogleAuth/>
 
               </form>
             </Card>
