@@ -4,11 +4,11 @@ import SignUp from "../components/userComponents/SignUp/SignUp.";
 import OTPModal from "../components/userComponents/Otp/Otp";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "../axios";
-import Home from "../components/userComponents/Home/Home";
-import Login from "../components/userComponents/Login/Login";
+
 import UserSignup from "../pages/userPages/UserSignup";
 import UserLogin from "../pages/userPages/UserLogin";
 import UserHome from "../pages/userPages/UserHome";
+import UserProfilePage from "../pages/userPages/UserProfilePage";
 import UserIndiviualProperty from "../pages/userPages/UserIndiviualProperty";
 
 
@@ -36,6 +36,7 @@ export default function UserRoutes() {
           <Route path="/otp" element={<Navigate to="/" replace />} />
           <Route path="/login" element={<Navigate to="/" replace />} />
           <Route path="/rooms/:propertyId" element={<UserIndiviualProperty />} />
+          <Route path="/profile/:userId" element={<UserProfilePage />} />
           <Route path="/" element={<UserHome />} />
           <Route path="/" element={<UserHome />} />
         </>
