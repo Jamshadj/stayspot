@@ -134,47 +134,48 @@ function UserMenu() {
             "
           >
             <div className="flex flex-col cursor-pointer">
-              {currentUser.login ? (
-                <>
-                  <MenuItem 
-                    label="My trips" 
-                    onClick='/my-trips'
-                  />
-                  <MenuItem 
-                    label="My favorites" 
-                    onClick='/my-trips'
-                  />
-                  <MenuItem 
-                    label="My reservations" 
-                    onClick='/my-trips'
-                  />
-                  <MenuItem 
-                    label="My properties" 
-                    onClick='/my-trips'
-                  />
-                  <MenuItem 
-                    label="stayspot your home" 
-                    onClick='/my-trips'
-                  />
-                  <hr />
-                  <MenuItem 
-                    label="Logout" 
-                    onClick={handleLogout}
-                  />
-                </>
-              ) : (
-                <>
-                  <MenuItem 
-                    label="Login" 
-                   onClick={()=>navigate('/login')}
-                  />
-                  <MenuItem 
-                    label="Sign up" 
-                    onClick={()=>navigate('/signup')}
-                  />
-                </>
-              )}
-            </div>
+  {currentUser.login ? (
+    <>
+      <MenuItem 
+        label="Profile" 
+        onClick={() => navigate(`/profile/${currentUser.details._id}`)} 
+      />
+      <MenuItem 
+        label="My favorites" 
+        onClick="/my-trips"
+      />
+      <MenuItem 
+        label="My reservations" 
+        onClick="/my-trips"
+      />
+      <MenuItem 
+        label="My properties" 
+        onClick="/my-trips"
+      />
+      <MenuItem 
+        label="stayspot your home" 
+        onClick="/my-trips"
+      />
+      <hr />
+      <MenuItem 
+        label="Logout" 
+        onClick={handleLogout}
+      />
+    </>
+  ) : (
+    <>
+      <MenuItem 
+        label="Login" 
+        onClick={() => navigate('/login')}
+      />
+      <MenuItem 
+        label="Sign up" 
+        onClick={() => navigate('/signup')}
+      />
+    </>
+  )}
+</div>
+
           </div>
         )}
       </div>
