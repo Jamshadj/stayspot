@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
-import HostNavbar from '../HostNavbar/HostNavbar';
+// import HostNavbar from '../HostNavbar/HostNavbar';
 
 import axios from '../../../axios';
 import ListingImages from './ListingImages/ListingImages';
@@ -53,7 +53,7 @@ function ManagePlace() {
     <div>
       <div>
         {/* HostNavbar component goes here */}
-        <HostNavbar />
+        {/* <HostNavbar /> */}
       </div>
       <div className='ml-24'>
           <h3>Property Details</h3>
