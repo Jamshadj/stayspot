@@ -4,7 +4,7 @@ import ListingHead from './ListingHead';
 import categories from '../hostComponents/AddProperty/StructureData';
 import amenities from '../hostComponents/AddProperty/AmenitiesData';
 import ListingInfo from './ListingInfo';
-
+import Calendar from './Calendar'
 
 
 import { getHostById } from '../../api/userApi'; // Make sure to have the getHostById function implemented in the userApi file or elsewhere.
@@ -64,6 +64,7 @@ function ListingClient({ listing, currentUser }) {
                   locationValue={listing.coordinates}
                   host={host}
                 />
+                <Calendar/>
               </div>
               <div className="relative w-1/3 ml-[8%] mr-0">
                <CheckAvaliablityCard listing={listing}/>
