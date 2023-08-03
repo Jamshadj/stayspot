@@ -13,11 +13,10 @@ import { fetchLocationData } from '../../constant/Mapbox';
 function ListingClient({ listing, currentUser }) {
   const category = categories.find((item) => item.label === listing.structure);
   const amenitiess = amenities.filter((item) => listing.amenities.includes(item.label));
-  
-  console.log(category,"category");
-  console.log(amenitiess,"amenties");
+  console.log(category, "category");
+  console.log(amenitiess, "amenties");
   const [locationData, setLocationData] = useState(null);
-  const [host, setHost] = useState(null); 
+  const [host, setHost] = useState(null);
 
   useEffect(() => {
     const fetchListingLocationData = async () => {
@@ -39,7 +38,7 @@ function ListingClient({ listing, currentUser }) {
     };
 
     fetchGuestData();
-  }, [listing.hostId]);
+  }, [listing.hostId])      
 
   return (
     <Container>
@@ -54,7 +53,7 @@ function ListingClient({ listing, currentUser }) {
               currentUser={currentUser}
             />
             <div className="flex">
-              <div className="grid grid-cols-1 md:grid-cols-7 md:gap-10 mt-6">
+              <div className="w-1/2 mt-6">
                 <ListingInfo
                   user={currentUser}
                   category={category}
@@ -65,8 +64,26 @@ function ListingClient({ listing, currentUser }) {
                   host={host}
                 />
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-7 md:gap-10 mt-6">
-                
+              <div className="relative w-1/3 ml-[8%] mr-0">
+                <div className='sticky top-0 z-10 h-[200px] w-full inline-block'>
+                  <div className='pb-12'>
+                    <div className='mt-12'>
+                      <div className="border border-gray-300 rounded-lg p-6 shadow-md">
+                        <div className="text-gray-700 font-sans font-normal text-base leading-5">
+                          <div className="flex flex-wrap justify-between items-baseline mb-6 gap-x-2 gap-y-4">
+                            <div className="flex items-baseline">
+                              <span className="font-bold">₹ {listing.pricePerNight}</span>
+                              <span className="ml-2">night</span>
+                            </div>
+                            <div className="text-right">
+                              Ratings
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

@@ -4,7 +4,9 @@ import { IconType } from 'react-icons'; // Import the appropriate icon library
 function ListingAmentie({ amenities }) {
   return (
     <div className="flex flex-col gap-6">
-        
+         <span className='text-xl font-semibold'>
+            What this place offers
+         </span>
       {amenities.map((data) => (
         <div className="flex flex-row items-center gap-4" key={data.label}>
           {/* Use the Icon component directly with the icon name */}
