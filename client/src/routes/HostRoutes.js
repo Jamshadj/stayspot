@@ -12,7 +12,6 @@ import AddLocation from "../pages/HostPages/AddLocation.jsx";
 import SetFloorplan from "../pages/HostPages/SetFloorplan.jsx";
 
 import Step2page from "../pages/HostPages/Step2page.jsx";
-import SelectAnamities from "../pages/HostPages/SelectAnamities.jsx";
 import AddImagesPlace from "../pages/HostPages/AddImagesPlace.jsx";
 import AddTitlePage from "../pages/HostPages/AddTitlePage.jsx";
 import AddDescriptonPage from "../pages/HostPages/AddDescriptonPage.jsx";
@@ -24,6 +23,7 @@ import PropertyListingPage from "../pages/HostPages/PropertyListingPage.jsx";
 import ManagePlacePage from "../pages/HostPages/ManagePlacePage.jsx";
 import SetAvalibality from "../pages/HostPages/SetAvalibality.jsx";
 import PropertyDetailsPage from "../pages/HostPages/PropertyDetailsPage.jsx";
+import SelectAmenities from "../pages/HostPages/SelectAmenities.jsx";
 
 
 export default function HostRoutes() {
@@ -55,7 +55,7 @@ export default function HostRoutes() {
           <Route path="/location" element={<AddLocation/>}/>
           <Route path="/floor-plan" element={<SetFloorplan/>}/>
           <Route path="/step-2" element={<Step2page/>}/>
-          <Route path="/anamites" element={<SelectAnamities/>}/>
+          <Route path="/anamites" element={<SelectAmenities/>}/>
           <Route path="/add-images" element={<AddImagesPlace/>}/>
           <Route path="/add-title" element={<AddTitlePage/>}/>
           <Route path="/add-description" element={<AddDescriptonPage/>}/>
