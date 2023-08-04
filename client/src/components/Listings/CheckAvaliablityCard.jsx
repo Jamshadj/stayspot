@@ -19,7 +19,8 @@ function CheckAvaliablityCard({ listing }) {
 
     if (selectedCheckOutDate >= availableStartDate && selectedCheckOutDate <= availableEndDate) {
       setCheckOutDate(event.target.value);
-      setIsDatesSelected(false); // Reset the total when check-out date changes
+      setIsDatesSelected(true); 
+    // Reset the total when check-out date changes
     }
   };
 
@@ -106,7 +107,7 @@ function CheckAvaliablityCard({ listing }) {
             </div>
             <div>
               <Button className='w-full' color="blue" onClick={handleCheckAvailability}>
-                Check Availability
+              {isDatesSelected ? "Reserve" : "Check Availability"}
               </Button>
             </div>
             {isDatesSelected && (
