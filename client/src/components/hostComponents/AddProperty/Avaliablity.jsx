@@ -22,7 +22,7 @@ function Avaliablity() {
     const payload = {
       minimumStay,
      maximumStay,
-      availablity: [startDate, endDate],
+     availability: [startDate, endDate],
     };
 
     dispatch({ type: 'propertyDetails', payload }); // Dispatch the action with the payload

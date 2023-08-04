@@ -27,6 +27,9 @@ return await axios.post('/admin/logout')
 export async function  getProperties(){
     return await axios.get('/admin/properties')
     }
-    export async function  updateListingStatus(propertyId, statusData){
-        return await  axios.post(`/admin/property-status-update/${propertyId}`, statusData);
+    export async function  updateListingStatus(propertyId, status){
+        console.log("propertyId",propertyId,"status",status);
+        return await axios.post(`/admin/property-status-update/${propertyId}`, { status });
+
         }
+ 

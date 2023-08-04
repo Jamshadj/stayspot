@@ -64,7 +64,7 @@ function ListingClient({ listing, currentUser }) {
                   locationValue={listing.coordinates}
                   host={host}
                 />
-                <Calendar/>
+                {/* <Calendar/> */}
               </div>
               <div className="relative w-1/3 ml-[8%] mr-0">
                <CheckAvaliablityCard listing={listing}/>

@@ -8,7 +8,7 @@ function PropertyDetails() {
   const propertyDetails = useSelector((state) => state.propertyDetails);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
+  console.log(propertyDetails,"propertyDetails");
   const handleNavigation = () => {
     Swal.fire({
       title: 'Sorry, some of the data is incomplete',
@@ -22,7 +22,7 @@ function PropertyDetails() {
     }).then((result) => {
       if (result.isConfirmed) {
         // User confirmed, navigate to '/host/step-1'
-        navigate('/host/step-1');
+        navigate('/host/about-your-place');
       } else {
         // User canceled, navigate to '/host'
         navigate('/host');

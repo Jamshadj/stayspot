@@ -49,7 +49,8 @@ function PropertyManagement() {
       if (result.isConfirmed) {
         const selectedOption = result.value;
         // Assuming you have an API function to update the status of the listing
-        const response = await updateListingStatus(propertyId, { status: selectedOption });
+        console.log(propertyId,"propertyId",selectedOption);
+        const response = await updateListingStatus(propertyId.propertyId, { status: selectedOption });
         console.log(response); // Log the response for debugging purposes
 
         // Update the status in the state and the listing data
