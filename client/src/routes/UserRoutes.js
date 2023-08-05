@@ -10,6 +10,8 @@ import UserLogin from "../pages/userPages/UserLogin";
 import UserHome from "../pages/userPages/UserHome";
 import UserProfilePage from "../pages/userPages/UserProfilePage";
 import UserIndiviualProperty from "../pages/userPages/UserIndiviualProperty";
+import PropertyReserve from "../pages/userPages/PropertyReserve";
+import BookingSucessPage from "../pages/userPages/BookingSucessPage";
 
 
 export default function UserRoutes() {
@@ -35,6 +37,8 @@ export default function UserRoutes() {
           <Route path="/signup" element={<Navigate to="/" replace />} />
           <Route path="/otp" element={<Navigate to="/" replace />} />
           <Route path="/login" element={<Navigate to="/" replace />} />
+          <Route path="/reserve" element={<PropertyReserve/>} />
+          <Route path="/order-sucess" element={<BookingSucessPage/>} />
           <Route path="/rooms/:propertyId" element={<UserIndiviualProperty />} />
           <Route path="/profile/:userId" element={<UserProfilePage />} />
           <Route path="/" element={<UserHome />} />

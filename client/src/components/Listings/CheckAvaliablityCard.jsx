@@ -1,17 +1,18 @@
 import React from 'react';
 import { Button } from "@material-tailwind/react";
 import { IoIosArrowDropdown } from 'react-icons/io';
-
+import { useNavigate } from 'react-router-dom';
 function CheckAvaliablityCard({ listing }) {
   const [checkInDate, setCheckInDate] = React.useState('');
   const [checkOutDate, setCheckOutDate] = React.useState('');
   const [isDatesSelected, setIsDatesSelected] = React.useState(false);
-
+  const [guestCount, setGuestCount] = React.useState(1)
+  const [count, sentCount] = React.useState(false)
   const handleCheckInChange = (event) => {
     setCheckInDate(event.target.value);
     setIsDatesSelected(false); // Reset the total when check-in date changes
   };
-
+  console.log("fr",listing.floorPlan);
   const handleCheckOutChange = (event) => {
     const selectedCheckOutDate = new Date(event.target.value);
     const availableStartDate = new Date(listing.availableDates.startDate);
@@ -19,8 +20,8 @@ function CheckAvaliablityCard({ listing }) {
 
     if (selectedCheckOutDate >= availableStartDate && selectedCheckOutDate <= availableEndDate) {
       setCheckOutDate(event.target.value);
-      setIsDatesSelected(true); 
-    // Reset the total when check-out date changes
+      setIsDatesSelected(true);
+      // Reset the total when check-out date changes
     }
   };
 
@@ -43,15 +44,27 @@ function CheckAvaliablityCard({ listing }) {
     }
     return 0;
   };
-
+  const navigate=useNavigate()
   const handleCheckAvailability = () => {
+    console.log(listing.maximumStay);
     const numberOfNights = calculateNumberOfNights();
 
     if (numberOfNights >= listing.minimumStay && numberOfNights <= listing.maximumStay) {
+      console.log("ew");
       setIsDatesSelected(true);
+      const queryParams = new URLSearchParams({
+        listingId:listing._id,
+        nights: numberOfNights,
+        checkIn: checkInDate,
+        checkOut: checkOutDate,
+        guests: guestCount
+      });
+      navigate(`/reserve?${queryParams}`);
     } else {
+      console.log("ewdede");
       // Display an error message to the user, or handle it as appropriate for your UI
     }
+   
   };
 
   const today = new Date().toISOString().split('T')[0];
@@ -62,7 +75,7 @@ function CheckAvaliablityCard({ listing }) {
         <div className='mt-12'>
           <div className="border border-gray-300 rounded-lg p-6 shadow-md">
             <div className="text-gray-700 font-sans font-normal text-base leading-5">
-            <div className="flex flex-wrap justify-between items-baseline mb-6 gap-x-2 gap-y-4">
+              <div className="flex flex-wrap justify-between items-baseline mb-6 gap-x-2 gap-y-4">
                 <div className="flex items-baseline">
                   <span className="font-bold">₹ {listing.pricePerNight}</span>
                   <span className="ml-2">night</span>
@@ -91,28 +104,44 @@ function CheckAvaliablityCard({ listing }) {
                   </div>
                 </div>
               </div>
-              <div className='flex relative border-2 p-2 overflow-hidden'>
               <div>
-                  <div className='text-xs font-bold'>
-                    Guests
-                  </div>
+                <div onClick={() => sentCount(!count)} className='flex relative border-2 p-2 overflow-hidden'>
                   <div>
-                    1 guest
+                    <div className='text-xs font-bold'>
+                      Guests
+                    </div>
+                    <div>
+                      {guestCount} guests
+                    </div>
+                  </div>
+                  <div className='ml-auto'>
+                    <IoIosArrowDropdown />
                   </div>
                 </div>
-                <div className='ml-auto'>
-                  <IoIosArrowDropdown />
-                </div>
+                {count && (
+                  <div className='flex'>
+                    <input
+                      type="number"
+                      value={guestCount}
+                      onChange={(event) => setGuestCount(event.target.value)}
+                      className='w-9 border-2'
+                    />
+                    <div>
+                      guestCount
+                    </div>
+                  </div>
+                )}
+
               </div>
             </div>
             <div>
-              <Button className='w-full' color="blue" onClick={handleCheckAvailability}>
-              {isDatesSelected ? "Reserve" : "Check Availability"}
+              <Button  className='w-full' color="blue" onClick={handleCheckAvailability}>
+                {isDatesSelected ? "Reserve" : "Check Availability"}
               </Button>
             </div>
             {isDatesSelected && (
-              <div>
-                <span className="font-normal">₹ {listing.pricePerNight} x {calculateNumberOfNights()} nights</span>
+              <div className='mt-3'>
+                <span className="font-normal ">₹ {listing.pricePerNight} x {calculateNumberOfNights()} nights</span>
                 <span className="ml-2">Total: ₹ {getPrice()}</span>
               </div>
             )}

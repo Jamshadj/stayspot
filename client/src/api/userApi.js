@@ -32,5 +32,9 @@ export const getHostById = (hostId) => {
   console.log(hostId);
   return axios.get(`/getHostById/${hostId}`);
 };
+export const postCheckout = (details) => {
+  console.log("eedddddd",details);
+  return axios.post('/checkOut' ,details);
+};
 
 

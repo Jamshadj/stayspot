@@ -3,7 +3,7 @@ import hostModel from '../../models/hostModel.js';
 import Stripe from 'stripe';
 import bookingModel from '../../models/bookingModel.js';
 import userModel from '../../models/userModel.js';
-
+import Razorpay from 'razorpay'
 const stripe = Stripe("sk_test_51NbSNASISA5Tam1zrEocL4EIZxaWjowsNcYgPkOvoNviE5drZ5ak6zzfT1Wj5eJY1nxoeLVOMCdh2bWk7tS5uYz200XAUFwjGA")
 export default {
   getListings: async (req, res) => {
@@ -58,22 +58,11 @@ export default {
   postCheckout: async (req, res) => {
     try {
       const { checkInDate, checkOutDate, listingId, guests, numberOfNights, userId, totalAmount } = req.body;
-      const newBooking = new bookingModel({
-        userId,
-        checkInDate,
-        checkOutDate,
-        listingId,
-        guests,
-        numberOfNights,
-        totalAmount
-      });
-  
+      const cancelUrl = `http://localhost:3000/reserve?listingId=${listingId}&nights=${numberOfNights}&checkIn=${checkInDate}&checkOut=${checkOutDate}&guests=${guests}`;
       const listing = await propertyModel.findById(listingId);
       const user = await userModel.findById(userId);
   
-      // Save the new booking to the database
-      const bookingResponse = await newBooking.save();
-      console.log(bookingResponse, "booking");
+    
   
       // Create a Stripe checkout session
       const session = await stripe.checkout.sessions.create({
@@ -86,22 +75,51 @@ export default {
                 images: [
                   listing.images[0]
                 ],
-                unit_amount: listing.pricePerNight * 100,
               },
-              quantity: numberOfNights,
+              unit_amount: listing.pricePerNight * 100,
             },
+            quantity: 1, // Move quantity outside of price_data
           },
         ],
         mode: "payment",
         customer_email: user.email,
-        success_url:'', // Use the complete URL
-        cancel_url: '', // Use the complete URL
+        success_url: 'http://localhost:3000/order-success', // Corrected success URL
+        cancel_url:cancelUrl,   // Corrected cancel URL
       });
-  
-      res.json({ sessionId: session.id }); // Sending the session ID back to the frontend
+      
+  console.log(session.url,"url");
+      res.json({ URL:session.url}); // Sending the session ID back to the frontend
     } catch (error) {
       console.error(error);
       res.status(500).json({ error: 'An error occurred while creating the payment.' });
+    }
+  },
+  getOrderSucess: async (req, res) => {
+
+    try {
+      // Extract any necessary information from the query parameters or request body
+      const { userId, listingId, checkInDate, checkOutDate, guests, numberOfNights, totalAmount } = req.query;
+  
+      // Create a new booking using the extracted information
+      const newBooking = new bookingModel({
+        userId,
+        checkInDate,
+        checkOutDate,
+        listingId,
+        guests,
+        numberOfNights,
+        totalAmount
+      });
+  
+      // Save the new booking to the database
+      const bookingResponse = await newBooking.save();
+      console.log(bookingResponse);
+      res.redirect('/order-success');
+      // You can also perform any additional actions or send a response as needed
+      res.json({ message: 'Booking saved successfully.' });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'An error occurred while processing the successful payment.' });
     }
   }
   
