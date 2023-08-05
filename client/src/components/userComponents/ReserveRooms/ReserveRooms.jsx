@@ -6,7 +6,7 @@ import Details from './Details';
 import { Button } from "@material-tailwind/react";
 import { getListingById, postCheckout } from '../../../api/userApi';
 import { useSelector } from 'react-redux';
-
+import axios from '../../../axios'
 function ReserveRooms() {
   const { user } = useSelector((state) => state);
   const location = useLocation();
@@ -21,7 +21,7 @@ function ReserveRooms() {
   const checkOutMonth = checkOutDate.toLocaleString('default', { month: 'short' });
   const [listing, setListing] = useState(null);
   console.log(checkInDate,"checking date");
-  const stripePay = async () => {
+  const handleStripePay = async () => {
     try {
       const details = {
         userId:user.details._id,
@@ -43,7 +43,21 @@ function ReserveRooms() {
       console.error(error);
     }
   }
-   
+  const handleRazroPay = async () => {
+    const { data } = await axios.post("/payment", { amount: calculateTotalAmount() });
+    if (!data.err) {
+        razroPay(data.order);
+    }
+};
+
+
+   const razroPay=async()=>{
+    try {
+      
+    } catch (error) {
+      
+    }
+   }
   
   useEffect(() => {
     async function fetchListing() {
@@ -158,7 +172,7 @@ function ReserveRooms() {
                     </div>
                   </div>
                   <div className='ml-auto'>
-                    <Button onClick={stripePay} variant="outlined">Pay now</Button>
+                    <Button onClick={handleStripePay} variant="outlined">Pay now</Button>
                   </div>
                 </div>
                 <div className='flex'>
@@ -175,7 +189,7 @@ function ReserveRooms() {
                     </div>
                   </div>
                   <div className='ml-auto'>
-                    <Button variant="outlined">Pay now</Button>
+                    <Button onClick={handleRazroPay} variant="outlined">Pay now</Button>
                   </div>
                 </div>
               </div>
