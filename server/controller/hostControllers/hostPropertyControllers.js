@@ -7,7 +7,7 @@ export default {
   postAddProperty: async (req, res) => {
      try {
     const propertyDetails = req.body;
-
+    console.log(propertyDetails);
     // Upload property images to Cloudinary and store the URLs
     let images = [];
     for (let item of propertyDetails.images) {
@@ -44,7 +44,7 @@ export default {
       amenities: propertyDetails.amenities,
       minimumStay: propertyDetails.minimumStay,
       maximumStay: propertyDetails.maximumStay,
-      availability: {
+      availableDates: {
         startDate: propertyDetails.availability[0],
         endDate: propertyDetails.availability[1],
       },

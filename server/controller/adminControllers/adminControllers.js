@@ -27,7 +27,7 @@ export default {
         } else {
           return res.json({ err: true, message: 'Incorrect password' });
         }
-      } else {
+      } else { 
         return res.json({ err: true, message: 'Email does not exist' });
       }
     } catch (error) {
@@ -170,11 +170,12 @@ console.log("propr");
   },
   postUpdateListingStatus: async (req, res) => {
     try {
-      console.log("de");
       const { propertyId } = req.params;
-      const { status } = req.body; 
-      console.log(status);
-     const property= await propertyModel.updateOne({ _id: propertyId }, { status: status });
+      const status = req.body.status; // Access the status property directly
+      console.log(propertyId);
+      console.log(status.status);
+  
+      const property = await propertyModel.updateOne({ _id: propertyId }, { status: status.status });
       console.log(property);
       res.json({ message: 'Listing status updated successfully!' });
     } catch (error) {
@@ -182,5 +183,6 @@ console.log("propr");
       res.status(500).json({ error: 'Failed to update listing status' });
     }
   },
+  
  
 };

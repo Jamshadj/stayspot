@@ -1,5 +1,8 @@
 import propertyModel from '../../models/propertyModel.js';
-import hostModel from '../../models/hostModel.js'
+import hostModel from '../../models/hostModel.js';
+import stripeLib from 'stripe';
+
+const stripe = stripeLib(process.env.STRIPE_SECERET_KEY)
 export default {
   getListings: async (req, res) => {
     try {
