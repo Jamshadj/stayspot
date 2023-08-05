@@ -1,8 +1,10 @@
 import propertyModel from '../../models/propertyModel.js';
 import hostModel from '../../models/hostModel.js';
-import stripeLib from 'stripe';
+import Stripe from 'stripe';
+import bookingModel from '../../models/bookingModel.js';
+import userModel from '../../models/userModel.js';
 
-const stripe = stripeLib(process.env.STRIPE_SECERET_KEY)
+const stripe = Stripe("sk_test_51NbSNASISA5Tam1zrEocL4EIZxaWjowsNcYgPkOvoNviE5drZ5ak6zzfT1Wj5eJY1nxoeLVOMCdh2bWk7tS5uYz200XAUFwjGA")
 export default {
   getListings: async (req, res) => {
     try {
@@ -53,5 +55,55 @@ export default {
       res.status(500).json({ error: 'Internal server error' });
     }
   },
+  postCheckout: async (req, res) => {
+    try {
+      const { checkInDate, checkOutDate, listingId, guests, numberOfNights, userId, totalAmount } = req.body;
+      const newBooking = new bookingModel({
+        userId,
+        checkInDate,
+        checkOutDate,
+        listingId,
+        guests,
+        numberOfNights,
+        totalAmount
+      });
+  
+      const listing = await propertyModel.findById(listingId);
+      const user = await userModel.findById(userId);
+  
+      // Save the new booking to the database
+      const bookingResponse = await newBooking.save();
+      console.log(bookingResponse, "booking");
+  
+      // Create a Stripe checkout session
+      const session = await stripe.checkout.sessions.create({
+        line_items: [
+          {
+            price_data: {
+              currency: "inr",
+              product_data: {
+                name: listing.title,
+                images: [
+                  listing.images[0]
+                ],
+                unit_amount: listing.pricePerNight * 100,
+              },
+              quantity: numberOfNights,
+            },
+          },
+        ],
+        mode: "payment",
+        customer_email: user.email,
+        success_url:'', // Use the complete URL
+        cancel_url: '', // Use the complete URL
+      });
+  
+      res.json({ sessionId: session.id }); // Sending the session ID back to the frontend
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'An error occurred while creating the payment.' });
+    }
+  }
+  
   
 };
