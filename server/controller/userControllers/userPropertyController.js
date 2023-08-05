@@ -21,11 +21,12 @@ export default {
   getListingById: async (req, res) => {
     try {
      console.log("grt property");
-      const { propertyId } = req.params; // Get the propertyId from the request parameters
-      console.log(propertyId.propertyId);
-      const property = await propertyModel.findById({ _id: propertyId }).lean();
+      const  propertyId  = req.params; // Get the propertyId from the request parameters
+      console.log(req.params);
+      console.log(propertyId.propertyId,"drd");
+      const property = await propertyModel.findById({ _id: propertyId.propertyId }).lean();
   
-      if (!property) {
+      if (!property) { 
         return res.status(404).json({ error: 'Property not found' });
       }
   
