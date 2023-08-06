@@ -12,6 +12,7 @@ import UserProfilePage from "../pages/userPages/UserProfilePage";
 import UserIndiviualProperty from "../pages/userPages/UserIndiviualProperty";
 import PropertyReserve from "../pages/userPages/PropertyReserve";
 import BookingSucessPage from "../pages/userPages/BookingSucessPage";
+import FavoritesPage from "../pages/userPages/FavoritesPage";
 
 
 export default function UserRoutes() {
@@ -39,6 +40,7 @@ export default function UserRoutes() {
           <Route path="/login" element={<Navigate to="/" replace />} />
           <Route path="/reserve" element={<PropertyReserve/>} />
           <Route path="/order-success" element={<BookingSucessPage/>} />
+          <Route path="/favorites" element={<FavoritesPage/>} />
           <Route path="/rooms/:propertyId" element={<UserIndiviualProperty />} />
           <Route path="/profile/:userId" element={<UserProfilePage />} />
           <Route path="/" element={<UserHome />} />

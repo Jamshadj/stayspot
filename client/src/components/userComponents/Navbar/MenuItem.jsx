@@ -1,9 +1,14 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function MenuItem({ onClick, label }) {
+  const navigate=useNavigate()
+  const link=()=>{
+    navigate(onClick)
+  }
   return ( 
     <div 
-      onClick={onClick} 
+      onClick={link} 
       className="
         px-4 
         py-3 

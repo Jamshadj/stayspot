@@ -142,7 +142,7 @@ function UserMenu() {
       />
       <MenuItem 
         label="My favorites" 
-        onClick="/my-trips"
+        onClick="/favorites"
       />
       <MenuItem 
         label="My reservations" 

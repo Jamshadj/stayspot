@@ -41,7 +41,23 @@ export const getBookingById = (id) => {
 };
 
 export const addToWishList = (propertyId,userId) => {
+  console.log(propertyId,userId,"xds");
   return axios.post('/addToWishList',{propertyId,userId});
 };
+export const removeFromWishList = (propertyId,userId) => {
+  console.log(propertyId,userId,"xds");
+  return axios.post('/removeFromWishList',{propertyId,userId});
+};
+
+export const getWishlist = (propertyId,userId) => {
+  console.log(propertyId,userId,"xds");
+  return axios.get('/getWishList',{propertyId,userId});
+};
+
+export const getWishlists = (userId) => {
+  console.log(userId,"ded");
+  return axios.get(`/getWishLists/${userId}`);
+};
+
 
 

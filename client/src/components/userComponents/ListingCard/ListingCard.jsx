@@ -35,7 +35,7 @@ function ListingCard({ data, currentUser }) {
   };
 
   return (
-    <div onClick={navigateToRoomDetails} className="col-span-1 cursor-pointer group">
+    <div className="col-span-1 cursor-pointer group">
       <div className="flex flex-col gap-2 w-full">
         <div className="aspect-square w-full relative overflow-hidden rounded-xl">
           <img
@@ -47,6 +47,7 @@ function ListingCard({ data, currentUser }) {
             <HeartButton listingId={data._id} currentUser={currentUser} />
           </div>
         </div>
+        <div  onClick={navigateToRoomDetails} >
         <div className="font-semibold text-lg">
           {locationData ? `${locationData.text}` : 'Loading location...'}
         </div>
@@ -58,6 +59,7 @@ function ListingCard({ data, currentUser }) {
             ₹ {data.pricePerNight}
           </div>
           <div className="font-light">night</div>
+        </div>
         </div>
       </div>
     </div>
