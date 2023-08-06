@@ -24,7 +24,6 @@ function ListingCard({ data, currentUser }) {
         console.error('Error fetching location data:', error);
       }
     };
-
     fetchLocationData();
   }, [data.coordinates]);
 
