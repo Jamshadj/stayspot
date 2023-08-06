@@ -40,4 +40,8 @@ export const getBookingById = (id) => {
   return axios.get(`/booking?id=${id}`);
 };
 
+export const addToWishList = (propertyId,userId) => {
+  return axios.post('/addToWishList',{propertyId,userId});
+};
+
 

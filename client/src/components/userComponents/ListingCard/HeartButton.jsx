@@ -5,7 +5,7 @@ function HeartButton({ data, currentUser }) {
   const [hasFavorited, setHasFavorited] = React.useState(false);
 
   const toggleFavorite = () => {
-   
+   console.log("fav");
   };
 
   return (
