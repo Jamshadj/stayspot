@@ -38,7 +38,7 @@ export default function UserRoutes() {
           <Route path="/otp" element={<Navigate to="/" replace />} />
           <Route path="/login" element={<Navigate to="/" replace />} />
           <Route path="/reserve" element={<PropertyReserve/>} />
-          <Route path="/order-sucess" element={<BookingSucessPage/>} />
+          <Route path="/order-success" element={<BookingSucessPage/>} />
           <Route path="/rooms/:propertyId" element={<UserIndiviualProperty />} />
           <Route path="/profile/:userId" element={<UserProfilePage />} />
           <Route path="/" element={<UserHome />} />

@@ -7,8 +7,10 @@ import { Button } from "@material-tailwind/react";
 import { getListingById, postCheckout } from '../../../api/userApi';
 import { useSelector } from 'react-redux';
 import axios from '../../../axios'
+import Swal from 'sweetalert2';
 function ReserveRooms() {
   const { user } = useSelector((state) => state);
+  
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const checkInDate = new Date(queryParams.get('checkIn'));
@@ -20,15 +22,54 @@ function ReserveRooms() {
   const checkInMonth = checkInDate.toLocaleString('default', { month: 'short' });
   const checkOutMonth = checkOutDate.toLocaleString('default', { month: 'short' });
   const [listing, setListing] = useState(null);
+  const [currentGuest,setCurrentGuest]=useState(guests)
+  const [currentCheckInDate, setCurrentCheckInDate] = useState(checkInDate);
+  const [currentCheckOutDate, setCurrentCheckOutDate] = useState(checkOutDate);
+
+  
+  const handlePhoneNumberSave = async () => {
+  const phoneNumberInput = await Swal.fire({
+    title: 'Add Phone Number',
+    input: 'number',
+    inputAttributes: {
+      type: 'tel', // Set input type to "tel" to show numeric keyboard on mobile
+      min: 1000000000, // Minimum 10-digit number
+      max: 9999999999, // Maximum 10-digit number
+      pattern: '[0-9]*', // Allow only numeric input
+    },
+    inputValidator: (value) => {
+      if (!value || value.length !== 10) {
+        return 'Please enter a valid 10-digit phone number.';
+      }
+    },
+    showCancelButton: true,
+    confirmButtonText: 'Save',
+  });
+
+  if (phoneNumberInput.isConfirmed) {
+    const updatedPhoneNumber = phoneNumberInput.value;
+    const userId=user.details._id
+    try {
+      await axios.patch('/updatephonemunber',{phoneNumber:updatedPhoneNumber,_id:userId});
+      // Show success message
+      Swal.fire('Phone Number Updated', 'Your phone number has been updated successfully!', 'success');
+    } catch (error) {
+      console.error(error);
+      // Show error message
+      Swal.fire('Error', 'An error occurred while updating your phone number.', 'error');
+    }
+  }
+};
+
   console.log(checkInDate,"checking date");
   const handleStripePay = async () => {
     try {
       const details = {
         userId:user.details._id,
-        checkInDate: checkInDate.toISOString(),
-        checkOutDate: checkOutDate.toISOString(),
+        checkInDate: currentCheckInDate,
+        checkOutDate: currentCheckOutDate,
         listingId,
-        guests,
+        guests:currentGuest,
         numberOfNights: calculateNumberOfNights(),
         totalAmount: calculateTotalAmount() // Ensure this value is a valid numeric value
       };
@@ -43,21 +84,78 @@ function ReserveRooms() {
       console.error(error);
     }
   }
-  const handleRazroPay = async () => {
+  const handleBooking = async () => {
     const { data } = await axios.post("/payment", { amount: calculateTotalAmount() });
+    console.log(data,"data");
     if (!data.err) {
-        razroPay(data.order);
+      handleRazroPay(data.order);
     }
+    
+};
+const handleDatesChange = (newCheckInDate, newCheckOutDate) => {
+  setCurrentCheckInDate(newCheckInDate);
+  setCurrentCheckOutDate(newCheckOutDate);
+  // ... (any additional logic you want to perform when dates change)
+};
+
+const handleGuestsChange = (newGuests) => {
+  setCurrentGuest(newGuests)
 };
 
 
-   const razroPay=async()=>{
-    try {
-      
-    } catch (error) {
-      
-    }
-   }
+const handleRazroPay = async (order) => {
+  const details = {
+      userId: user.details._id,
+      checkInDate:currentCheckInDate,
+      checkOutDate: currentCheckOutDate,
+      listingId,
+      guests:currentGuest,
+      numberOfNights: calculateNumberOfNights(), // You should have a function to calculate this
+      totalAmount: calculateTotalAmount() // Ensure this value is a valid numeric value
+  };
+
+  try {
+    console.log(order.id,"order id");
+      const options = {
+          key: "rzp_test_3qgmRXzHbaIU3G",
+          amount: order.amount,
+          currency: order.currency,
+          name: "Acme Corp",
+          description: "Test Transaction",
+          order_id: order.id,
+          handler: async (response) => {
+              try {
+                  const { data } = await axios.post("/payment/verify", { details,response });
+                  console.log(data,"dataaa");
+                  if (data.err) {
+                      Swal.fire({
+                          icon: 'error',
+                          title: 'Oops...',
+                          text: data.message,
+                      });
+                  } else {
+                      Swal.fire(
+                          'Success!',
+                          'Successfully Booked',
+                          'success'
+                      );
+                      navigate("/profile");
+                  }
+              } catch (error) {
+                  console.error(error);
+                  // Handle error here
+              }
+          }
+      };
+
+      const paymentObject = new window.Razorpay(options);
+      paymentObject.open();
+  } catch (error) {
+      console.error(error);
+      // Handle error here
+  }
+};
+
   
   useEffect(() => {
     async function fetchListing() {
@@ -80,7 +178,7 @@ function ReserveRooms() {
 
   const calculateNumberOfNights = () => {
     const oneDay = 24 * 60 * 60 * 1000; // One day in milliseconds
-    const timeDiff = Math.abs(checkOutDate - checkInDate);
+    const timeDiff = Math.abs(currentCheckOutDate - currentCheckInDate);
     const numberOfNights = Math.ceil(timeDiff / oneDay);
     return numberOfNights;
   };
@@ -103,8 +201,13 @@ function ReserveRooms() {
         <div className='m-20 mx-28'>
           <div className='flex'>
             <div className='w-1/2'>
-
-              <Details dateDisplay={dateDisplay} guests={guests} />
+            <Details
+        checkInDate={currentCheckInDate}
+        checkOutDate={currentCheckOutDate}
+        guests={currentGuest}
+        onDatesChange={handleDatesChange}
+        onGuestsChange={handleGuestsChange}
+      />
               <hr />
               <div>
                 <span className='ml-4 text-xl font-medium text-black'>
@@ -144,7 +247,10 @@ function ReserveRooms() {
                   </div>
                 </div>
                 <div className='ml-auto'>
-                  <Button variant="outlined">Add</Button>
+                 <Button onClick={handlePhoneNumberSave} variant="outlined">
+  Add
+</Button>
+
                 </div>
               </div>
               <hr />
@@ -189,7 +295,7 @@ function ReserveRooms() {
                     </div>
                   </div>
                   <div className='ml-auto'>
-                    <Button onClick={handleRazroPay} variant="outlined">Pay now</Button>
+                    <Button onClick={handleBooking} variant="outlined">Pay now</Button>
                   </div>
                 </div>
               </div>
