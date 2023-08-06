@@ -41,7 +41,7 @@ function ListingCard({ data, currentUser }) {
           <img
             className="object-cover h-full w-full group-hover:scale-110 transition"
             src={image}
-            alt="Listing"
+            alt="Listing"  
           />
           <div className="absolute top-3 right-3">
             <HeartButton listingId={data._id} currentUser={currentUser} />
