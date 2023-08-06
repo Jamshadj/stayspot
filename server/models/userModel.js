@@ -30,6 +30,12 @@ const userSchema = mongoose.Schema({
     },
     image: {
         type: Object,
+    },
+    phoneNumber:{
+        type:Number
+    },
+    wishlist:{
+        type:Array
     }
 
 })

@@ -3,6 +3,7 @@ import sentOTP from "../../helper/sentOTP.js";
 import jwt from "jsonwebtoken";
 import bcrypt from 'bcrypt';
 import axios from "axios";
+import bookingModel from "../../models/bookingModel.js";
 
 // Helper function to create a token
 const createToken = (userId) => {
@@ -202,6 +203,31 @@ export default {
         maxAge: 0, // Set the maxAge to 0 to expire the cookie immediately
         sameSite: "none",
     }).json({ err: false, message: 'Logged out successfully' });
-}
-
-};
+},
+  userPhoneNumber:async (req,res)=>{
+    try {
+      const { phoneNumber, _id } = req.body;
+      await userModel.findByIdAndUpdate(_id, { phoneNumber }); 
+      res.status(200).json({ message: 'Phone number updated successfully.' });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'An error occurred while updating the phone number.' });
+    }
+  },
+  getBookingById: async (req, res) => {
+    try {
+      console.log("ook");
+      const { id } = req.query; // Use req.query.id to access query parameter
+      console.log(id);
+      const booking = await bookingModel.findById(id);
+      console.log(booking);
+      if (!booking) {
+        return res.status(404).json({ message: 'Booking not found' });
+      }
+      res.status(200).json({ booking, message: 'Booking details' });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'An error occurred while getting booking details' });
+    }
+  }
+}; 

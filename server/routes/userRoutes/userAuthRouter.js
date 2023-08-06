@@ -1,19 +1,38 @@
-import Express from "express";
-import userAuth from "../../controller/userControllers/userAuthController.js";
-import userPropertyController from "../../controller/userControllers/userPropertyController.js";
- 
+import Express from 'express';
+import userAuthController from '../../controller/userControllers/userAuthController.js';
+import userPropertyController from '../../controller/userControllers/userPropertyController.js';
+import paymentController from '../../controller/paymentController.js';
+
 const router = Express.Router();
 
+// User authentication routes
+router.post('/signup', userAuthController.postSignUp);
+router.post('/otp', userAuthController.postOtpVerify);
+router.post('/login', userAuthController.postLogIn);
+router.post('/logout', userAuthController.userLogout);
+router.get('/auth', userAuthController.getLoggedInUser);
 
-router.post('/signup',userAuth.postSignUp)
-router.post('/otp',userAuth.postOtpVerify)
-router.post('/login',userAuth.postLogIn)
-router.post('/logout',userAuth.userLogout)
-router.get('/getListings',userPropertyController.getListings)
-router.get('/getListingById/:propertyId',userPropertyController.getListingById)
+router.post('/auth/login/google', userAuthController.googleAuth);
+
+router.patch('/updatephonemunber',userAuthController.userPhoneNumber)
+
+// User property routes
+router.get('/getListings', userPropertyController.getListings);
+router.get('/getListingById/:propertyId', userPropertyController.getListingById);
 router.get('/getHostById/:hostId', userPropertyController.getHostById);
-router.get('/auth',userAuth.getLoggedInUser)
-router.get('/order-sucess',userPropertyController.getOrderSucess)
-router.post("/auth/login/google" , userAuth.googleAuth)
-router.post("/checkout" , userPropertyController.postCheckout)
+
+// Payment routes
+router.post('/payment', paymentController.paymentOrder);
+router.post('/payment/verify', paymentController.paymentVerify);
+router.get('/order-success', paymentController.getOrderSucess);
+router.post('/checkout', paymentController.postCheckout);
+
+// Booking 
+router.get('/booking',userAuthController.getBookingById)
+
+router.post('/addToWishList',userPropertyController.addToWishList)
+router.post('/removeFromWishList',userPropertyController.removeFromWishList)
+router.get('/getWishList',userPropertyController.getWishList)
+router.get('/getWishLists/:userId',userPropertyController.getWishLists)
+
 export default router;
