@@ -33,8 +33,11 @@ export const getHostById = (hostId) => {
   return axios.get(`/getHostById/${hostId}`);
 };
 export const postCheckout = (details) => {
-  console.log("eedddddd",details);
   return axios.post('/checkOut' ,details);
+};
+export const getBookingById = (id) => {
+  console.log("iddd",id);
+  return axios.get(`/booking?id=${id}`);
 };
 
 
