@@ -13,6 +13,7 @@ import UserIndiviualProperty from "../pages/userPages/UserIndiviualProperty";
 import PropertyReserve from "../pages/userPages/PropertyReserve";
 import BookingSucessPage from "../pages/userPages/BookingSucessPage";
 import FavoritesPage from "../pages/userPages/FavoritesPage";
+import MatchingListingPages from "../pages/userPages/MatchingListingPages";
 
 
 export default function UserRoutes() {
@@ -45,6 +46,7 @@ export default function UserRoutes() {
           <Route path="/profile/:userId" element={<UserProfilePage />} />
           <Route path="/" element={<UserHome />} />
           <Route path="/" element={<UserHome />} />
+          <Route path="/matchingListing" element={<MatchingListingPages/>} />
           
         </>
       ) : (

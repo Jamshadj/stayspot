@@ -21,6 +21,10 @@ const initialState = {
     pricePerNight:null,
     hostId:null
   },
+  coordinates:{
+   latitude:null,
+   longitude:null
+  },
   refresh: true,
 };
 
