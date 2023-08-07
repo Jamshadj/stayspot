@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai';
 import Swal from 'sweetalert2';
-import { addToWishList, getWishlist, removeFromWishList } from '../../../api/userApi';
+import { addToWishList, removeFromWishList } from '../../../api/userApi';
 
-function HeartButton({ listingId, currentUser }) {
+function HeartButton({ listingId, currentUser, favorites, updateWishlist }) {
   const [hasFavorited, setHasFavorited] = useState(false);
 
   const toggleFavorite = async () => {
     try {
-      if (hasFavorited) {
+      if (hasFavorited || favorites) {
         await removeFromWishList(listingId, currentUser.details._id);
         Swal.fire({
           icon: 'success',
@@ -26,22 +26,13 @@ function HeartButton({ listingId, currentUser }) {
         });
       }
       setHasFavorited(!hasFavorited);
+      if (updateWishlist) {
+        updateWishlist(listingId); // Notify parent component to update wishlist
+      }
     } catch (error) {
       console.error(error);
     }
   };
-
-  useEffect(() => {
-    const checkIfFavorited = async () => {
-      try {
-        const response = await getWishlist(listingId, currentUser.details._id);
-        setHasFavorited(response.data.property !== null);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    checkIfFavorited(); // Call the checkIfFavorited function on mount
-  }, [listingId, currentUser]);
 
   return (
     <div
@@ -65,7 +56,7 @@ function HeartButton({ listingId, currentUser }) {
       <AiFillHeart
         size={24}
         className={
-          hasFavorited ? 'fill-red-400' : 'fill-neutral-500/70'
+          hasFavorited || favorites ? 'fill-red-400' : 'fill-neutral-500/70'
         }
       />
     </div>

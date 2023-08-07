@@ -8,5 +8,5 @@ export const validateAddress = yup.object().shape({
   landMark: yup.string(),
   city: yup.string().required('City is required'),
   region: yup.string().required('State is required'),
-  postCode: yup.string().required('Post code is required'),
+  postCode: yup.string().numeber().required('Post code is required'),
 });

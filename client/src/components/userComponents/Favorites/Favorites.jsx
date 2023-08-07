@@ -1,44 +1,43 @@
-import React, { useEffect, useState } from 'react';
-import {
-  Card,
-  CardHeader,
-  CardBody,
-  CardFooter,
-  Typography,
-  Button,
-} from "@material-tailwind/react";
-import Navbar from '../Navbar/Navbar';
-import { getListingById, getWishlists } from '../../../api/userApi';
+import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { Card, CardHeader, CardBody, CardFooter, Typography, Button } from "@material-tailwind/react";
+import Navbar from '../Navbar/Navbar';
+import { getWishlists, getListingById } from '../../../api/userApi';
+import HeartButton from '../ListingCard/HeartButton';
 
 function Favorites() {
   const { user } = useSelector((state) => state);
   const [wishlist, setWishlist] = useState([]);
-  const navigate=useNavigate()
+  const navigate = useNavigate();
+
+  const fetchWishlist = async () => {
+    try {
+      const response = await getWishlists(user.details._id);
+      setWishlist(response.data.wishlist);
+
+      const listingDetails = await Promise.all(
+        response.data.wishlist.map(async (itemId) => {
+          const listingResponse = await getListingById(itemId);
+          return listingResponse.data;
+        })
+      );
+      setWishlist(listingDetails);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   useEffect(() => {
-    const fetchWishlist = async () => {
-      try {
-        const response = await getWishlists(user.details._id);
-        setWishlist(response.data.wishlist);
-        
-        // Fetch listing details for each wishlist item
-        const listingDetails = await Promise.all(
-          response.data.wishlist.map(async (itemId) => {
-            const listingResponse = await getListingById(itemId);
-            return listingResponse.data;
-          })
-        );
-        setWishlist(listingDetails); // Update wishlist with listing details
-      } catch (error) {
-        console.error(error);
-      }
-    };
     fetchWishlist();
   }, [user]);
 
+  const removeFromWishlist = (listingId) => {
+    setWishlist((prevWishlist) => prevWishlist.filter((item) => item._id !== listingId));
+  };
+
   const navigateToDetails = (listingId) => {
-    navigate(`/rooms/${listingId}`)
+    navigate(`/rooms/${listingId}`);
   };
 
   return (
@@ -61,10 +60,18 @@ function Favorites() {
                     {item.title || 'Title not available'}
                   </Typography>
                 </CardBody>
-                <CardFooter className="pt-0">
+                <CardFooter className="pt-0 flex" >
                   <Button onClick={() => navigateToDetails(item._id)}>
-                    Read More
+                    Show more
                   </Button>
+                  <div className='ml-auto'>
+                    <HeartButton
+                      listingId={item._id}
+                      currentUser={user}
+                      favorites={true}
+                      updateWishlist={removeFromWishlist} // Pass the callback function
+                    />
+                  </div>
                 </CardFooter>
               </Card>
             ))

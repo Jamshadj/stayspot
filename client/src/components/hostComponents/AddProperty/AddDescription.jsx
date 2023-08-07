@@ -2,22 +2,28 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import PropertyNavbar from './PropertyNavbar';
 import Footer from './Footer';
-import { useDispatch } from 'react-redux'; // Import the useDispatch function
+import { useDispatch } from 'react-redux';
 
 function AddDescription() {
-  const [description, setDescription] = useState(''); // State to hold the description
+  const [description, setDescription] = useState('');
+  const [error, setError] = useState('');
   const navigate = useNavigate();
-  const dispatch = useDispatch(); // Initialize the useDispatch function
+  const dispatch = useDispatch();
 
   const handleNext = () => {
-    // Dispatch the description to the Redux store
+    if (description.trim() === '') {
+      setError('Description required');
+      console.log('Description is empty');
+      return;
+    }
+
     dispatch({ type: 'propertyDetails', payload: { description: description } });
     navigate('/host/step-3');
   };
 
   const handleDescriptionChange = (e) => {
-    // Update the description state with the input value
     setDescription(e.target.value);
+    setError('');
   };
 
   return (
@@ -32,12 +38,20 @@ function AddDescription() {
         </div>
         <textarea
           rows={4}
-  
+          style={{
+            border: '1px solid black',
+            verticalAlign: 'top',
+            whiteSpace: 'normal',
+            wordWrap: 'break-word'
+          }}
           type="text"
           className="mt-10 h-48 w-full border-black"
-          value={description} // Set the value of the input to the description state
-          onChange={handleDescriptionChange} // Call the handleDescriptionChange function on input change
+          value={description}
+          onChange={handleDescriptionChange}
         />
+        {error && (
+          <p className="text-red-500">{error}</p>
+        )}
       </main>
       <footer className="fixed bottom-0 left-0 w-full z-10 bg-white">
         <Footer onNext={handleNext} />

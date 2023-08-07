@@ -1,14 +1,28 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Swal from 'sweetalert2';
+import {
+  Button,
+  Dialog,
+  DialogHeader,
+  DialogBody,
+  DialogFooter,
+  Avatar,
+  IconButton,
+  Typography,
+  Card,
+} from "@material-tailwind/react";
 import { useNavigate } from 'react-router-dom';
 import { postAddProperty } from '../../../api/hostApi';
 
 function PropertyDetails() {
+  const [open, setOpen] = useState(false);
   const propertyDetails = useSelector((state) => state.propertyDetails);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  console.log(propertyDetails,"propertyDetails");
+
+  const handleOpen = () => setOpen(!open);
+
   const handleNavigation = () => {
     Swal.fire({
       title: 'Sorry, some of the data is incomplete',
@@ -21,10 +35,8 @@ function PropertyDetails() {
       cancelButtonColor: '#d33',
     }).then((result) => {
       if (result.isConfirmed) {
-        // User confirmed, navigate to '/host/step-1'
         navigate('/host/about-your-place');
       } else {
-        // User canceled, navigate to '/host'
         navigate('/host');
       }
     });
@@ -32,7 +44,6 @@ function PropertyDetails() {
 
   const complete = async () => {
     try {
-      // Show a SweetAlert popup indicating that the API call is in progress
       Swal.fire({
         title: 'Please wait',
         text: 'Saving your property...',
@@ -46,12 +57,10 @@ function PropertyDetails() {
       const response = await postAddProperty(propertyDetails);
       console.log('response', response);
       if (response && response.data.error === false) {
-        // Property added successfully, close the loading modal
         Swal.close();
         dispatch({ type: 'refresh' });
         navigate('/host');
       } else {
-        // Handle error scenario
         Swal.fire({
           title: 'Error',
           text: 'Error occurred during saving the property',
@@ -60,7 +69,6 @@ function PropertyDetails() {
         });
       }
     } catch (error) {
-      // Handle API call error
       Swal.fire({
         title: 'Error',
         text: 'Error occurred during API call',
@@ -72,16 +80,25 @@ function PropertyDetails() {
   }
 
   if (!propertyDetails.structure) {
-    // Property details are null, show SweetAlert and confirm navigation
     handleNavigation();
-    return null; // or you can render a loading spinner or any other message
+    return null;
   }
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const handleNextImage = () => {
+    setCurrentImageIndex((prevIndex) => (prevIndex + 1) % propertyDetails.images.length);
+  };
+
+  const handlePrevImage = () => {
+    setCurrentImageIndex(
+      (prevIndex) => (prevIndex - 1 + propertyDetails.images.length) % propertyDetails.images.length
+    );
+  };
 
   return (
     <div className="container mx-auto py-8">
       <h2 className="text-3xl font-bold mb-4">Property Details</h2>
       <div className="grid grid-cols-2 gap-4">
-      <div>
+        <div>
           <h3 className="text-xl font-semibold">Basic Details</h3>
           <p>Structure: {propertyDetails.structure}</p>
           <p>Privacy Type: {propertyDetails.privacyType}</p>
@@ -91,7 +108,7 @@ function PropertyDetails() {
           <p>Description: {propertyDetails.description}</p>
         </div>
         <div>
-          <h3 className="text-xl font-semibold">Address</h3>
+          <h3 className="text-xl font-semibold">APleaseddress</h3>
           <p>Country: {propertyDetails.address.country}</p>
           <p>City: {propertyDetails.address.city}</p>
           <p>Post Code: {propertyDetails.address.postCode}</p>
@@ -100,20 +117,6 @@ function PropertyDetails() {
           <p>Area: {propertyDetails.address.area}</p>
           <p>Street Address: {propertyDetails.address.streetAddress}</p>
           <p>Landmark: {propertyDetails.address.landMark}</p>
-        </div>
-        <div>
-          <h3 className="text-xl font-semibold">Floor Plan</h3>
-          {propertyDetails.floorPlan.map((plan, index) => (
-            <p key={index}>
-              Type: {plan.type}, Count: {plan.count}
-            </p>
-          ))}
-        </div>
-        <div>
-          <h3 className="text-xl font-semibold">Amenities</h3>
-          {propertyDetails.amenities.map((amenity, index) => (
-            <p key={index}>{amenity}</p>
-          ))}
         </div>
         <div>
           <h3 className="text-xl font-semibold">Availability</h3>
@@ -127,15 +130,38 @@ function PropertyDetails() {
         </div>
         <div>
           <h3 className="text-xl font-semibold">Images</h3>
-          {propertyDetails.images.map((image, index) => (
+          <Card
+            className="h-64 w-96 cursor-pointer overflow-hidden transition-opacity hover:opacity-90"
+            onClick={handleOpen}
+          >
             <img
-              key={index}
-              src={image}
-              alt={`Image ${index + 1}`}
-              className="max-w-sm rounded-md"
+              alt="nature"
+              className="h-full w-full object-cover object-center"
+              src={propertyDetails.images[0]}
             />
-          ))}
-        </div>                
+          </Card>
+          <Dialog size="xl" open={open} handler={handleOpen}>
+            <DialogBody divider={true} className="p-0">
+              <div className="flex justify-between px-4 bg-transparent">
+                <button onClick={handlePrevImage} className="bg-indigo-500 text-white py-2 px-4 rounded hover:bg-indigo-600 focus:outline-none">
+                  Prev
+                </button>
+                <button onClick={handleNextImage} className="bg-indigo-500 text-white py-2 px-4 rounded hover:bg-indigo-600 focus:outline-none">
+                  Next
+                </button>
+              </div>
+              <div className="flex items-center justify-center h-[48rem] w-full">
+                <img
+                  alt={`Image ${currentImageIndex + 1}`}
+                  className="h-full w-full object-cover object-center"
+                  src={propertyDetails.images[currentImageIndex]}
+                />
+              </div>
+
+
+            </DialogBody>
+          </Dialog>
+        </div>
       </div>
       <button
         onClick={complete}
@@ -143,6 +169,9 @@ function PropertyDetails() {
       >
         Confirm
       </button>
+
+
+
     </div>
   );
 }
