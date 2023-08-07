@@ -2,14 +2,19 @@ import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import Navbar from '../Navbar/Navbar';
 import { getListings } from '../../../api/userApi';
+import ListingCard from '../ListingCard/ListingCard';
+import { useSelector } from 'react-redux';
+import Container from '../Container';
 
 function MatchingListing() {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const searchLatitude = parseFloat(searchParams.get('latitude'));
   const searchLongitude = parseFloat(searchParams.get('longitude'));
+  const checkInDate = searchParams.get('checkInDate'); // Corrected variable name
+  const checkOutDate = searchParams.get('checkOutDate'); // Corrected variable name
+  const { user } = useSelector((state) => state);
   const [filteredListings, setFilteredListings] = useState([]);
-
   useEffect(() => {
     const fetchListings = async () => {
       try {
@@ -22,20 +27,31 @@ function MatchingListing() {
               list.coordinates.latitude,
               list.coordinates.longitude
             );
-            return { ...list, distance };
+            const isAvailable = checkAvailability(checkInDate, checkOutDate, list.availableDates);
+            return { ...list, distance, isAvailable };
           });
-          const nearbyListings = listingWithDistances.filter(item => item.distance <= 10); // Filter by distance
+          const nearbyListings = listingWithDistances.filter(item => item.distance <= 10 && item.isAvailable);
           nearbyListings.sort((a, b) => a.distance - b.distance);
           setFilteredListings(nearbyListings);
-          console.log("Filtered listings:", nearbyListings);
+          console.log(filteredListings,"filter");
         }
       } catch (error) {
         console.error('Error fetching listings:', error);
       }
     };
-
+  
     fetchListings();
   }, [searchLatitude, searchLongitude]);
+  
+  function checkAvailability(checkIn, checkOut, availableDates) {
+    const checkInDate = new Date(checkIn);
+    const checkOutDate = new Date(checkOut);
+    const startDate = new Date(availableDates.startDate);
+    const endDate = new Date(availableDates.endDate);
+  
+    return checkInDate >= startDate && checkOutDate <= endDate;
+  }
+  
 
   function calculateDistance(lat1, lon1, lat2, lon2) {
     const R = 6371; // Earth's radius in km
@@ -59,12 +75,17 @@ function MatchingListing() {
 
   return (
     <div>
+      <div>
       <Navbar />
-      <div className='pt-48'>
-        Latitude: {searchLatitude}, Longitude: {searchLongitude}
+      </div>
+      <div className='pb-20 pt-20'>
+      <Container>
+      <div className='pt-24 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-8'>
         {filteredListings.map((item, index) => (
-          <p key={index}>Distance: {item.title}</p>
+          <ListingCard key={item.id} data={item} currentUser={user}/>
         ))}
+        </div>
+      </Container>
       </div>
     </div>
   );

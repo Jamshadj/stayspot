@@ -9,6 +9,7 @@ import { useSelector } from 'react-redux';
 function Page() {
   const [listings, setListings] = useState([]);
   const { user } = useSelector((state) => state);
+
   const currentUser=user;
   useEffect(() => {
     const fetchListings = async () => {
@@ -17,6 +18,7 @@ function Page() {
         
         if (response && Array.isArray(response.data.listings)) {
           setListings(response.data.listings);
+        
         }
       } catch (error) {
         console.error('Error fetching listings:', error);
@@ -26,7 +28,7 @@ function Page() {
     fetchListings();
   }, []);
 
-  console.log(listings);
+  console.log("listing",listings);
 
   return (
     <Container>
