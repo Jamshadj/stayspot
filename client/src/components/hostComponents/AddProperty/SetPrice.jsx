@@ -9,44 +9,30 @@ import 'sweetalert2/dist/sweetalert2.css';
 
 function SetPrice() {
   const [price, setPrice] = useState('');
+  const [error, setError] = useState('');
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { propertyDetails, host } = useSelector((state) => state);
+  const { host } = useSelector((state) => state);
 
   const handleNext = async () => {
     try {
-      // console.log(propertyDetails.availablity);
-      // // Show a SweetAlert popup indicating that the API call is in progress
-      // Swal.fire({
-      //   title: 'Please wait',
-      //   text: 'Saving your property...',
-      //   allowOutsideClick: false,
-      //   showConfirmButton: false,
-      //   onOpen: () => {
-      //     Swal.showLoading();
-      //   },
-      // });
+      if (price.trim() === '') {
+        setError('Price is required');
+        return;
+      }
 
-      dispatch({ type: 'propertyDetails', payload: { pricePerNight: price, hostId: host.details._id } });
-    // console.log(propertyDetails);
-    //   const response = await postAddProperty(propertyDetails);
-    //   console.log("response", response);
-    //   if (response && response.data.error === false) {
-        // If API call is successful, close the SweetAlert popup and navigate to the "/host" page
-        // Swal.close();
-        // dispatch({type:"refresh"})
-        navigate('/host/property-details-page');
-      // } else {
-      //   // Handle error scenario
-      //   Swal.fire({
-      //     title: 'Error',
-      //     text: 'Error occurred during API call',
-      //     icon: 'error',
-      //     confirmButtonText: 'OK',
-      //   });
-      
+      if (isNaN(parseFloat(price))) {
+        setError('Price must be a number');
+        return;
+      }
+
+      dispatch({
+        type: 'propertyDetails',
+        payload: { pricePerNight: price, hostId: host.details._id },
+      });
+
+      navigate('/host/property-details-page');
     } catch (error) {
-      // Handle API call error
       Swal.fire({
         title: 'Error',
         text: 'Error occurred during API call',
@@ -59,6 +45,7 @@ function SetPrice() {
 
   const handlePriceChange = (e) => {
     setPrice(e.target.value);
+    setError('');
   };
 
   return (
@@ -75,15 +62,16 @@ function SetPrice() {
           style={{
             border: 'black solid 0.5px',
             fontSize: '26px',
-            verticalAlign: 'top',  // Align the text at the top
-            whiteSpace: 'normal',   // Allow the text to wrap to the next line
-            wordWrap: 'break-word'  // Enable word wrap to handle long words
+            verticalAlign: 'top',
+            whiteSpace: 'normal',
+            wordWrap: 'break-word',
           }}
           type="text"
           className="mt-10 h-48 w-full border-black"
           value={price}
           onChange={handlePriceChange}
         />
+        {error && <p className="text-red-500">{error}</p>}
       </main>
       <footer className="fixed bottom-0 left-0 w-full z-10 bg-white">
         <Footer onNext={handleNext} />

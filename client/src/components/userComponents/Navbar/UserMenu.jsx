@@ -157,10 +157,13 @@ function UserMenu() {
         onClick="/my-trips"
       />
       <hr />
+      <div  onClick={handleLogout}>
+
       <MenuItem 
         label="Logout" 
-        onClick={handleLogout}
+       
       />
+      </div>
     </>
   ) : (
     <>

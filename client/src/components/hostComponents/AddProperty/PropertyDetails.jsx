@@ -169,9 +169,6 @@ function PropertyDetails() {
       >
         Confirm
       </button>
-
-
-
     </div>
   );
 }

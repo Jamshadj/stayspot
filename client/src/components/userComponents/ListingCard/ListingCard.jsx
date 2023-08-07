@@ -61,8 +61,8 @@ function ListingCard({ data, currentUser }) {
           <div className="font-light">night</div>
         </div>
         </div>
-      </div>
-    </div>
+      </div> 
+    </div> 
   );
 }
 

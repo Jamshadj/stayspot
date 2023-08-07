@@ -13,6 +13,7 @@ function MenuItems() {
       }, []);
       const handleLogout = async () => {
         try {
+          console.log("wsw");
           // Ask for logout confirmation
           const shouldLogout = await Swal.fire({
             title: 'Logout Confirmation',
@@ -102,10 +103,14 @@ function MenuItems() {
                 onClick={() => navigate('/my-properties')}
               />
               <hr />
+              <div onClick={handleLogout}>
+
+             
               <MenuItem 
-                label="Logout" 
-                onClick={handleLogout}
+                label="Logouttt" 
+                
               />
+               </div>
             </>
           )}
         </div>

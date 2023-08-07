@@ -58,6 +58,11 @@ export const getWishlists = (userId) => {
   console.log(userId,"ded");
   return axios.get(`/getWishLists/${userId}`);
 };
+export const getMatchingListings = (coordinates) => {
+  console.log(coordinates, "ded");
+  return axios.get('/getMatchingListings', { params: { coordinates } });
+};
+
 
 
 

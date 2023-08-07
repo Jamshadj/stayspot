@@ -45,6 +45,7 @@ export default function UserRoutes() {
           <Route path="/profile/:userId" element={<UserProfilePage />} />
           <Route path="/" element={<UserHome />} />
           <Route path="/" element={<UserHome />} />
+          
         </>
       ) : (
         <>

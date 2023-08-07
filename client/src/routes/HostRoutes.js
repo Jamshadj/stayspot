@@ -25,7 +25,7 @@ import SetAvalibality from "../pages/HostPages/SetAvalibality.jsx";
 import PropertyDetailsPage from "../pages/HostPages/PropertyDetailsPage.jsx";
 import SelectAmenities from "../pages/HostPages/SelectAmenities.jsx";
 
-
+ 
 export default function HostRoutes() {
   const { host, refresh } = useSelector((state) => state);
   const dispatch = useDispatch();
