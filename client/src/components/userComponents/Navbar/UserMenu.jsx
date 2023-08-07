@@ -136,10 +136,12 @@ function UserMenu() {
             <div className="flex flex-col cursor-pointer">
   {currentUser.login ? (
     <>
+    <div onClick={() => navigate(`/profile/${currentUser.details._id}`)} >
       <MenuItem 
         label="Profile" 
-        onClick={() => navigate(`/profile/${currentUser.details._id}`)} 
+        
       />
+      </div>
       <MenuItem 
         label="My favorites" 
         onClick="/favorites"
