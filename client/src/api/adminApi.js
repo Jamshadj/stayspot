@@ -39,4 +39,9 @@ export async function getUserById(Id) {
     console.log(Id, "id");
     return await axios.get(`/admin/getUserById/${Id}`);
   }
+
+  export async function getBookingById(Id) {
+    console.log(Id,"iddd");
+    return await axios.get(`/admin/getBookingById/${Id}`);
+  }
   

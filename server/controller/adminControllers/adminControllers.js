@@ -87,6 +87,18 @@ export default {
       res.status(500).json({ error: error });
     }
   },
+  getBookingById: async (req, res) => {
+    try {
+      const { bookingId } = req.params; // Use req.params to get userId from the URL
+    
+      const booking = await bookingModel.findById(bookingId);
+      console.log(booking);
+      res.json(booking);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: error.message });
+    }
+  },  
   getUserById: async (req, res) => {
     try {
       const { userId } = req.params; // Use req.params to get userId from the URL

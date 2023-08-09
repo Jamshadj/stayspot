@@ -11,8 +11,10 @@ import { Button } from "@material-tailwind/react";
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 import { getBookings, getUserById } from "../../../api/adminApi";
+import { useNavigate } from "react-router-dom";
 
 const Bookings = () => {
+
   const [bookingsData, setBookingsData] = useState([]);
   const [loading, setLoading] = useState(true);
   const reversedBookingsData = bookingsData.slice().reverse();
@@ -32,6 +34,11 @@ const Bookings = () => {
     getBookingsData();
   }, []);
 
+  const navigate=useNavigate()
+  const details = (id) => {
+    navigate(`/admin/bookingdetails/${id}`);
+  };
+  
   // Fetch user data and update the state
   useEffect(() => {
     const fetchUserData = async () => {
@@ -113,7 +120,7 @@ const Bookings = () => {
                     {data.status}
                   </TableCell>
                   <TableCell align="left" className='w-60'>
-                    <Button color="blue">
+                    <Button color="blue" onClick={() => details(data._id)} >
                       View
                     </Button>
                   </TableCell>

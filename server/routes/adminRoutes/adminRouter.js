@@ -18,4 +18,6 @@ router.get('/bookings',adminControllers.getBookings)
 
 router.get('/getUserById/:userId', adminControllers.getUserById);
 
+router.get('/getBookingById/:bookingId', adminControllers.getBookingById);
+
 export default router;   
