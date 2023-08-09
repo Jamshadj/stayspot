@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Swal from "sweetalert2";
 import { getUsers, postBlockUser, postUnBlockUser } from "../../../api/adminApi";
-
+import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
 import TableContainer from '@mui/material/TableContainer';
 import Table from '@mui/material/Table';
 import TableHead from '@mui/material/TableHead';
@@ -13,11 +14,12 @@ import { Button } from "@material-tailwind/react";
 import userProfile from '../../../assets/logo/user.png';
 const Users = () => {
   const [usersData, setUsersData] = useState([]);
-
+  const [loading, setLoading] = useState(true);
   const getUsersData = async () => {
     try {
       const response = await getUsers();
       setUsersData(response.data);
+      setLoading(false)
     } catch (error) {
       console.error(error);
     }
@@ -92,6 +94,13 @@ const Users = () => {
   return (
     <div className="mt-12 ml-24 w-[92%]">
        <h2 className="italic mb-4">User details</h2>
+       {loading ? (
+          <div className="flex justify-center mt-80">
+         <Box sx={{ display: 'flex' }}>
+         <CircularProgress />
+       </Box>
+       </div>
+        ) : (
     <TableContainer component={Paper}>
       <Table  sx={{
               '&:last-child td, &:last-child th': { border: 0 },
@@ -141,6 +150,7 @@ const Users = () => {
         </TableBody>
       </Table>
     </TableContainer>
+    )}
   </div>
   );
 };

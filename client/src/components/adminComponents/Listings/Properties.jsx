@@ -13,14 +13,17 @@ import { useNavigate } from 'react-router-dom';
 // import Button from '@mui/material/Button'; // Don't forget to import Button component
 
 function Properties() {
+  const [loading, setLoading] = useState(true);
   const [properties, setProperties] = useState([]);
   const navigate=useNavigate()
   useEffect(() => {
     getProperties()
       .then((response) => {
-        setProperties(response.data); // Assuming the API response is an array of properties
+        setProperties(response.data)
+        setLoading(false);; // Assuming the API response is an array of properties
       })
       .catch((error) => {
+        setLoading(false);
         console.error(error);
       });
   }, []);

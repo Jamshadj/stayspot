@@ -4,32 +4,39 @@ export async function postLogin(data) {
     return axios.post('/admin/login', data);
 }
 export async function getUsers() {
-    return  await axios.get('/admin/users');
+    return await axios.get('/admin/users');
 }
 export async function getHosts() {
-    return  await axios.get('/admin/hosts');
+    return await axios.get('/admin/hosts');
 }
 export async function postBlockUser(Id) {
-    return  await axios.post('/admin/blockuser',{ userId: Id });
+    return await axios.post('/admin/blockuser', { userId: Id });
 }
 export async function postUnBlockUser(Id) {
-    return  await axios.post('/admin/unblockuser',{ userId: Id });
+    return await axios.post('/admin/unblockuser', { userId: Id });
 }
 export async function postBlockHost(Id) {
-    return  await axios.post('/admin/blockhost',{ hostId: Id });
+    return await axios.post('/admin/blockhost', { hostId: Id });
 }
 export async function postUnBlockHost(Id) {
-    return  await axios.post('/admin/unblockhost',{ hostId: Id });
+    return await axios.post('/admin/unblockhost', { hostId: Id });
 }
-export async function postAdminLogout(){
-return await axios.post('/admin/logout')
+export async function postAdminLogout() {
+    return await axios.post('/admin/logout')
 }
-export async function  getProperties(){
+export async function getProperties() {
     return await axios.get('/admin/properties')
-    }
-    export async function  updateListingStatus(propertyId, status){
-        console.log("propertyId",propertyId,"status",status);
-        return await axios.post(`/admin/property-status-update/${propertyId}`, { status });
+}
+export async function updateListingStatus(propertyId, status) {
+    console.log("propertyId", propertyId, "status", status);
+    return await axios.post(`/admin/property-status-update/${propertyId}`, { status });
 
-        }
- 
+}
+export async function getBookings() {
+    return await axios.get('/admin/bookings')
+}
+export async function getUserById(Id) {
+    console.log(Id, "id");
+    return await axios.get(`/admin/getUserById/${Id}`);
+  }
+  

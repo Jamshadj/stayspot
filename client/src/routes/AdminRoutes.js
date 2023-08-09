@@ -12,6 +12,7 @@ import AdminUsers from "../pages/AdminPages/AdminUsers";
 import AdminHome from "../pages/AdminPages/AdminHome";
 import AdminProperties from "../pages/AdminPages/AdminProperties";
 import AdminPropertyView from "../pages/AdminPages/AdminPropertyView";
+import AdminBookings from "../pages/AdminPages/AdminBookings";
 
 export default function AdminRoutes() {
   const { admin, refresh } = useSelector((state) => state);
@@ -37,6 +38,7 @@ export default function AdminRoutes() {
           <Route path="/" element={<AdminHome />} />
           <Route path="/users" element={<AdminUsers/>}/>
           <Route path="/hosts" element={<AdminHosts/>}/>
+          <Route path="/bookings" element={<AdminBookings/>}/>
           <Route path="/properties" element={<AdminProperties/>}/>
           <Route path="/properties/properties-details/:propertyId" element={<AdminPropertyView/>}/>
         </>
