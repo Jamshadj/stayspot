@@ -5,6 +5,7 @@ import adminModel from "../../models/adminModel.js";
 import userModel from "../../models/userModel.js";
 import hostModel from "../../models/hostModel.js";
 import propertyModel from "../../models/propertyModel.js";
+import bookingModel from "../../models/bookingModel.js";
 
 export default {
   postLogIn: async (req, res) => {
@@ -75,6 +76,29 @@ export default {
       res.status(500).json({ error: error });
     }
   },
+  getBookings: async (req, res) => {
+    try {
+
+      const booking = await bookingModel.find().lean();
+
+      res.json( booking);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: error });
+    }
+  },
+  getUserById: async (req, res) => {
+    try {
+      const { userId } = req.params; // Use req.params to get userId from the URL
+      console.log(userId, "userId");
+      const user = await userModel.findById(userId);
+      console.log(user);
+      res.json(user);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: error.message });
+    }
+  },  
   postBlockUser: async (req, res) => {
     try {
       console.log("block user");
