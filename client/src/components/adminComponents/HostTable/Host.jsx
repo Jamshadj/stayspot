@@ -1,35 +1,148 @@
 import React, { useState, useEffect } from "react";
-import { getHosts } from "../../../api/adminApi";
-import SideDrawer from "../Sidebar/SideDrawer";
-
+import Swal from "sweetalert2"; // Import SweetAlert library
+import { getHosts, postBlockHost, postUnBlockHost } from "../../../api/adminApi"; // Import your API functions
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
+import { Button } from "@material-tailwind/react";
+import userProfile from '../../../assets/logo/user.png';
 const Host = () => {
   const [hostsData, setHostsData] = useState([]);
-  const getHostsData = () => {
-    getHosts()
-      .then((response) => {
-        setHostsData(response.data);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+  const [loading, setLoading] = useState(true);
+  const getHostsData = async () => {
+    try {
+      const response = await getHosts();
+      setHostsData(response.data);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   useEffect(() => {
     getHostsData();
   }, []);
 
-  // Callback function to handle host status change
-  const handleHostStatusChange = (updatedData) => {
-    // Update the state with the new host data received from the callback
-    console.log(updatedData);
-    getHostsData();
+  const banConfirmation = async (title, text, onSuccess) => {
+    const result = await Swal.fire({
+      title,
+      text,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, ban!',
+    });
+
+    if (result.isConfirmed) {
+      onSuccess();
+    } else {
+      console.log("Cancelled ban");
+    }
   };
-  const TABLE_HEAD = ["No", "Name", "Email","PhoneNo", "Status", "Action"];
+
+  const unBan = async (data_id, hostName) => {
+    banConfirmation(
+      'Are you sure?',
+      `Do you want to unban the host ${hostName}?`,
+      async () => {
+        try {
+          await postUnBlockHost(data_id);
+          console.log("unBan", data_id);
+          await getHostsData();
+          Swal.fire({
+            title: 'Un-Ban Successful',
+            icon: 'success',
+            text: `The host ${hostName} has been successfully un-banned.`,
+          });
+        } catch (error) {
+          console.error(error);
+        }
+      }
+    );
+  };
+
+  const ban = async (data_id, hostName) => {
+    banConfirmation(
+      'Are you sure?',
+      `Do you want to ban the host ${hostName}?`,
+      async () => {
+        try {
+          await postBlockHost(data_id);
+          console.log("ban", data_id);
+          await getHostsData();
+          Swal.fire({
+            title: 'Ban Successful',
+            icon: 'success',
+            text: `The host ${hostName} has been successfully banned.`,
+          });
+        } catch (error) {
+          console.error(error);
+        }
+      }
+    );
+  };
+
+  const TABLE_HEAD = ["No","Profile", "Name", "Email", "PhoneNo", "Status", "Action"];
+
   return (
-   <div>
-     {hostsData.length > 0 && <SideDrawer data={hostsData} host={'host'} tableHead={TABLE_HEAD} onHostStatusChange={handleHostStatusChange} />}
-   </div>
-  )
+    <div className="mt-12 ml-24 w-[92%]">
+     <h2 className="italic mb-4">Host details</h2>
+      <div>
+      <TableContainer component={Paper}>
+        <Table  sx={{
+              '&:last-child td, &:last-child th': { border: 0 },
+              boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)', // Add the box shadow style here
+            }} aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              {TABLE_HEAD.map((head, index) => (
+                <TableCell key={index} align="left">
+                  {head}
+                </TableCell>
+              ))}
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {hostsData.map((data, index) => (
+              <TableRow key={data._id} sx={{
+                '&:last-child td, &:last-child th': { border: 0 },
+                boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)', // Add the box shadow style here
+              }}>
+                <TableCell component="th" scope="row">
+                  {index + 1}
+                </TableCell>
+                <TableCell align="left" className='w-60'>
+              <img src={data.image != null ? data.image : userProfile} className='w-12 h-12 ' alt={data.title} />
+
+                </TableCell>
+                <TableCell align="left">{`${data.firstName} ${data.lastName}`}</TableCell>
+                <TableCell align="left">{data.email}</TableCell>
+                <TableCell align="left">{data.phoneNumber ? data.phoneNumber : "Google logged"}</TableCell>
+                <TableCell align="left">{data.blocked ? "Banned" : "Not-Banned"}</TableCell>
+                <TableCell align="left">
+                  {data.blocked ? (
+                    <Button onClick={() => unBan(data._id,data.firstName)} color="green">
+                      Un-Ban
+                    </Button>
+                  ) : (
+                    <Button onClick={() => ban(data._id,data.firstName)} color="red">
+                      Ban
+                    </Button>
+                  )}
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+      </div>
+      {/* Additional JSX components here */}
+    </div>
+  );
 }
 
 export default Host;

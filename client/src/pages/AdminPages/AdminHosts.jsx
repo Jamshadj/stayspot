@@ -1,9 +1,13 @@
 import React from 'react'
 import Host from '../../components/adminComponents/HostTable/Host'
+import SideDrawer from '../../components/adminComponents/Sidebar/SideDrawer'
 
 function AdminHosts() {
   return (
-    <div><Host/></div>
+    <div>
+      <SideDrawer/>
+      <Host/>
+    </div>
   )
 }
 
