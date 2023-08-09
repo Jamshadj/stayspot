@@ -19,4 +19,9 @@ router.get('/property/:propertyId', hostPropertyControllers.getProperty);
 router.post('/edit-data',hostPropertyControllers.postPropertyEditBasics)
 router.post('/update-property-field',hostPropertyControllers.postPropertyEditProperty)
 router.post('/update-price',hostPropertyControllers.postPropertyEditPrice)
+
+
+router.post('/updateHostDetails/:hostId',(req,res)=>{
+    console.log("dedd");
+})
 export default router;

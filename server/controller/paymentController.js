@@ -4,6 +4,7 @@ import Stripe from 'stripe';
 import bookingModel from '../models/bookingModel.js';
 import userModel from '../models/userModel.js';
 import propertyModel from '../models/propertyModel.js';
+import hostModel from '../models/hostModel.js';
 
 const stripe = Stripe("sk_test_51NbSNASISA5Tam1zrEocL4EIZxaWjowsNcYgPkOvoNviE5drZ5ak6zzfT1Wj5eJY1nxoeLVOMCdh2bWk7tS5uYz200XAUFwjGA")
 let instance = new Razorpay({
@@ -18,6 +19,7 @@ postCheckout: async (req, res) => {
       const cancelUrl = `http://localhost:3000/reserve?listingId=${listingId}&nights=${numberOfNights}&checkIn=${checkInDate}&checkOut=${checkOutDate}&guests=${guests}`;
       const listing = await propertyModel.findById(listingId);
       const user = await userModel.findById(userId);
+      await hostModel.findByIdAndUpdate(listing.hostId, { $inc: { wallet: +totalAmount } });
       const bookingResponse = await bookingModel.create({
         userId, listingId, checkInDate, checkOutDate, guests, numberOfNights, totalAmount
       });
@@ -114,7 +116,7 @@ postCheckout: async (req, res) => {
       const { response } = req.body;
       console.log(req.body.details,"der");
       const body = response.razorpay_order_id + "|" + response.razorpay_payment_id;
-  
+      const listing = await propertyModel.findById(listingId);
       // Calculate the signature
       const expectedSignature = crypto
         .createHmac('sha256', "dkYqSUoji4OpW4vSoOPraomb") // Replace with your actual Razorpay Secret Key
@@ -125,6 +127,7 @@ postCheckout: async (req, res) => {
         console.log("Signature matched");
         try {
           console.log(req.body.userId,"userId");
+          await hostModel.findByIdAndUpdate(listing.hostId, { $inc: { wallet: +totalAmount } });
           const bookingResponse = await bookingModel.create({
             userId, listingId, checkInDate, checkOutDate, guests, numberOfNights, totalAmount
           });

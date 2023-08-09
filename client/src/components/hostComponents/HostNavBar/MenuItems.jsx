@@ -3,11 +3,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import MenuItem from '../../userComponents/Navbar/MenuItem';
 import { postHostLogout } from '../../../api/hostApi';
 import Swal from 'sweetalert2';
+import { useNavigate } from 'react-router-dom';
 
 function MenuItems() {
     const { host } = useSelector((state) => state);
     const [isOpen, setIsOpen] = useState(false);
     const dispatch = useDispatch();
+    const navigate=useNavigate()
     const toggleOpen = useCallback(() => {
         setIsOpen((value) => !value);
       }, []);
@@ -86,10 +88,12 @@ function MenuItems() {
         <div className="flex flex-col cursor-pointer">
           {host && ( // Add missing parenthesis here
             <>
+            <div   onClick={() => navigate(`/host/profile/${host.details._id}`)}>
               <MenuItem 
                 label="Profile" 
-                onClick={() => navigate('/my-trips')}
+              
               />
+              </div>
               <MenuItem 
                 label="Account" 
                 onClick={() => navigate('/my-favorites')}

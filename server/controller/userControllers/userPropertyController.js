@@ -1,6 +1,7 @@
 import propertyModel from '../../models/propertyModel.js';
 import hostModel from '../../models/hostModel.js';
 import userModel from '../../models/userModel.js';
+import bookingModel from '../../models/bookingModel.js';
 export default {
   getListings: async (req, res) => {
     try {
@@ -121,7 +122,40 @@ export default {
       console.error(error);
       res.status(500).json({ error: 'Internal server error' });
     }  
-  }
+  },
+  getReservationsById: async (req, res) => {
+    try {
+      const { userId } = req.params; // Use params instead of body for fetching data
+      const bookings = await bookingModel.find({userId:userId});
+      console.log("fe",bookings);
+  
+      if (!bookings) {
+        return res.status(404).json({ message: 'Booking not found' });
+      }
+      res.json({ message: 'booking item status fetched',bookings });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Internal server error' });
+    }
+  },
+  // getMatchingListings: async (req, res) => {
+  //   const latitude = parseFloat(req.query.latitude);   // Convert to float
+  //   const longitude = parseFloat(req.query.longitude); // Convert to float
+  
+  //   // Define a radius for proximity search (adjust as needed)
+  //   const searchRadius = 0.1; // For example, a radius of 0.1 degrees (~10km)
+  
+  //   // Construct a query based on coordinates
+  //   const listings = await propertyModel.find({
+  //     "coordinates.latitude": { $gte: latitude - searchRadius, $lte: latitude + searchRadius },
+  //     "coordinates.longitude": { $gte: longitude - searchRadius, $lte: longitude + searchRadius }
+  //   });
+  //   console.log(listings,"lis");
+  
+  //   res.json(listings); 
+  // }
+  
+  
 
   
    

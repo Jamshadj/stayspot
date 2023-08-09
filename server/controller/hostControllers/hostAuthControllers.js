@@ -201,5 +201,32 @@ export default {
         maxAge: 0, // Set the maxAge to 0 to expire the cookie immediately
         sameSite: "none",
     }).json({ err: false, message: 'Logged out successfully' });
+},
+updateDetails: async (req, res) => {
+  try {
+    console.log("update sree");
+
+    const { hostId } = req.params; // Assuming you're getting the host ID from the request parameters
+    const { details } = req.body; // Assuming you're sending the updated details in the request body
+    // Use Mongoose's updateOne or findOneAndUpdate to update the host details
+    
+    // Update the following line with your actual host model name and the correct update function
+    console.log("wss",hostId);
+    const updatedHost = await hostModel.updateOne(
+      { _id: hostId },
+      { $set: details },
+      { new: true }
+    );
+    console.log(updatedHost);
+
+    if (updatedHost.nModified > 0) { // Check if any documents were modified
+      return res.status(200).json({ message: 'Host details updated successfully' });
+    } else {
+      return res.status(404).json({ message: 'Host not found' });
+    }
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: 'Internal server error' });
+  }
 }
 };

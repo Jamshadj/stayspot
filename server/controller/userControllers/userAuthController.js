@@ -229,5 +229,29 @@ export default {
       console.error(error);
       res.status(500).json({ error: 'An error occurred while getting booking details' });
     }
+  },
+  updateDetails:async(req,res)=>{
+    try {
+      console.log("update sredde");
+
+      const { userId } = req.params; // Assuming you're getting the user ID from the request parameters
+      const { details } = req.body; // Assuming you're sending the updated details in the request body
+      // Use Mongoose's updateOne or findOneAndUpdate to update the user details
+      console.log(userId,details);
+      const updatedUser = await userModel.updateOne(
+        { _id: userId },
+        { $set: details },
+        { new: true }
+      );
+  
+      if (updatedUser) {
+        return res.status(200).json({ message: 'User details updated successfully' });
+      } else {
+        return res.status(404).json({ message: 'User not found' });
+      }
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ message: 'Internal server error' });
+    }
   }
 }; 

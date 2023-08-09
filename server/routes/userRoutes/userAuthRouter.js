@@ -35,4 +35,9 @@ router.post('/removeFromWishList',userPropertyController.removeFromWishList)
 router.get('/getWishList',userPropertyController.getWishList)
 router.get('/getWishLists/:userId',userPropertyController.getWishLists)
 
+
+router.post('/updateDetails/:userId',userAuthController.updateDetails)
+
+router.get('/getReservations/:userId',userPropertyController.getReservationsById)
+// router.get('/getMatchingListings',userPropertyController.getMatchingListings)
 export default router;

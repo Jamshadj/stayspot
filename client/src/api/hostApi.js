@@ -23,4 +23,8 @@ export async function postHostOtp(otp, formData) {
     console.log("deeded");
     return axios.post('/host/set-date', data);
   };
+  export const updateDetails = async (hostId,details) => {
+    console.log(details,hostId, "hodt");
+    return axios.post(`/host/updateDetails/${hostId}`, { details }); // Assuming you have the user's id available
+  };
   

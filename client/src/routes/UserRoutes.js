@@ -14,6 +14,7 @@ import PropertyReserve from "../pages/userPages/PropertyReserve";
 import BookingSucessPage from "../pages/userPages/BookingSucessPage";
 import FavoritesPage from "../pages/userPages/FavoritesPage";
 import MatchingListingPages from "../pages/userPages/MatchingListingPages";
+import ReservationHistory from "../pages/userPages/ReservationHistory";
 
 
 export default function UserRoutes() {
@@ -47,7 +48,8 @@ export default function UserRoutes() {
           <Route path="/" element={<UserHome />} />
           <Route path="/" element={<UserHome />} />
           <Route path="/matchingListing" element={<MatchingListingPages/>} />
-          
+          <Route path="/reservationHistory" element={<ReservationHistory/>} />
+   
         </>
       ) : (
         <>

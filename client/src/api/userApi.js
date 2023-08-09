@@ -63,6 +63,16 @@ export const getMatchingListings = (coordinates) => {
   return axios.get('/getMatchingListings', { params: { coordinates } });
 };
 
+export const updateDetails = async (userId,details) => {
+  console.log(details, "ded");
+  return axios.post(`/updateDetails/${userId}`, { details }); // Assuming you have the user's id available
+};
+
+export const getReservationById = async (userId) => {
+  return axios.get(`/getReservations/${userId}`); // Assuming you have the user's id available
+};
+
+
 
 
 

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Navbar from '../Navbar/Navbar';
 import { Button } from '@mui/material';
 import confirmLogo from '../../../assets/verificationimg/360_F_549387387_RCkqVtf2t5PbNYGQgQEHZMpFuHbpTvJz.webp';
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { getBookingById, getListingById } from '../../../api/userApi';
 
 function ReservationSucess() {
@@ -65,12 +65,12 @@ function ReservationSucess() {
           </div>
           <div className='flex justify-center'>
             <div className='flex gap-4'>
-              <div>
+              <Link to={"/"}    >         <div>
                 <Button className='blue'>Go to Home</Button>
-              </div>
-              <div>
+              </div></Link> 
+              {/* <div>
                 <Button className='blue'>Go to reservations</Button>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>

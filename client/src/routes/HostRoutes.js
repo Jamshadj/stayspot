@@ -24,6 +24,7 @@ import ManagePlacePage from "../pages/HostPages/ManagePlacePage.jsx";
 import SetAvalibality from "../pages/HostPages/SetAvalibality.jsx";
 import PropertyDetailsPage from "../pages/HostPages/PropertyDetailsPage.jsx";
 import SelectAmenities from "../pages/HostPages/SelectAmenities.jsx";
+import HostProfile from "../components/hostComponents/HostProfile/HostProfile.jsx";
 
  
 export default function HostRoutes() {
@@ -67,7 +68,7 @@ export default function HostRoutes() {
           <Route path="/listings" element={<PropertyListingPage/>}/>
           <Route path="/instant" element={<SetInstantBooking/>}/>
           <Route path="/manage-your-place/:propertyId/details" element={<ManagePlacePage />} />
-
+          <Route path="/profile/:hostId" element={<HostProfile/>} />
           <Route path="/" element={<HostHome />} />
         </>
       ) : (

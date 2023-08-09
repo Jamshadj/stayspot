@@ -148,7 +148,7 @@ function UserMenu() {
       />
       <MenuItem 
         label="My reservations" 
-        onClick="/my-trips"
+        onClick="/reservationHistory"
       />
       <MenuItem 
         label="My properties" 

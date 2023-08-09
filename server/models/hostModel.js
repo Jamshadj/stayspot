@@ -34,6 +34,10 @@ const hostSchema=mongoose.Schema({
     },
     image: {
         type: Object,
+    },
+    wallet: {
+        type: Number,
+        default:0
     }
 
     
