@@ -84,7 +84,7 @@ function ReservationHistory() {
                     <td className="p-4 border-b border-blue-gray-50">
                       <Typography variant="small" color="blue-gray" className="font-normal">
                         {new Date(bookingDate).toLocaleDateString()}
-                      </Typography>
+                      </Typography>     
                     </td>
                   </tr>
                 ))}
