@@ -1,10 +1,26 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai';
 import Swal from 'sweetalert2';
-import { addToWishList, removeFromWishList } from '../../../api/userApi';
+import { addToWishList, removeFromWishList, getWishlist } from '../../../api/userApi';
 
 function HeartButton({ listingId, currentUser, favorites, updateWishlist }) {
   const [hasFavorited, setHasFavorited] = useState(false);
+
+  useEffect(() => {
+    const fetchWishlistAndCheckFavorite = async () => {
+      try {
+        if (currentUser && currentUser.details) {
+          const response = await getWishlist(currentUser.details._id);
+          const userWishlist = response.data.wishlist;
+          setHasFavorited(userWishlist.includes(listingId));
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchWishlistAndCheckFavorite();
+  }, [currentUser, listingId]);
 
   const toggleFavorite = async () => {
     try {

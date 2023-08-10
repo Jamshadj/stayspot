@@ -19,6 +19,7 @@ import { MdOutlineVilla } from 'react-icons/md';
 // import CategoryBox from "../CategoryBox";
 import Container from '../Container';
 import CategoryBox from './CategoryBox';
+import { useState } from 'react';
 
 
 export const categories = [
@@ -100,20 +101,17 @@ export const categories = [
 ]
 
 const Categories = () => {
-//   const params = useSearchParams();
-//   const category = params?.get('category');
-//   const pathname = usePathname();
-//   const isMainPage = pathname === '/';
+  const [selectedLabel, setSelectedLabel] = useState(null);
 
-//   if (!isMainPage) {
-//     return null;
-//   }
+  const handleCategoryClick = (label) => {
+    setSelectedLabel(label);
+    console.log('Selected category:', label);
+  };
 
   return (
     <Container>
       <div
         className="
-         
           flex 
           flex-row 
           items-center 
@@ -126,7 +124,8 @@ const Categories = () => {
             key={item.label}
             label={item.label}
             icon={item.icon}
-            // selected={category === item.label}
+            selected={selectedLabel === item.label} // Use selectedLabel to determine selection
+            onClick={handleCategoryClick} // Pass the callback function
           />
         ))}
       </div>
