@@ -1,78 +1,86 @@
-import axios from "../axios";
+import axios from '../axios';
 
+// User registration
 export const postSignUp = (data) => {
   return axios.post('/signup', data);
 };
 
+// Verify user OTP
 export const postUserOtp = (otp, formData) => {
   return axios.post('/otp', { otp, ...formData });
 };
 
+// User login
 export const postLogin = (data) => {
   return axios.post('/login', data);
 };
 
+// Login with Google
 export const loginWithGoogle = (data) => {
   return axios.post('/auth/login/google', data);
 };
 
+// User logout
 export const userLogout = () => {
   return axios.post('/logout');
 };
 
+// Get property listings
 export const getListings = (status) => {
-  return axios.get('/getListings', { params: { status: status } });
+  return axios.get('/getListings', { params: { status } });
 };
 
+// Get listing by ID
 export const getListingById = (propertyId) => {
-  console.log(propertyId,'eded');
   return axios.get(`/getListingById/${propertyId}`);
 };
+
+// Get host by ID
 export const getHostById = (hostId) => {
-  console.log(hostId);
   return axios.get(`/getHostById/${hostId}`);
 };
+
+// Process payment checkout
 export const postCheckout = (details) => {
-  return axios.post('/checkOut' ,details);
+  return axios.post('/checkOut', details);
 };
+
+// Get user's bookings
 export const getBookingById = (id) => {
-  console.log("iddd",id);
   return axios.get(`/booking?id=${id}`);
 };
 
-export const addToWishList = (propertyId,userId) => {
-  console.log(propertyId,userId,"xds");
-  return axios.post('/addToWishList',{propertyId,userId});
-};
-export const removeFromWishList = (propertyId,userId) => {
-  console.log(propertyId,userId,"xds");
-  return axios.post('/removeFromWishList',{propertyId,userId});
+// Add property to wishlist
+export const addToWishList = (propertyId, userId) => {
+  return axios.post('/addToWishList', { propertyId, userId });
 };
 
-export const getWishlist = (propertyId,userId) => {
-  console.log(propertyId,userId,"xds");
-  return axios.get('/getWishList',{propertyId,userId});
+// Remove property from wishlist
+export const removeFromWishList = (propertyId, userId) => {
+  return axios.post('/removeFromWishList', { propertyId, userId });
 };
 
-export const getWishlists = (userId) => {
-  console.log(userId,"ded");
-  return axios.get(`/getWishLists/${userId}`);
+// Get user's wishlist
+export const getWishlist = (userId) => {
+  return axios.get(`/getWishlist/${userId}`);
 };
+
+// Get matching listings based on coordinates
 export const getMatchingListings = (coordinates) => {
-  console.log(coordinates, "ded");
   return axios.get('/getMatchingListings', { params: { coordinates } });
 };
 
-export const updateDetails = async (userId,details) => {
-  console.log(details, "ded");
-  return axios.post(`/updateDetails/${userId}`, { details }); // Assuming you have the user's id available
+// Update user details
+export const updateDetails = async (userId, details) => {
+  return axios.post(`/updateDetails/${userId}`, { details });
 };
 
+// Get user's reservations
 export const getReservationById = async (userId) => {
-  return axios.get(`/getReservations/${userId}`); // Assuming you have the user's id available
+  return axios.get(`/getReservations/${userId}`);
 };
 
-
-
-
-
+// Get booking by property ID
+export const getBookingByPropertyId = async (propertyId) => {
+  return axios.get(`/getBookingByPropertyId/${propertyId}`);
+};

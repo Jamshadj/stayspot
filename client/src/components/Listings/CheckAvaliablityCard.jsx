@@ -1,18 +1,35 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button } from "@material-tailwind/react";
 import { IoIosArrowDropdown } from 'react-icons/io';
 import { useNavigate } from 'react-router-dom';
-function CheckAvaliablityCard({ listing }) {
-  const [checkInDate, setCheckInDate] = React.useState('');
-  const [checkOutDate, setCheckOutDate] = React.useState('');
-  const [isDatesSelected, setIsDatesSelected] = React.useState(false);
-  const [guestCount, setGuestCount] = React.useState(1)
-  const [count, sentCount] = React.useState(false)
+import { getBookingByPropertyId } from '../../api/userApi';
+
+function CheckAvailabilityCard({ listing }) {
+  const [checkInDate, setCheckInDate] = useState('');
+  const [checkOutDate, setCheckOutDate] = useState('');
+  const [isDatesSelected, setIsDatesSelected] = useState(false);
+  const [guestCount, setGuestCount] = useState(1);
+  const [booking, setBooking] = useState(null);
+
+  useEffect(() => {
+    const fetchBooking = async () => {
+      try {
+        const response = await getBookingByPropertyId(listing._id);
+        console.log(response,"responsefrrffr");
+        setBooking(response.data.booking);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchBooking();
+  }, []);
+  const [isGuestCountVisible, setIsGuestCountVisible] = useState(false);
+  const [count, sentCount] = useState(false);
   const handleCheckInChange = (event) => {
     setCheckInDate(event.target.value);
-    setIsDatesSelected(false); // Reset the total when check-in date changes
+    setIsDatesSelected(false);
   };
-  console.log("fr",listing.floorPlan);
+
   const handleCheckOutChange = (event) => {
     const selectedCheckOutDate = new Date(event.target.value);
     const selectedCheckInDate = new Date(checkInDate);
@@ -28,6 +45,7 @@ function CheckAvaliablityCard({ listing }) {
       setIsDatesSelected(true);
     }
   };
+
   const getPrice = () => {
     const pricePerNight = Number(listing.pricePerNight);
     const numberOfNights = calculateNumberOfNights();
@@ -47,27 +65,27 @@ function CheckAvaliablityCard({ listing }) {
     }
     return 0;
   };
-  const navigate=useNavigate()
+
+  const navigate = useNavigate();
+
   const handleCheckAvailability = () => {
-    console.log(listing.maximumStay);
     const numberOfNights = calculateNumberOfNights();
 
     if (numberOfNights >= listing.minimumStay && numberOfNights <= listing.maximumStay) {
-      console.log("ew");
       setIsDatesSelected(true);
+
       const queryParams = new URLSearchParams({
-        listingId:listing._id,
+        listingId: listing._id,
         nights: numberOfNights,
         checkIn: checkInDate,
         checkOut: checkOutDate,
         guests: guestCount
       });
+
       navigate(`/reserve?${queryParams}`);
     } else {
-      console.log("ewdede");
-      // Display an error message to the user, or handle it as appropriate for your UI
+      // Display an error message to the user or handle it as appropriate for your UI
     }
-   
   };
 
   const today = new Date().toISOString().split('T')[0];
@@ -103,7 +121,7 @@ function CheckAvaliablityCard({ listing }) {
                     CHECKOUT
                   </div>
                   <div>
-                    <input type="date" className='w-full' min={today} value={checkOutDate} onChange={handleCheckOutChange} />
+                    <input type="date" className='w-full' value={checkOutDate} min={checkInDate || new Date().toISOString().split('T')[0]} onChange={handleCheckOutChange} />
                   </div>
                 </div>
               </div>
@@ -138,16 +156,16 @@ function CheckAvaliablityCard({ listing }) {
               </div>
             </div>
             <div>
-              <Button  className='w-full' color="blue" onClick={handleCheckAvailability}>
-                {isDatesSelected ? "Reserve" : "Check Availability"}
+              <Button className='w-full' color='blue' onClick={handleCheckAvailability}>
+                {isDatesSelected ? 'Reserve' : 'Check Availability'}
               </Button>
+              {isDatesSelected && (
+                <div className='mt-3'>
+                  <span className='font-normal'>₹ {listing.pricePerNight} x {calculateNumberOfNights()} nights</span>
+                  <span className='ml-2'>Total: ₹ {getPrice()}</span>
+                </div>
+              )}
             </div>
-            {isDatesSelected && (
-              <div className='mt-3'>
-                <span className="font-normal ">₹ {listing.pricePerNight} x {calculateNumberOfNights()} nights</span>
-                <span className="ml-2">Total: ₹ {getPrice()}</span>
-              </div>
-            )}
           </div>
         </div>
       </div>
@@ -155,4 +173,4 @@ function CheckAvaliablityCard({ listing }) {
   );
 }
 
-export default CheckAvaliablityCard;
+export default CheckAvailabilityCard;

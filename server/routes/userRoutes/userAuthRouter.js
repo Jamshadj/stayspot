@@ -11,10 +11,9 @@ router.post('/otp', userAuthController.postOtpVerify);
 router.post('/login', userAuthController.postLogIn);
 router.post('/logout', userAuthController.userLogout);
 router.get('/auth', userAuthController.getLoggedInUser);
-
 router.post('/auth/login/google', userAuthController.googleAuth);
-
-router.patch('/updatephonemunber',userAuthController.userPhoneNumber)
+router.patch('/updatePhoneNumber', userAuthController.userPhoneNumber);
+router.post('/updateDetails/:userId', userAuthController.updateDetails);
 
 // User property routes
 router.get('/getListings', userPropertyController.getListings);
@@ -27,17 +26,14 @@ router.post('/payment/verify', paymentController.paymentVerify);
 router.get('/order-success', paymentController.getOrderSucess);
 router.post('/checkout', paymentController.postCheckout);
 
-// Booking 
-router.get('/booking',userAuthController.getBookingById)
+// Booking
+router.get('/booking', userAuthController.getBookingById);
+router.get('/getReservations/:userId', userPropertyController.getReservationsById);
+router.get('/getBookingByPropertyId/:propertyId', userPropertyController.getBookingByPropertyId);
 
-router.post('/addToWishList',userPropertyController.addToWishList)
-router.post('/removeFromWishList',userPropertyController.removeFromWishList)
-router.get('/getWishList',userPropertyController.getWishList)
-router.get('/getWishLists/:userId',userPropertyController.getWishLists)
+// Wishlist
+router.post('/addToWishList', userPropertyController.addToWishList);
+router.post('/removeFromWishList', userPropertyController.removeFromWishList);
+router.get('/getWishlist/:userId', userPropertyController.getWishList);
 
-
-router.post('/updateDetails/:userId',userAuthController.updateDetails)
-
-router.get('/getReservations/:userId',userPropertyController.getReservationsById)
-// router.get('/getMatchingListings',userPropertyController.getMatchingListings)
 export default router;
