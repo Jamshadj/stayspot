@@ -15,16 +15,19 @@ function CheckAvaliablityCard({ listing }) {
   console.log("fr",listing.floorPlan);
   const handleCheckOutChange = (event) => {
     const selectedCheckOutDate = new Date(event.target.value);
+    const selectedCheckInDate = new Date(checkInDate);
     const availableStartDate = new Date(listing.availableDates.startDate);
     const availableEndDate = new Date(listing.availableDates.endDate);
 
-    if (selectedCheckOutDate >= availableStartDate && selectedCheckOutDate <= availableEndDate) {
+    if (
+      selectedCheckOutDate >= selectedCheckInDate &&
+      selectedCheckOutDate >= availableStartDate &&
+      selectedCheckOutDate <= availableEndDate
+    ) {
       setCheckOutDate(event.target.value);
       setIsDatesSelected(true);
-      // Reset the total when check-out date changes
     }
   };
-
   const getPrice = () => {
     const pricePerNight = Number(listing.pricePerNight);
     const numberOfNights = calculateNumberOfNights();

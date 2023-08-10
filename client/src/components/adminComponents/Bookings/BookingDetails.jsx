@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import CircularProgress from '@mui/material/CircularProgress';
 import { getBookingById, getUserById } from '../../../api/adminApi';
 import { getHostById, getListingById } from '../../../api/userApi';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Button } from "@material-tailwind/react";
 import DateRangeIcon from '@mui/icons-material/DateRange';
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
@@ -18,7 +18,11 @@ function BookingDetails() {
     const [user, setUser] = useState(null);
     const [host, setHost] = useState(null);
     const [listing, setListing] = useState(null);
-
+    const navigate=useNavigate()
+    const details=((id)=>{
+       
+       navigate(`/admin/properties/properties-details/${id}`)
+    })
     const getBookingData = async () => {
         try {
             const response = await getBookingById(bookingId);
@@ -57,7 +61,7 @@ function BookingDetails() {
                 .catch(error => console.error(error));
         }
     }, [listing]);
-
+    
     return (
         <div className="mt-12 ml-24">
             {loading ? (
@@ -81,7 +85,7 @@ function BookingDetails() {
                             </div>
                             {listing && (
                                 <div className='mt-6'>
-                                    <Button color="blue" ripple="light" href={`http://localhost:3000/admin/properties-details/${listing._id}`}>View Details</Button>
+                                    <Button color="blue" onClick={() => details(listing._id)} ripple="light" >View Details</Button>
                                 </div>
                             )}
                         </div>

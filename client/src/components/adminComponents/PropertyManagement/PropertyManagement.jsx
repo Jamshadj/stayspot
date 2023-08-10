@@ -3,12 +3,24 @@ import { getListingById } from '../../../api/userApi';
 import { useParams } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { updateListingStatus } from '../../../api/adminApi';
+import { Card,DialogBody, Dialog, } from '@material-tailwind/react';
 
 function PropertyManagement() {
-
+  const [open, setOpen] = useState(false);
   const [listing, setListing] = useState(null);
   const [status, setStatus] = useState('');
+  const handleOpen = () => setOpen(!open);
 
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  const handlePrevImage = () => {
+    setCurrentImageIndex(
+      (prevIndex) => (prevIndex - 1 + listing.images.length) % listing.images.length
+    );
+  };
+  const handleNextImage = () => {
+    setCurrentImageIndex((prevIndex) => (prevIndex + 1) % listing.images.length);
+  };
   const propertyId=useParams()
   console.log(propertyId.propertyId,"propertyid");
   useEffect(() => {
@@ -121,14 +133,37 @@ function PropertyManagement() {
           {/* Display the updated status here */}
           <div className="grid grid-cols-2 gap-4 mt-4">
             {/* Render the images */}
-            {listing.images.map((image, index) => (
-              <img
-                key={index}
-                src={image}
-                alt={`Image ${index + 1}`}
-                className="max-w-sm rounded-md"
-              />
-            ))}
+            <Card
+            className="h-64 w-96 cursor-pointer overflow-hidden transition-opacity hover:opacity-90"
+            onClick={handleOpen}
+          >
+            <img
+              alt="nature"
+              className="h-full w-full object-cover object-center"
+              src={listing.images[0]}
+            />
+          </Card>
+          <Dialog size="xl" open={open} handler={handleOpen}>
+            <DialogBody divider={true} className="p-0">
+              <div className="flex justify-between px-4 bg-transparent">
+                <button onClick={handlePrevImage} className="bg-indigo-500 text-white py-2 px-4 rounded hover:bg-indigo-600 focus:outline-none">
+                  Prev
+                </button>
+                <button onClick={handleNextImage} className="bg-indigo-500 text-white py-2 px-4 rounded hover:bg-indigo-600 focus:outline-none">
+                  Next
+                </button>
+              </div>
+              <div className="flex items-center justify-center h-[48rem] w-full">
+                <img
+                  alt={`Image ${currentImageIndex + 1}`}
+                  className="h-full w-full object-cover object-center"
+                  src={listing.images[currentImageIndex]}
+                />
+              </div>
+
+
+            </DialogBody>
+          </Dialog>
           </div>
           <button
             className="bg-blue-500 text-white py-2 px-4 rounded mt-4 hover:bg-blue-600"
