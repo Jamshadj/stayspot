@@ -6,7 +6,6 @@ mapboxgl.accessToken = 'pk.eyJ1IjoiamFtc2hhZDEiLCJhIjoiY2xrOXc0cXM1MDFkYjNtcWQ3N
 
 function MapboxComponent({ locations }) {
   useEffect(() => {
-    console.log(locations,"locations");
     const map = new mapboxgl.Map({
       container: 'map',
       style: 'mapbox://styles/mapbox/streets-v11',
@@ -14,11 +13,19 @@ function MapboxComponent({ locations }) {
       zoom: 10,
     });
 
-    // Add markers for each location
+    // Add markers for each location with price labels
     locations.forEach((location) => {
-      new mapboxgl.Marker()
+      const marker = new mapboxgl.Marker()
         .setLngLat([location.coordinates.longitude, location.coordinates.latitude])
         .addTo(map);
+
+      // Create a div element for the price label
+      const priceLabel = document.createElement('div');
+      priceLabel.className = 'marker-price-label font-bold';
+      priceLabel.textContent = `$${location.pricePerNight}`;
+
+      // Add the price label to the marker
+      marker.getElement().appendChild(priceLabel);
     });
 
     return () => map.remove();
