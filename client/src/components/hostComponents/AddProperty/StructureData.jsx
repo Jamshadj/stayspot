@@ -16,7 +16,7 @@ import { MdOutlineVilla,MdOutlineBedroomChild,MdApartment } from 'react-icons/md
 
 
 
- const categories = [
+ const categoriess = [
     {
       label: 'Appartment',
       icon: MdApartment,
@@ -103,4 +103,4 @@ import { MdOutlineVilla,MdOutlineBedroomChild,MdApartment } from 'react-icons/md
       description: 'This property is brand new and luxurious!'
     }
   ];
-  export default categories;
+  export default categoriess;

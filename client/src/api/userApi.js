@@ -26,9 +26,12 @@ export const userLogout = () => {
 };
 
 // Get property listings
-export const getListings = (status) => {
-  return axios.get('/getListings', { params: { status } });
+export const getListings = (structure) => {
+  // Only send the structure parameter if it's not null
+  const params = structure ? { structure } : {};
+  return axios.get('/getListings', { params });
 };
+
 
 // Get listing by ID
 export const getListingById = (propertyId) => {

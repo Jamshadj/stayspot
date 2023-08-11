@@ -2,14 +2,14 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
-import categories from './StructureData'; // Import the categories array with types and corresponding icons
+import categoriess from './StructureData'; // Import the categories array with types and corresponding icons
 import PropertyNavbar from './PropertyNavbar';
 import Footer from './Footer';
 
 function Structure() {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const dispatch = useDispatch();
-  const rows = Math.ceil(categories.length / 4); // Calculate the number of rows needed
+  const rows = Math.ceil(categoriess.length / 4); // Calculate the number of rows needed
   const navigate = useNavigate();
 
   // Function to handle category button click
@@ -52,7 +52,7 @@ function Structure() {
           <h2 className="pt-3 text-2xl font-bold">Which of these best describes your place?</h2>
         </div>
         <div className="mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {categories.map((category, index) => (
+          {categoriess.map((category, index) => (
             <button
               onClick={() => handleClick(category.label)} // Use the category label for click handler
               key={index}

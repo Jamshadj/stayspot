@@ -3,7 +3,7 @@ import HeartButton from './HeartButton';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate from 'react-router-dom' for navigation
 
-function ListingCard({ data, currentUser }) {
+function ListingCard({ data, currentUser,filter }) {
   const [locationData, setLocationData] = useState(null);
   const navigate = useNavigate(); // Get the navigate function for navigation
 

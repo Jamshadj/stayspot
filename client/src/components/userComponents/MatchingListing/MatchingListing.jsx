@@ -5,6 +5,7 @@ import { getListings } from '../../../api/userApi';
 import ListingCard from '../ListingCard/ListingCard';
 import { useSelector } from 'react-redux';
 import Container from '../Container';
+import MapboxComponent from './MapBoxMarker';
 
 function MatchingListing() {
   const location = useLocation();
@@ -18,7 +19,8 @@ function MatchingListing() {
   useEffect(() => {
     const fetchListings = async () => {
       try {
-        const response = await getListings("Listed");
+        const response = await getListings();
+
         if (response && Array.isArray(response.data.listings)) {
           const listingWithDistances = response.data.listings.map((list) => {
             const distance = calculateDistance(
@@ -33,25 +35,25 @@ function MatchingListing() {
           const nearbyListings = listingWithDistances.filter(item => item.distance <= 10 && item.isAvailable);
           nearbyListings.sort((a, b) => a.distance - b.distance);
           setFilteredListings(nearbyListings);
-          console.log(filteredListings,"filter");
+          console.log(filteredListings, "filtter");
         }
       } catch (error) {
         console.error('Error fetching listings:', error);
       }
     };
-  
+
     fetchListings();
   }, [searchLatitude, searchLongitude]);
-  
+
   function checkAvailability(checkIn, checkOut, availableDates) {
     const checkInDate = new Date(checkIn);
     const checkOutDate = new Date(checkOut);
     const startDate = new Date(availableDates.startDate);
     const endDate = new Date(availableDates.endDate);
-  
+
     return checkInDate >= startDate && checkOutDate <= endDate;
   }
-  
+
 
   function calculateDistance(lat1, lon1, lat2, lon2) {
     const R = 6371; // Earth's radius in km
@@ -76,16 +78,27 @@ function MatchingListing() {
   return (
     <div>
       <div>
-      <Navbar />
+        <Navbar />
       </div>
       <div className='pb-20 pt-20'>
-      <Container>
-      <div className='pt-24 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-8'>
-        {filteredListings.map((item, index) => (
-          <ListingCard key={item.id} data={item} currentUser={user}/>
-        ))}
-        </div>
-      </Container>
+        <Container>
+          <div className='flex'>
+            <div className='w-1/2'>
+              <div className='pt-24 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-3 gap-4'>
+                {filteredListings.map((item, index) => (
+                  <ListingCard key={item.id} data={item} currentUser={user} />
+                ))}
+              </div>
+            </div>
+            <div className='w-1/2'>
+            {filteredListings.length > 0 && (
+              <div className='pt-24'>
+                <MapboxComponent locations={filteredListings} />
+              </div>
+            )}
+            </div>
+          </div>
+        </Container>
       </div>
     </div>
   );

@@ -15,7 +15,7 @@ function CheckAvailabilityCard({ listing }) {
     const fetchBooking = async () => {
       try {
         const response = await getBookingByPropertyId(listing._id);
-        console.log(response,"responsefrrffr");
+        console.log(response,"respos");
         setBooking(response.data.booking);
       } catch (error) {
         console.error(error);
@@ -84,9 +84,12 @@ function CheckAvailabilityCard({ listing }) {
 
       navigate(`/reserve?${queryParams}`);
     } else {
+      console.log("re");
       // Display an error message to the user or handle it as appropriate for your UI
     }
   };
+ 
+  
 
   const today = new Date().toISOString().split('T')[0];
 
