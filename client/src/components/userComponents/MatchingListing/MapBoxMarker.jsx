@@ -26,6 +26,11 @@ function MapboxComponent({ locations }) {
 
       // Add the price label to the marker
       marker.getElement().appendChild(priceLabel);
+
+       marker.getElement().addEventListener('click', () => {
+        // Navigate to the location's room using its ID
+        window.location.href = `/rooms/${location._id}`;
+      });
     });
 
     return () => map.remove();
