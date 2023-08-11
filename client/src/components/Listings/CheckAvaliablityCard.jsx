@@ -126,7 +126,7 @@ function CheckAvailabilityCard({ listing }) {
                   <div>
                     <input type="date" className='w-full' value={checkOutDate} min={checkInDate || new Date().toISOString().split('T')[0]} onChange={handleCheckOutChange} />
                   </div>
-                </div>
+                </div> 
               </div>
               <div>
                 <div onClick={() => sentCount(!count)} className='flex relative border-2 p-2 overflow-hidden'>
