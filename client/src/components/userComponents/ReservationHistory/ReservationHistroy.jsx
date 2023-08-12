@@ -24,14 +24,25 @@ function ReservationHistory() {
     fetchReservations();
   }, [user.details._id]);
 
-  const TABLE_HEAD = ['ID', 'Check-in', 'Check-out', 'Nights', 'Amount', 'Booking Date'];
+  // const TABLE_HEAD = ['ID', 'Check-in', 'Check-out', 'Nights', 'Amount', 'Booking Date'];
 
   return (
     <div>
       <div>
         <Navbar reservation={'reservation'} />
       </div>
-      <div className="pt-28">
+      <div className='pt-24 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-8'>
+      {bookings.length === 0 ? (
+          <p>No listings available.</p>
+        ) : (
+          bookings.map(booking => (
+            // Render ListingCard with individual listing data and provide a unique key prop.
+            <ListingCard key={booking.id} data={booking} currentUser={user}/>
+          ))
+        )}
+      </div>
+
+      {/* <div className="pt-28">
         <div>
           <Card className="w-full h-full overflow-scroll">
             <table className="w-full min-w-max table-auto text-left">
@@ -92,7 +103,7 @@ function ReservationHistory() {
             </table>
           </Card>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }

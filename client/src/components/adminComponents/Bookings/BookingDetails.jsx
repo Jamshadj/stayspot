@@ -10,7 +10,8 @@ import ModeNightIcon from '@mui/icons-material/ModeNight';
 import CurrencyExchangeIcon from '@mui/icons-material/CurrencyExchange';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
-
+import PublicIcon from '@mui/icons-material/Public';
+import {TbMapPinCog} from 'react-icons/tb'
 function BookingDetails() {
     const { bookingId } = useParams();
     const [loading, setLoading] = useState(true);
@@ -18,10 +19,10 @@ function BookingDetails() {
     const [user, setUser] = useState(null);
     const [host, setHost] = useState(null);
     const [listing, setListing] = useState(null);
-    const navigate=useNavigate()
-    const details=((id)=>{
-       
-       navigate(`/admin/properties/properties-details/${id}`)
+    const navigate = useNavigate()
+    const details = ((id) => {
+
+        navigate(`/admin/properties/properties-details/${id}`)
     })
     const getBookingData = async () => {
         try {
@@ -61,7 +62,7 @@ function BookingDetails() {
                 .catch(error => console.error(error));
         }
     }, [listing]);
-    
+
     return (
         <div className="mt-12 ml-24">
             {loading ? (
@@ -120,6 +121,58 @@ function BookingDetails() {
                                 <MoreHorizIcon /> Status: {bookingData.status}
                             </div>
                         </div>
+                        {listing && (
+                            <div className='mt-8 ml-12 flex flex-col gap-6'>
+                                <div className='font-semibold'>
+                                    Address
+                                </div>
+                                <div>
+                                    <span>
+                                        House Number: {listing.address.houseNumber}
+                                    </span>
+                                </div>
+                                <div>
+                                    <span>
+                                        Street Address: {listing.address.streetAddress}
+                                    </span>
+                                </div>
+                                <div>
+                                    <span>
+                                        Area: {listing.address.area}
+                                    </span>
+                                </div>
+                                <div>
+                                    <span>
+                                        Landmark: {listing.address.landMark}
+                                    </span>
+                                </div>
+                                <div>
+                                    <span>
+                                        City: {listing.address.city}
+                                    </span>
+                                </div>
+                                <div>
+                                    <span>
+                                        State: {listing.address.region}
+                                    </span>
+                                </div>
+                                <div className='flex'>
+                                    <span>
+                                    <TbMapPinCog/> 
+                                    </span>
+                                    <span>
+                                      Pincode: {listing.address.postCode}
+                                    </span>
+                                </div>
+                                <div>
+                                    <span>
+                                        <PublicIcon /> Country: {listing.address.country}
+                                    </span>
+                                </div>
+                            </div>
+                        )}
+
+
                     </div>
                 </div>
             )}
