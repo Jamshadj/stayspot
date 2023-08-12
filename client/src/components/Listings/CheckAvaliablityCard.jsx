@@ -3,26 +3,28 @@ import { Button } from "@material-tailwind/react";
 import { IoIosArrowDropdown } from 'react-icons/io';
 import { useNavigate } from 'react-router-dom';
 import { getBookingByPropertyId } from '../../api/userApi';
+import Swal from 'sweetalert2';
 
 function CheckAvailabilityCard({ listing }) {
   const [checkInDate, setCheckInDate] = useState('');
   const [checkOutDate, setCheckOutDate] = useState('');
   const [isDatesSelected, setIsDatesSelected] = useState(false);
   const [guestCount, setGuestCount] = useState(1);
-  const [booking, setBooking] = useState(null);
-
+  const [booking, setBooking] = useState([]);
+ 
   useEffect(() => {
     const fetchBooking = async () => {
       try {
         const response = await getBookingByPropertyId(listing._id);
-        console.log(response,"respos");
-        setBooking(response.data.booking);
+        console.log(response.data.bookings, "bookings"); // Note the change from response.data.booking to response.data.bookings
+        setBooking(response.data.bookings); // Set bookings instead of booking
       } catch (error) {
         console.error(error);
       }
     };
     fetchBooking();
   }, []);
+  
   const [isGuestCountVisible, setIsGuestCountVisible] = useState(false);
   const [count, sentCount] = useState(false);
   const handleCheckInChange = (event) => {
@@ -31,6 +33,7 @@ function CheckAvailabilityCard({ listing }) {
   };
 
   const handleCheckOutChange = (event) => {
+    console.log("checkout");
     const selectedCheckOutDate = new Date(event.target.value);
     const selectedCheckInDate = new Date(checkInDate);
     const availableStartDate = new Date(listing.availableDates.startDate);
@@ -41,9 +44,17 @@ function CheckAvailabilityCard({ listing }) {
       selectedCheckOutDate >= availableStartDate &&
       selectedCheckOutDate <= availableEndDate
     ) {
+      console.log("checkodddut");
       setCheckOutDate(event.target.value);
       setIsDatesSelected(true);
+    }else{
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: `Sorry dates are available until ${new Date(availableEndDate).toDateString()}`,
+      });    
     }
+ 
   };
 
   const getPrice = () => {
@@ -70,26 +81,52 @@ function CheckAvailabilityCard({ listing }) {
 
   const handleCheckAvailability = () => {
     const numberOfNights = calculateNumberOfNights();
-
+  
     if (numberOfNights >= listing.minimumStay && numberOfNights <= listing.maximumStay) {
       setIsDatesSelected(true);
-
-      const queryParams = new URLSearchParams({
-        listingId: listing._id,
-        nights: numberOfNights,
-        checkIn: checkInDate,
-        checkOut: checkOutDate,
-        guests: guestCount
-      });
-
-      navigate(`/reserve?${queryParams}`);
-    } else {
-      console.log("re");
-      // Display an error message to the user or handle it as appropriate for your UI
-    }
-  };
- 
   
+      const selectedCheckIn = new Date(checkInDate);
+      const selectedCheckOut = new Date(checkOutDate);
+  
+      // Check if the selected dates overlap with existing bookings
+      const overlappingBooking = booking.find((bookingItem) => {
+        const existingCheckIn = new Date(bookingItem.checkInDate);
+        const existingCheckOut = new Date(bookingItem.checkOutDate);
+        return (
+          (selectedCheckIn >= existingCheckIn && selectedCheckIn < existingCheckOut) ||
+          (selectedCheckOut > existingCheckIn && selectedCheckOut <= existingCheckOut)
+        );
+      });
+  
+      if (overlappingBooking) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Selected dates Not available. Please choose different dates.',
+        });
+      } else {
+        const queryParams = new URLSearchParams({
+          listingId: listing._id,
+          nights: numberOfNights,
+          checkIn: checkInDate,
+          checkOut: checkOutDate,
+          guests: guestCount
+        });
+  
+        navigate(`/reserve?${queryParams}`);
+      }
+    } else {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: `Selected number of nights must be between ${listing.minimumStay} and ${listing.maximumStay}`,
+      });    }
+  };
+  
+{listing &&
+
+  console.log(listing.floorPlan[0].count,'booking');
+}
 
   const today = new Date().toISOString().split('T')[0];
 
@@ -116,7 +153,13 @@ function CheckAvailabilityCard({ listing }) {
                     CHECK-IN
                   </div>
                   <div>
-                    <input type="date" className='w-full' min={today} value={checkInDate} onChange={handleCheckInChange} />
+                    <input
+                      type="date"
+                      className="w-full"
+                      min={ new Date().toISOString().split('T')[0]} // Set the min attribute to the selected check-in date or today
+                      value={checkInDate}
+                      onChange={handleCheckInChange}
+                    />
                   </div>
                 </div>
                 <div className="relative border-2 p-2 overflow-hidden">
@@ -124,9 +167,11 @@ function CheckAvailabilityCard({ listing }) {
                     CHECKOUT
                   </div>
                   <div>
-                    <input type="date" className='w-full' value={checkOutDate} min={checkInDate || new Date().toISOString().split('T')[0]} onChange={handleCheckOutChange} />
-                  </div>
-                </div> 
+                 
+                    <input type="date" className='w-full' value={checkOutDate}  min={checkInDate } onChange={handleCheckOutChange} />
+
+                    </div>
+                </div>
               </div>
               <div>
                 <div onClick={() => sentCount(!count)} className='flex relative border-2 p-2 overflow-hidden'>
@@ -147,6 +192,8 @@ function CheckAvailabilityCard({ listing }) {
                     <input
                       type="number"
                       value={guestCount}
+                      max={listing.floorPlan[0].count}
+                      min={1}
                       onChange={(event) => setGuestCount(event.target.value)}
                       className='w-9 border-2'
                     />

@@ -6,17 +6,25 @@ import bookingModel from '../../models/bookingModel.js';
 export default {
   getListings: async (req, res) => {
     try {
-      const { status } = req.query;
-      const filter = status ? { status } : {};
+      const { structure } = req.query;
 
-      const listings = await propertyModel.find(filter);
-      res.json({ error: false, listings });
+      const baseQuery = { status: "Listed" };
+
+      if (!structure) {
+        const listings = await propertyModel.find(baseQuery); 
+        res.json({ error: false, listings });
+      } else {
+       
+        const listings = await propertyModel.find({ ...baseQuery, structure });
+        res.json({ error: false, listings });
+      }
     } catch (error) {
       console.error('Error retrieving listings:', error);
       res.status(500).json({ error: true, message: 'Error retrieving listings' });
     }
   },
-
+  
+    
   getListingById: async (req, res) => {
     try {
       const { propertyId } = req.params;
@@ -137,19 +145,20 @@ export default {
     }
   },
 
-  getBookingByPropertyId: async (req, res) => {
-    try {
-      const { propertyId } = req.params;
-      const booking = await bookingModel.findOne({ listingId: propertyId });
-
-      if (!booking) {
-        return res.status(404).json({ message: 'Booking not found' });
-      }
-
-      res.json({ message: 'Booking item fetched successfully', booking });
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: 'An error occurred', error: error.message });
+ getBookingByPropertyId: async (req, res) => {
+  try {
+    const { propertyId } = req.params;
+    const bookings = await bookingModel.find({ listingId: propertyId }); // Use find instead of findOne
+    console.log(bookings, "bookings");
+    if (bookings.length === 0) {
+      return res.status(404).json({ message: 'No bookings found' });
     }
+
+    res.json({ message: 'Booking items fetched successfully', bookings });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'An error occurred', error: error.message });
   }
+}
+ 
 };

@@ -12,6 +12,7 @@ import { Button } from "@material-tailwind/react";
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 import userProfile from '../../../assets/logo/user.png';
+import { postSignUp } from "../../../api/hostApi";
 const Host = () => {
   const [hostsData, setHostsData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -25,10 +26,54 @@ const Host = () => {
       setLoading(false);
     }
   };
+  
 
   useEffect(() => {
     getHostsData();
   }, []);
+  const addHostPrompt = async () => {
+    const { value: formValues } = await Swal.fire({
+      title: 'Add Host',
+      html:
+        '<input id="swal-input-firstname" class="swal2-input" placeholder="First Name">' +
+        '<input id="swal-input-lastname" class="swal2-input" placeholder="Last Name">' +
+        '<input id="swal-input-email" class="swal2-input" placeholder="Email">' +
+        '<input id="swal-input-phone" class="swal2-input" placeholder="Phone Number">' +
+        '<input id="swal-input-password" class="swal2-input" type="password" placeholder="Password">',
+      focusConfirm: false,
+      preConfirm: () => {
+        return {
+          firstName: document.getElementById('swal-input-firstname').value,
+          lastName: document.getElementById('swal-input-lastname').value,
+          email: document.getElementById('swal-input-email').value,
+          phoneNumber: document.getElementById('swal-input-phone').value,
+          password: document.getElementById('swal-input-password').value
+        };
+      }
+    });
+
+    if (formValues) {
+      try {
+        const response= await postSignUp(formValues); 
+        
+        if (!response.data.err) {
+
+        } else {
+         
+        }
+        // Your API function to add the host
+        await getHostsData(); // Refresh host data
+        Swal.fire({
+          title: 'Host Added',
+          icon: 'success',
+          text: `The host ${formValues.firstName} has been successfully added.`,
+        });
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  };
+
 
   const banConfirmation = async (title, text, onSuccess) => {
     const result = await Swal.fire({
@@ -94,14 +139,22 @@ const Host = () => {
 
   return (
     <div className="mt-12 ml-24 w-[92%]">
-      <h2 className="italic mb-4">Host details</h2>
+      <div className="flex">
+        <div>
+          <h2 className="italic mb-4">Host details</h2>
+        </div>
+        <div className="ml-auto">
+          <Button color="blue" onClick={addHostPrompt}>Add host</Button>
+        </div>
+
+      </div>
       <div>
         {loading ? (
           <div className="flex justify-center mt-80">
-         <Box sx={{ display: 'flex' }}>
-         <CircularProgress />
-       </Box>
-       </div>
+            <Box sx={{ display: 'flex' }}>
+              <CircularProgress />
+            </Box>
+          </div>
         ) : (
           <TableContainer component={Paper}>
             <Table sx={{
