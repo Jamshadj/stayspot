@@ -66,6 +66,7 @@ function ReserveRooms() {
     try {
       const details = {
         userId:user.details._id,
+        hostId:listing.hostId,
         checkInDate: currentCheckInDate,
         checkOutDate: currentCheckOutDate,
         listingId,
@@ -106,6 +107,7 @@ const handleGuestsChange = (newGuests) => {
 const handleRazroPay = async (order) => {
   const details = {
       userId: user.details._id,
+      hostId:listing.hostId,
       checkInDate:currentCheckInDate,
       checkOutDate: currentCheckOutDate,
       listingId,

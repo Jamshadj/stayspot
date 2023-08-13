@@ -15,13 +15,13 @@ let instance = new Razorpay({
 export default {
 postCheckout: async (req, res) => {
     try {
-      const { checkInDate, checkOutDate, listingId, guests, numberOfNights, userId, totalAmount } = req.body;
+      const { checkInDate, hostId, checkOutDate, listingId, guests, numberOfNights, userId, totalAmount } = req.body;
       const cancelUrl = `http://localhost:3000/reserve?listingId=${listingId}&nights=${numberOfNights}&checkIn=${checkInDate}&checkOut=${checkOutDate}&guests=${guests}`;
       const listing = await propertyModel.findById(listingId);
       const user = await userModel.findById(userId);
       await hostModel.findByIdAndUpdate(listing.hostId, { $inc: { wallet: +totalAmount } });
       const bookingResponse = await bookingModel.create({
-        userId, listingId, checkInDate, checkOutDate, guests, numberOfNights, totalAmount
+        userId, hostId,listingId, checkInDate, checkOutDate, guests, numberOfNights, totalAmount
       });
       console.log(bookingResponse,"dew");
     
@@ -29,7 +29,7 @@ postCheckout: async (req, res) => {
       // Create a Stripe checkout session
       const session = await stripe.checkout.sessions.create({
         line_items: [
-          {
+          { 
             price_data: {
               currency: "inr",
               product_data: {
@@ -38,7 +38,7 @@ postCheckout: async (req, res) => {
                   listing.images[0]
                 ],
               },
-              unit_amount: listing.pricePerNight * 100,
+              unit_amount: totalAmount * 100,
             },
             quantity: 1, // Move quantity outside of price_data
           },
@@ -52,7 +52,7 @@ postCheckout: async (req, res) => {
   console.log(session.url,"url");
       res.json({ URL:session.url}); // Sending the session ID back to the frontend
     } catch (error) {
-      console.error(error);
+      console.error("errom",error);
       res.status(500).json({ error: 'An error occurred while creating the payment.' });
     }
   },
@@ -60,7 +60,7 @@ postCheckout: async (req, res) => {
     console.log("dss");
     try {
       // Extract any necessary information from the query parameters or request body
-      const { userId, listingId, checkInDate, checkOutDate, guests, numberOfNights, totalAmount } = req.query;
+      const { userId,hostId, listingId, checkInDate, checkOutDate, guests, numberOfNights, totalAmount } = req.query;
       console.log(req.query);
       console.log("req.body",req.body.userId);
       // Create a new booking using the extracted information
@@ -129,10 +129,10 @@ postCheckout: async (req, res) => {
           console.log(req.body.userId,"userId");
           await hostModel.findByIdAndUpdate(listing.hostId, { $inc: { wallet: +totalAmount } });
           const bookingResponse = await bookingModel.create({
-            userId, listingId, checkInDate, checkOutDate, guests, numberOfNights, totalAmount
+            userId, listingId,hostId, checkInDate, checkOutDate, guests, numberOfNights, totalAmount
           });
           console.log(bookingResponse, "res");
-          return res.json({
+          return res.json({ 
             err: false,
             bookingResponse
           });
