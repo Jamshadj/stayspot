@@ -35,7 +35,7 @@ postCheckout: async (req, res) => {
               product_data: {
                 name: listing.title,
                 images: [
-                  listing.images[0]
+                  listing.images[0]      
                 ],
               },
               unit_amount: totalAmount * 100,
