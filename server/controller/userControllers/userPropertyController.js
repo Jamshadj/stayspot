@@ -28,7 +28,8 @@ export default {
   getListingById: async (req, res) => {
     try {
       const { propertyId } = req.params;
-      const property = await propertyModel.findById(propertyId).lean();
+      const property = await propertyModel.findById(propertyId);
+      console.log(property);
 
       if (!property) {
         return res.status(404).json({ error: 'Property not found' });
@@ -46,7 +47,7 @@ export default {
       const { hostId } = req.params;
       const host = await hostModel.findById(hostId).lean();
 
-      if (!host) {
+      if (!host) {                  
         return res.status(404).json({ error: 'Host not found' });
       }
 

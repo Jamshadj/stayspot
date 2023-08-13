@@ -53,14 +53,15 @@ function ReservationDetails() {
     }, [listing]);
 
     return (
-        <div className="mt-12 ml-24">
+        <div>
+            <div>
+      <Navbar reservation={'reservation'} />
+            </div>
             {loading ? (
                 <CircularProgress />
             ) : (
-                <div>
-      <Navbar reservation={'reservation'} />
-                
-                <div className='flex'>
+                <div >
+                <div className='flex pt-36'>
                     <div className='w-1/2'>
                         <div>
                             {listing && <img className='w-96 h-96 ml-12 rounded' src={listing.images[0]} alt="" />}
@@ -80,11 +81,14 @@ function ReservationDetails() {
                         <div className='mt-8 ml-12'>
                             <span className='font-semibold'>Hosted By: {host && host.firstName}</span>
                         </div>
+                        <div className='mt-8 ml-12'>
+                            <span className='font-semibold'>Contact : {host && host.phoneNumber}</span>
+                        </div>
                     </div>
                     <div className='w-1/2'>
                         <div className='mt-8 ml-12 flex flex-col gap-6'>
                             <div className='font-semibold'>
-                                Booked By: {user && user.details.firstName}
+                               Details
                             </div>
                             <div>
                                 <DateRangeIcon /> Check In: {new Date(bookingData.checkInDate).toLocaleDateString()}

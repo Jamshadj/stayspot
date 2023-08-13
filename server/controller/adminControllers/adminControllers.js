@@ -89,8 +89,9 @@ export default {
   },
   getBookingById: async (req, res) => {
     try {
+      console.log("we");
       const { bookingId } = req.params; // Use req.params to get userId from the URL
-    
+      console.log(bookingId);
       const booking = await bookingModel.findById(bookingId);
       console.log(booking);
       res.json(booking);

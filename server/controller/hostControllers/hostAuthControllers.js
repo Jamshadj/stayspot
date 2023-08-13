@@ -14,7 +14,7 @@ const createToken = (hostId) => {
 
 export default {
   postSignUp: async (req, res) => {
-    try {
+    try { 
       console.log("hello");
       const existingEmail = await hostModel.findOne({ email: req.body.email });
       if (existingEmail) {
