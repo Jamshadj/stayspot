@@ -1,9 +1,13 @@
 import React, { useCallback, useState } from 'react';
 import { IoIosArrowDropdownCircle } from 'react-icons/io';
 import MenuItem from '../../userComponents/Navbar/MenuItem';
+import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 function Options() {
+  const { host } = useSelector((state) => state);
     const [isOpen, setIsOpen] = useState(false);
+    const navigate=useNavigate()
     const toggleOpen = useCallback(() => {
         setIsOpen((value) => !value);
       }, []);
@@ -120,10 +124,11 @@ function Options() {
           label="Listings" 
           onClick='/my-trips'
         />
+       <div onClick={() => navigate(`/host/reservations/${host.details._id}`)}>
         <MenuItem 
           label="Reverations" 
-          onClick='/my-favorites'
         />
+        </div> 
         <MenuItem 
           label="Create new listings" 
           onClick='/my-reservations'

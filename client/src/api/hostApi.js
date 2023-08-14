@@ -32,3 +32,7 @@ export async function postHostOtp(otp, formData) {
     return await axios.get(`/host/getBookingById/${Id}`);
   }
   
+  export async function updateBookingStatus(bookingId, status,hostId) {
+    return await axios.post(`/host/updatestatus/${bookingId}`, { status ,hostId});
+  }
+  

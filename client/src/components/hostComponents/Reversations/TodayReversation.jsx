@@ -13,7 +13,7 @@ function TodayReservation() {
   const [users, setUsers] = useState({});
   const navigate = useNavigate();
 
-  const navigateToDetails = (bookingId) => {
+   const navigateToDetails = (bookingId) => {
     navigate(`reservationDetails/${bookingId}`);
   };
   const getBookingData = async () => {

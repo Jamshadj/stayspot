@@ -19,7 +19,7 @@ postCheckout: async (req, res) => {
       const cancelUrl = `http://localhost:3000/reserve?listingId=${listingId}&nights=${numberOfNights}&checkIn=${checkInDate}&checkOut=${checkOutDate}&guests=${guests}`;
       const listing = await propertyModel.findById(listingId);
       const user = await userModel.findById(userId);
-      await hostModel.findByIdAndUpdate(listing.hostId, { $inc: { wallet: +totalAmount } });
+      await hostModel.findByIdAndUpdate(listing.hostId, { $inc: { balance: +totalAmount } });
       const bookingResponse = await bookingModel.create({
         userId, hostId,listingId, checkInDate, checkOutDate, guests, numberOfNights, totalAmount
       });

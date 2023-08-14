@@ -12,6 +12,7 @@ import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 
 import Navbar from '../Login/Navbar';
+import { updateBookingStatus } from '../../../api/hostApi';
 
 function ReservationDetails() {
 
@@ -59,13 +60,9 @@ function ReservationDetails() {
     }, [listing]);
     const [statusChanged, setStatusChanged] = useState(false); // To track status changes
 
-    // ... Other useEffect and state code ...
-
     const handleCheckIn = async () => {
         try {
-            // Update the booking status to 'Checked In' in the database
-            // Make an API call here to update the booking status
-            // Set the statusChanged state to true after the update
+            await updateBookingStatus(bookingId, "Checkin completed",host._id);
             setStatusChanged(true);
         } catch (error) {
             console.error(error);
@@ -74,9 +71,7 @@ function ReservationDetails() {
 
     const handleCheckOut = async () => {
         try {
-            // Update the booking status to 'Completed' in the database
-            // Make an API call here to update the booking status
-            // Set the statusChanged state to true after the update
+            await updateBookingStatus(bookingId, "CheckOut completed",host._id);
             setStatusChanged(true);
         } catch (error) {
             console.error(error);
@@ -149,23 +144,23 @@ function ReservationDetails() {
                                     <MoreHorizIcon /> Status: {bookingData.status}
                                 </div>
                                 {bookingData.checkInDate.slice(0, 10) === new Date().toISOString().slice(0, 10) &&
-                bookingData.status === 'Booked' && (
-                  <Button
-                    color="blue"
-                    onClick={handleCheckIn}
-                  >
-                    Check In
-                  </Button>
-              )}
-              {bookingData.checkOutDate.slice(0, 10) === new Date().toISOString().slice(0, 10) &&
-                bookingData.status === 'Checked In' && (
-                  <Button
-                    color="green"
-                    onClick={handleCheckOut}
-                  >
-                    Complete
-                  </Button>
-              )}
+                                    bookingData.status === 'Booked' && (
+                                        <Button
+                                            color="blue"
+                                            onClick={handleCheckIn}
+                                        >
+                                            Check In
+                                        </Button>
+                                    )}
+                                {bookingData.checkOutDate.slice(0, 10) === new Date().toISOString().slice(0, 10) &&
+                                    bookingData.status === 'Checkin completed' && (
+                                        <Button
+                                            color="green"
+                                            onClick={handleCheckOut}
+                                        >
+                                            Complete
+                                        </Button>
+                                    )}
                             </div>
                         </div>
                     </div>

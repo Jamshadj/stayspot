@@ -19,6 +19,9 @@ router.get('/property/:propertyId', hostPropertyControllers.getProperty);
 router.post('/edit-data',hostPropertyControllers.postPropertyEditBasics)
 router.post('/update-property-field',hostPropertyControllers.postPropertyEditProperty)
 router.post('/update-price',hostPropertyControllers.postPropertyEditPrice)
+router.get('/getBookingById/:hostId', hostPropertyControllers.getBookingByHostId);
+
+router.post('/updatestatus/:bookingId', hostPropertyControllers.updateBookingStatus);
 
 
 router.post('/updateHostDetails/:hostId',(req,res)=>{

@@ -7,7 +7,7 @@ import { updateDetails } from '../../../api/hostApi';
 function HostProfile() {
   const dispatch = useDispatch();
   const { host } = useSelector((state) => state);
- console.log(host.details._id);
+  console.log(host.details._id);
   const handleEdit = async (field) => {
     const { value } = await Swal.fire({
       title: `Edit ${field}`,
@@ -67,15 +67,21 @@ function HostProfile() {
                 </div>
               </div>
             ))}
-             <div className="mb-4">
-                <p className="text-black font-semibold">Wallet Balance</p>
-                <div className="flex justify-between items-center">
-                  <div>{host.details.wallet}</div>
-                  <div className="text-blue-500 cursor-pointer" >
-                    Withdraw request
-                  </div>
+            <div className="mb-4">
+              <p className="text-black font-semibold">Wallet Balance</p>
+              <div className="flex justify-between items-center">
+                <div>{host.details.wallet}</div>
+                <div className="text-blue-500 cursor-pointer" >
+                  Withdraw request
                 </div>
               </div>
+            </div>
+            <div className="mb-4">
+              <p className="text-black font-semibold">Balance Amount to be credited</p>
+              <div className="flex justify-between items-center">
+                <div>{host.details.balance}</div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

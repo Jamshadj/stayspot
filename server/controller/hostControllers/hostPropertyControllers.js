@@ -1,5 +1,7 @@
 // Import necessary modules
 import cloudinary from '../../helper/config.js';
+import bookingModel from '../../models/bookingModel.js';
+import hostModel from '../../models/hostModel.js';
 import propertyModel from '../../models/propertyModel.js';
 
 export default {
@@ -7,7 +9,6 @@ export default {
   postAddProperty: async (req, res) => {
      try {
     const propertyDetails = req.body;
-    console.log(propertyDetails);
     // Upload property images to Cloudinary and store the URLs
     let images = [];
     for (let item of propertyDetails.images) {
@@ -16,7 +17,6 @@ export default {
       });
       images.push(result.url);
     }
-    console.log('ew');
     // Create a new property document with the provided property details
     const newProperty = await propertyModel.create({
       structure: propertyDetails.structure,
@@ -87,11 +87,9 @@ export default {
   getProperties: async (req, res) => {
     try {
       const hostId = req.params.hostId;
-      console.log('Host ID:', hostId);
 
       // Find all properties with the given hostId
       const properties = await propertyModel.find({ hostId: hostId });
-      console.log('Properties:', properties);
 
       res.json({ properties });
     } catch (error) {
@@ -143,7 +141,6 @@ export default {
 
     // Construct the update object based on the field name
     const updateData = { [fieldName]: fieldValue };
-    console.log(updateData);
     // Update the property document in the database using Mongoose findByIdAndUpdate
     // Assuming propertyModel is a Mongoose model representing the property collection
     const updatedProperty = await propertyModel.findByIdAndUpdate(propertyId, updateData, { new: true });
@@ -178,5 +175,50 @@ export default {
     res.status(500).json({ success: false, message: 'Error occurred during updating price per night' });
   }
 
- }
+ },
+ getBookingByHostId: async (req, res) => {
+  try {
+
+    const { hostId } = req.params; // Use req.params to get userId from the URL
+
+    const booking = await bookingModel.find({hostId:hostId});
+
+    res.json(booking);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: error.message });
+  }
+},
+updateBookingStatus: async (req, res) => {
+  try {
+    const { bookingId } = req.params; // Get bookingId from the URL params
+    const { status } = req.body; // Get status from the request body
+    const updatedBooking = await bookingModel.findByIdAndUpdate(
+      bookingId,
+      { status }, // Update the status field
+      { new: true } // Get the updated document 
+    );
+
+    if (status === "CheckOut completed") {
+      const {hostId }= req.body;
+      console.log(hostId,"hostid");
+      console.log(updatedBooking.totalAmount,"updated"); // Assuming you have hostId parameter in the route
+      const updatedHost = await hostModel.findByIdAndUpdate(
+        hostId,
+        {
+          $inc: {
+            wallet: +updatedBooking.totalAmount, // Increment wallet
+            balance: -updatedBooking.totalAmount, // Decrement balance
+          },
+        }
+      );
+      console.log(updatedHost,"updatedhost");
+    }
+
+    res.json(updatedBooking);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: error.message });
+  }
+},  
 };

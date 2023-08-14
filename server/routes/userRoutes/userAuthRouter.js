@@ -27,8 +27,8 @@ router.get('/order-success', paymentController.getOrderSucess);
 router.post('/checkout', paymentController.postCheckout);
 
 // Booking
-router.get('/booking', userAuthController.getBookingById);
 router.get('/getReservations/:userId', userPropertyController.getReservationsById);
+router.get('/booking', userAuthController.getBookingById);
 router.get('/getBookingByPropertyId/:propertyId', userPropertyController.getBookingByPropertyId);
 
 // Wishlist
