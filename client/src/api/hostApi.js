@@ -27,4 +27,8 @@ export async function postHostOtp(otp, formData) {
     console.log(details,hostId, "hodt");
     return axios.post(`/host/updateDetails/${hostId}`, { details }); // Assuming you have the user's id available
   };
+
+  export async function getBookingByHostId(Id) {
+    return await axios.get(`/host/getBookingById/${Id}`);
+  }
   

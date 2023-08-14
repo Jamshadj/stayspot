@@ -27,14 +27,17 @@ function ReservationHistory() {
   return (
     <div>
       <Navbar reservation={'reservation'} />
-      <div className='pt-24 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-8'>
-        {bookings.length === 0 ? (
-          <p>No bookings.</p>
-        ) : (
-          bookings.map(booking => (
-            <ReservationHistoryCard key={booking.id} data={booking} currentUser={user} />
-          ))
-        )}
+      <div className='pt-24'>
+        <h2 className='text-left mb-4 font-bold text-xl'>Latest Bookings</h2>
+        <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-8'>
+          {bookings.length === 0 ? (
+            <p>No bookings.</p>
+          ) : (
+            bookings.map((booking) => (
+              <ReservationHistoryCard key={booking.id} data={booking} currentUser={user} />
+            ))
+          )}
+        </div>
       </div>
     </div>
   );

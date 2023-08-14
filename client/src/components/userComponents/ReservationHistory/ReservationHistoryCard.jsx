@@ -30,6 +30,7 @@ function ReservationHistoryCard({ data, currentUser }) {
 
     return (
         listing && (
+
             <div className="col-span-1 cursor-pointer group">
                 <div className="flex flex-col gap-2 w-full">
                     <div className="aspect-square w-full relative overflow-hidden rounded-xl">
@@ -48,10 +49,11 @@ function ReservationHistoryCard({ data, currentUser }) {
                                 ₹ {data.totalAmount}
                             </div>
                             <div className="font-light">night</div>
+                            <div className="font-light ml-auto">{data.status}</div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> 
         )
     );
 }

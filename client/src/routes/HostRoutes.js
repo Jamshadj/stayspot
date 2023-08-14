@@ -25,6 +25,7 @@ import SetAvalibality from "../pages/HostPages/SetAvalibality.jsx";
 import PropertyDetailsPage from "../pages/HostPages/PropertyDetailsPage.jsx";
 import SelectAmenities from "../pages/HostPages/SelectAmenities.jsx";
 import HostProfile from "../components/hostComponents/HostProfile/HostProfile.jsx";
+import ReservationDetails from "../components/hostComponents/Reversations/ReservationDetails.jsx";
 
  
 export default function HostRoutes() {
@@ -63,6 +64,7 @@ export default function HostRoutes() {
           <Route path="/step-3" element={<Step3Page/>}/>
           <Route path="/set-avaliblity" element={<SetAvalibality/>}/>
           <Route path="/setPrice" element={<SetPricePage/>}/>
+          <Route path="/reservationDetails/:bookingId" element={<ReservationDetails/>}/>
           <Route path="/property-details-page" element={<PropertyDetailsPage/>}/>
           {/* <Route path="/set-avaliblity" element={<SetAvaliableDatesPage/>}/> */}
           <Route path="/listings" element={<PropertyListingPage/>}/>
