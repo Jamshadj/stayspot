@@ -22,6 +22,7 @@ router.post('/update-price',hostPropertyControllers.postPropertyEditPrice)
 router.get('/getBookingById/:hostId', hostPropertyControllers.getBookingByHostId);
 
 router.post('/updatestatus/:bookingId', hostPropertyControllers.updateBookingStatus);
+router.post('/withdraw', hostPropertyControllers.withdrawRequest);
 
 
 router.post('/updateHostDetails/:hostId',(req,res)=>{

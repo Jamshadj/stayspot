@@ -3,6 +3,7 @@ import cloudinary from '../../helper/config.js';
 import bookingModel from '../../models/bookingModel.js';
 import hostModel from '../../models/hostModel.js';
 import propertyModel from '../../models/propertyModel.js';
+import WithdrawModel from '../../models/withdrawModel.js';
 
 export default {
   // Add a new property to the database
@@ -220,5 +221,25 @@ updateBookingStatus: async (req, res) => {
     console.error(error);
     res.status(500).json({ error: error.message });
   }
-},  
+},
+withdrawRequest: async (req, res) => {
+  try {
+    const { amount,  accountHolderName, accountNumber, ifscCode, branch, hostId } = req.body.withdrawalRequest;
+    const response = await WithdrawModel.insertMany([{
+      amount,
+      accountHolder: accountHolderName,
+      accountNo: accountNumber,
+      ifscCode,
+      branch,
+      hostId
+    }]);
+    await hostModel.findByIdAndUpdate(hostId, { $inc: { wallet: -amount } });
+
+    res.json({ success: true });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, error: error.message });
+  }
+}
 };
+            

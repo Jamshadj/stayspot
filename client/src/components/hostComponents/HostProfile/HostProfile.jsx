@@ -2,7 +2,7 @@ import React from 'react';
 import HostNavbar from '../HostNavBar/HostNavbar';
 import { useDispatch, useSelector } from 'react-redux';
 import Swal from 'sweetalert2';
-import { updateDetails } from '../../../api/hostApi';
+import { updateDetails, withdrawRequest } from '../../../api/hostApi';
 
 function HostProfile() {
   const dispatch = useDispatch();
@@ -38,6 +38,63 @@ function HostProfile() {
       }
     }
   };
+  const handleWithdrawRequest = async () => {
+    try {
+      const { value: formValues } = await Swal.fire({
+        title: 'Withdraw Request',
+        html: `
+          <input id="swal-input1" class="swal2-input" placeholder="Amount" type="number" step="0.01" min="0.01" required>
+          <input id="swal-input2" max="${host.details.wallet}" class="swal2-input" placeholder="Account Holder Name" type="text" required>
+          <input id="swal-input3" class="swal2-input" placeholder="Account Number" type="text" required>
+          <input id="swal-input4" class="swal2-input" placeholder="IFSC Code" type="text" required>
+          <input id="swal-input5" class="swal2-input" placeholder="Branch" type="text" required>
+        `,
+        focusConfirm: false,
+        showCancelButton: true,
+        confirmButtonText: 'Submit',
+        preConfirm: () => {
+          const request = {
+            amount: parseFloat(document.getElementById('swal-input1').value),
+            accountHolderName: document.getElementById('swal-input2').value,
+            accountNumber: document.getElementById('swal-input3').value,
+            ifscCode: document.getElementById('swal-input4').value,
+            branch: document.getElementById('swal-input5').value,
+          };
+
+          // Custom input validation
+          if (isNaN(request.amount) || request.amount <= 0 && request.amount>host.details.wallet) {
+            Swal.showValidationMessage('Invalid amount');
+            return false;
+          }
+          if (request.accountHolderName.trim() === '') {
+            Swal.showValidationMessage('Account Holder Name is required');
+            return false;
+          }
+          // Add more validation as needed
+
+          return request;
+        },
+        didOpen: () => {
+          // Custom validation or formatting if needed
+        },
+      });
+
+      if (formValues) {
+        formValues.hostId = host.details._id;
+        const response = await withdrawRequest(formValues);
+
+        if (response.data.success) {
+          dispatch({ type: 'refresh' });
+          Swal.fire('Withdrawal Request Submitted amount will be credited into your bank account within 48hours', '', 'success');
+        } else {
+          Swal.fire('Failed to submit withdrawal request. Please try again.', '', 'error');
+        }
+      }
+    } catch (error) {
+      Swal.fire('Failed to submit withdrawal request. Please try again.', '', 'error');
+    }
+  };
+
 
   return (
     <div className="min-h-screen bg-gray-100">
@@ -71,7 +128,7 @@ function HostProfile() {
               <p className="text-black font-semibold">Wallet Balance</p>
               <div className="flex justify-between items-center">
                 <div>{host.details.wallet}</div>
-                <div className="text-blue-500 cursor-pointer" >
+                <div onClick={handleWithdrawRequest} className="text-blue-500 cursor-pointer" >
                   Withdraw request
                 </div>
               </div>
