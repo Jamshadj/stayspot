@@ -11,6 +11,7 @@ function Home() {
   const [bookingCount, setBookingCount] = useState(0);
   const [pendingBookingCount, setPendingBookingCount] = useState(0);
   const [completedBookingCount, setCompletedBookingCount] = useState(0);
+  const [bookingData, setBookingData] = useState([]);
 
   useEffect(() => {
     const getUsersData = () => {
@@ -36,12 +37,13 @@ function Home() {
     const getBookingsData = () => {
       getBookings()
         .then((response) => {
+          setBookingData(response.data);
+
           setBookingCount(response.data.length);
-          
-          // Filter bookings by status
+
           const pendingBookings = response.data.filter(booking => booking.status === 'Booked');
           setPendingBookingCount(pendingBookings.length);
-          
+
           const completedBookings = response.data.filter(booking => booking.status === 'CheckOut completed');
           setCompletedBookingCount(completedBookings.length);
         })
@@ -109,16 +111,22 @@ function Home() {
           </div>
         </div>
       </div>
+      {bookingData.length > 0 && (
       <div className='flex mt-28'>
         <div className='w-1/2 h-full w-full'>
           <h4>Revenue</h4>
-          <RevenueCharts />
+          <RevenueCharts bookings={bookingData} />
         </div>
         <div className='w-1/2'>
           <h4>Bookings</h4>
-          <BookingCharts pendingBookingCount={pendingBookingCount} completedBookingCount={completedBookingCount} totalBookingCount={bookingCount}/>
+          <BookingCharts
+            pendingBookingCount={pendingBookingCount}
+            completedBookingCount={completedBookingCount}
+            totalBookingCount={bookingCount}
+          />
         </div>
       </div>
+    )}
     </div>
   );
 }

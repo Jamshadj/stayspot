@@ -5,19 +5,32 @@ class RevenueCharts extends Component {
   constructor(props) {
     super(props);
 
+    const currentDate = new Date();
+    const months = Array.from({ length: 12 }, (_, index) => {
+      const month = new Date(currentDate.getFullYear(), index);
+      return month.toLocaleString('default', { month: 'long' });
+    });
+
+    const monthlyRevenueData = new Array(12).fill(0);
+    this.props.bookings.forEach((booking) => {
+      const bookingDate = new Date(booking.bookingDate);
+      const monthIndex = bookingDate.getMonth();
+      monthlyRevenueData[monthIndex] += booking.totalAmount;
+    });
+
     this.state = {
       options: {
         chart: {
           id: "basic-bar"
         },
         xaxis: {
-          categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998]
+          categories: months
         }
       },
       series: [
         {
-          name: "series-1",
-          data: [30, 40, 45, 50, 49, 60, 70, 91]
+          name: "Revenue",
+          data: monthlyRevenueData
         }
       ]
     };
@@ -25,14 +38,14 @@ class RevenueCharts extends Component {
 
   render() {
     return (
-      <div className="app mt-6" >
+      <div className="app mt-6">
         <div className="row">
           <div className="mixed-chart">
             <Chart
               options={this.state.options}
               series={this.state.series}
               type="bar"
-              width="500"
+              width="700"
             />
           </div>
         </div>
