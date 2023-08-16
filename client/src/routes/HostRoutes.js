@@ -27,6 +27,7 @@ import SelectAmenities from "../pages/HostPages/SelectAmenities.jsx";
 import HostProfile from "../components/hostComponents/HostProfile/HostProfile.jsx";
 import ReservationDetails from "../components/hostComponents/Reversations/ReservationDetails.jsx";
 import ReservationHistory from "../components/hostComponents/Reversations/ReservationHistory.jsx";
+import PaymentHistoryPage from "../pages/HostPages/PaymentHistoryPage";
 
  
 export default function HostRoutes() {
@@ -50,6 +51,7 @@ export default function HostRoutes() {
       {host.login ? (
         <>
           <Route path="/signup" element={<Navigate to="/host" replace />} />
+          <Route path="/paymenthistory" element={<PaymentHistoryPage/>} />
           <Route path="/otp" element={<Navigate to="/host" replace />} />
           <Route path="/login" element={<Navigate to="/host" replace />} />
           <Route path="/about-your-place" element={<AboutProperty/>}/>

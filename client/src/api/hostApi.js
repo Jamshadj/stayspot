@@ -31,6 +31,9 @@ export async function postHostOtp(otp, formData) {
   export async function getBookingByHostId(Id) {
     return await axios.get(`/host/getBookingById/${Id}`);
   }
+  export async function getWithdrawById(hostId) {
+    return await axios.get(`/host/withdraw/${hostId}`)
+  }
   
   export async function updateBookingStatus(bookingId, status,hostId) {
     return await axios.post(`/host/updatestatus/${bookingId}`, { status ,hostId});

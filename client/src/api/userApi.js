@@ -43,6 +43,7 @@ export const getHostById = (hostId) => {
   return axios.get(`/getHostById/${hostId}`);
 };
 
+
 // Process payment checkout
 export const postCheckout = (details) => {
   return axios.post('/checkOut', details);
@@ -87,3 +88,7 @@ export const getReservationById = async (userId) => {
 export const getBookingByPropertyId = async (propertyId) => {
   return axios.get(`/getBookingByPropertyId/${propertyId}`);
 };
+
+export const addReview=async (reviewDetails)=>{
+  return axios.post('/addReview',{reviewDetails})
+}

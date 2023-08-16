@@ -1,6 +1,6 @@
 import React from 'react'
 import Navbar from '../../components/userComponents/Navbar/Navbar'
-import PaymentHistory from '../../components/userComponents/PaymentHistory'
+import PaymentHistory from '../../components/hostComponents/PaymentHistory/PaymentHistory'
 
 function PaymentHistoryPage() {
   return (

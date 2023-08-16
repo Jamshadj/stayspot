@@ -102,10 +102,16 @@ function MenuItems() {
                 label="Listings" 
                 onClick={() => navigate('/my-reservations')}
               />
+              <div onClick={() => navigate('/host/paymenthistory')}>
+        <MenuItem 
+          label="Payment history" 
+        />
+        </div> 
               <MenuItem 
                 label="Switch to travelling" 
                 onClick={() => navigate('/my-properties')}
               />
+
               <hr />
               <div onClick={handleLogout}>
 
