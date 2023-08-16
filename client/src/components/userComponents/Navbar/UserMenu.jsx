@@ -151,8 +151,8 @@ function UserMenu() {
         onClick="/reservationHistory"
       />
       <MenuItem 
-        label="My properties" 
-        onClick="/my-trips"
+        label="Withdraw history" 
+        onClick="/paymenthistory"
       />
       <MenuItem 
         label="stayspot your home" 

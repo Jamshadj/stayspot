@@ -24,6 +24,9 @@ export async function postUnBlockHost(Id) {
 export async function postAdminLogout() {
     return await axios.post('/admin/logout')
 }
+export async function updateWithdrawStatus(data) {
+    return await axios.post('/admin/updatestatus',{data})
+}
 export async function getProperties() {
     return await axios.get('/admin/properties')
 }
@@ -34,6 +37,9 @@ export async function updateListingStatus(propertyId, status) {
 }
 export async function getBookings() {
     return await axios.get('/admin/bookings')
+}
+export async function getWithdraw() {
+    return await axios.get('/admin/getWithdraw')
 }
 export async function getUserById(Id) {
     console.log(Id, "id");

@@ -21,6 +21,7 @@ import MapsHomeWorkIcon from '@mui/icons-material/MapsHomeWork';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import { useLocation, useNavigate } from 'react-router-dom';
 import BookOutlinedIcon from '@mui/icons-material/BookOutlined';
+import PaymentIcon from '@mui/icons-material/Payment';
 const drawerWidth = 240;
 
 const openedMixin = (theme) => ({
@@ -101,6 +102,7 @@ export default function SideDrawer() {
     { text: 'HostList', icon: <GroupIcon />, path: '/admin/hosts', type: 'host' },
     { text: 'Properties', icon: <MapsHomeWorkIcon />, path: '/admin/properties', type: 'properties' },
     { text: 'Bookings', icon: <BookOutlinedIcon />, path: '/admin/bookings', type: 'bookings' },
+    { text: 'WithdrawRequests', icon: <PaymentIcon />, path: '/admin/withdrawrequest', type: 'withdraw' },
   ];
 
   useEffect(() => {
