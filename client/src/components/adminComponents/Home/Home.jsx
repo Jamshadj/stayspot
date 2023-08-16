@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { getUsers, getHosts, getBookings } from "../../../api/adminApi";
 import GroupIcon from '@mui/icons-material/Group';
 import BookIcon from '@mui/icons-material/Book';
+import RevenueCharts from '../Charts/RevenueCharts';
 function Home() {
   const [userCount, setUserCount] = useState(0);
   const [hostCount, setHostCount] = useState(0);
@@ -77,11 +78,11 @@ function Home() {
           </div>
         </div>
       </div>
-      <div className='flex'>
-        <div className='1/2'>
-
+      <div className='flex mt-28'>
+        <div className='w-1/2 h-full w-full'>
+          <RevenueCharts/>
         </div>
-        <div className='1/2'>
+        <div className='w-1/2'>
 
         </div>
       </div>
