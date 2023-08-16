@@ -25,7 +25,7 @@ class RevenueCharts extends Component {
 
   render() {
     return (
-      <div className="app">
+      <div className="app mt-6" >
         <div className="row">
           <div className="mixed-chart">
             <Chart
