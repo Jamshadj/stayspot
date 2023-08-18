@@ -92,3 +92,6 @@ export const getBookingByPropertyId = async (propertyId) => {
 export const addReview=async (reviewDetails)=>{
   return axios.post('/addReview',{reviewDetails})
 }
+export const userChats=async (id)=>{
+  return axios.get(`/chat/${id}`)
+}

@@ -23,6 +23,7 @@ router.get('/getBookingById/:hostId', hostPropertyControllers.getBookingByHostId
 
 router.post('/updatestatus/:bookingId', hostPropertyControllers.updateBookingStatus);
 router.post('/withdraw', hostPropertyControllers.withdrawRequest);
+router.get('/withdraw/:hostId', hostPropertyControllers.getWithdrawById);
 
 
 router.post('/updateHostDetails/:hostId',(req,res)=>{

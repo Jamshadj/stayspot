@@ -233,13 +233,24 @@ withdrawRequest: async (req, res) => {
       branch,
       hostId
     }]);
-    await hostModel.findByIdAndUpdate(hostId, { $inc: { wallet: -amount } });
+    // await hostModel.findByIdAndUpdate(hostId, { $inc: { wallet: -amount } });
 
     res.json({ success: true });
   } catch (error) {
     console.error(error);
     res.status(500).json({ success: false, error: error.message });
   }
-}
+},
+getWithdrawById: async (req, res) => {
+  try {
+    const { hostId } = req.params;
+    console.log(hostId);
+    const withdraw = await WithdrawModel.find({ hostId: hostId });
+    res.json(withdraw);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: error });
+  }
+},
 };
-            
+               

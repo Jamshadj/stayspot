@@ -6,48 +6,48 @@ import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
 
 function MenuItems() {
-    const { host } = useSelector((state) => state);
-    const [isOpen, setIsOpen] = useState(false);
-    const dispatch = useDispatch();
-    const navigate=useNavigate()
-    const toggleOpen = useCallback(() => {
-        setIsOpen((value) => !value);
-      }, []);
-      const handleLogout = async () => {
-        try {
-          console.log("wsw");
-          // Ask for logout confirmation
-          const shouldLogout = await Swal.fire({
-            title: 'Logout Confirmation',
-            text: 'Are you sure you want to log out?',
-            icon: 'question',
-            showCancelButton: true,
-            confirmButtonText: 'Yes, log out',
-            cancelButtonText: 'Cancel',
-          });
-    
-          // If the user confirms the logout, proceed with the logout process
-          if (shouldLogout.isConfirmed) {
-            const response = await postHostLogout();
-            // Dispatch a refresh action to update the user state
-            dispatch({ type: 'refresh' });
-    
-            // Redirect the user to the login page after successful logout
-            navigate('/host/login'); // Replace '/host/login' with your desired login page URL for hosts
-          }
-        } catch (error) {
-          console.error('Error logging out:', error);
-    
-         
-        }
-      };
-    
-    
+  const { host } = useSelector((state) => state);
+  const [isOpen, setIsOpen] = useState(false);
+  const dispatch = useDispatch();
+  const navigate = useNavigate()
+  const toggleOpen = useCallback(() => {
+    setIsOpen((value) => !value);
+  }, []);
+  const handleLogout = async () => {
+    try {
+      console.log("wsw");
+      // Ask for logout confirmation
+      const shouldLogout = await Swal.fire({
+        title: 'Logout Confirmation',
+        text: 'Are you sure you want to log out?',
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, log out',
+        cancelButtonText: 'Cancel',
+      });
+
+      // If the user confirms the logout, proceed with the logout process
+      if (shouldLogout.isConfirmed) {
+        const response = await postHostLogout();
+        // Dispatch a refresh action to update the user state
+        dispatch({ type: 'refresh' });
+
+        // Redirect the user to the login page after successful logout
+        navigate('/host/login'); // Replace '/host/login' with your desired login page URL for hosts
+      }
+    } catch (error) {
+      console.error('Error logging out:', error);
+
+
+    }
+  };
+
+
   return (
     <div>
-    <div
-      onClick={toggleOpen}
-      className="
+      <div
+        onClick={toggleOpen}
+        className="
        
         border-[1px] 
         border-neutral-200 
@@ -60,18 +60,18 @@ function MenuItems() {
         hover:shadow-md 
         transition
       "
-    >
-      <div className="hidden md:block">
-        <img
-          src={host.details.image}
-          alt=" Avatar"
-          className="w-10  rounded-full"
-        />
+      >
+        <div className="hidden md:block">
+          <img
+            src={host.details.image}
+            alt=" Avatar"
+            className="w-10  rounded-full"
+          />
+        </div>
       </div>
-    </div>
-    {isOpen && (
-      <div 
-        className="
+      {isOpen && (
+        <div
+          className="
           absolute 
           rounded-xl 
           shadow-md
@@ -84,49 +84,51 @@ function MenuItems() {
           text-sm
           mt-8
         "
-      >
-        <div className="flex flex-col cursor-pointer">
-          {host && ( // Add missing parenthesis here
-            <>
-            <div   onClick={() => navigate(`/host/profile/${host.details._id}`)}>
-              <MenuItem 
-                label="Profile" 
-              
-              />
-              </div>
-              <MenuItem 
-                label="Account" 
-                onClick={() => navigate('/my-favorites')}
-              />
-              <MenuItem 
-                label="Listings" 
-                onClick={() => navigate('/my-reservations')}
-              />
-              <div onClick={() => navigate('/host/paymenthistory')}>
-        <MenuItem 
-          label="Payment history" 
-        />
-        </div> 
-              <MenuItem 
-                label="Switch to travelling" 
-                onClick={() => navigate('/my-properties')}
-              />
+        >
+          <div className="flex flex-col cursor-pointer">
+            {host && ( // Add missing parenthesis here
+              <>
+                <div onClick={() => navigate(`/host/profile/${host.details._id}`)}>
+                  <MenuItem
+                    label="Profile"
 
-              <hr />
-              <div onClick={handleLogout}>
+                  />
+                </div>
+                <MenuItem
+                  label="Account"
+                  onClick={() => navigate('/my-favorites')}
+                />
+                <MenuItem
+                  label="Listings"
+                  onClick={() => navigate('/my-reservations')}
+                />
+                <div onClick={() => navigate('/host/paymenthistory')}>
+                  <MenuItem
+                    label="Payment history"
+                  />
+                </div>
+                <div onClick={() => navigate('/host/messages')}>
+                <MenuItem
+                  label="messages"
+                  onClick={() => navigate('/my-properties')}
+                />
+                </div>
 
-             
-              <MenuItem 
-                label="Logouttt" 
-                
-              />
-               </div>
-            </>
-          )}
+                <hr />
+                <div onClick={handleLogout}>
+
+
+                  <MenuItem
+                    label="Logouttt"
+
+                  />
+                </div>
+              </>
+            )}
+          </div>
         </div>
-      </div>
-    )}
-  </div>
+      )}
+    </div>
   )
 }
 

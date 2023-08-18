@@ -17,6 +17,7 @@ import MatchingListingPages from "../pages/userPages/MatchingListingPages";
 import ReservationHistory from "../pages/userPages/ReservationHistory";
 import ReservationDetailsPage from "../pages/userPages/ReservationDetailsPage";
 import PaymentHistoryPage from "../pages/HostPages/PaymentHistoryPage";
+import Chat from "../pages/userPages/Chat";
 
 
 export default function UserRoutes() {
@@ -51,6 +52,7 @@ export default function UserRoutes() {
           <Route path="/" element={<UserHome />} />
           <Route path="/matchingListing" element={<MatchingListingPages/>} />
           <Route path="/reservationHistory" element={<ReservationHistory/>} />
+          <Route path="/chat" element={<Chat/>} />
           <Route path="/reservationDetails/:bookingId" element={<ReservationDetailsPage/>} />
          
         </>

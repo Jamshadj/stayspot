@@ -14,6 +14,8 @@ router.post('/property-status-update/:propertyId', adminControllers.postUpdateLi
 
 router.get('/users',adminControllers.getUsers)
 router.get('/hosts',adminControllers.getHosts)
+router.get('/getWithdraw',adminControllers.getWithdraw)
+router.post('/updatestatus',adminControllers.updateWithdrawStatus)
 router.get('/bookings',adminControllers.getBookings)
 
 router.get('/getUserById/:userId', adminControllers.getUserById);

@@ -6,6 +6,7 @@ import userModel from "../../models/userModel.js";
 import hostModel from "../../models/hostModel.js";
 import propertyModel from "../../models/propertyModel.js";
 import bookingModel from "../../models/bookingModel.js";
+import WithdrawModel from "../../models/withdrawModel.js";
 
 export default {
   postLogIn: async (req, res) => {
@@ -71,6 +72,34 @@ export default {
       const hosts = await hostModel.find().lean();
 
       res.json(hosts);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: error });
+    }
+  },
+  getWithdraw: async (req, res) => {
+    try {
+
+      const withdraw = await WithdrawModel.find().lean();
+      res.json(withdraw);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: error });
+    }
+  },
+  updateWithdrawStatus: async (req, res) => {
+    try {
+      const { _id, hostId, amount } = req.body.data; // Destructure the properties from req.body.data
+  
+      // Update withdrawal status
+      const response = await WithdrawModel.findByIdAndUpdate(_id, {
+        status: true
+      });
+  
+      // Update host's wallet balance
+      await hostModel.findByIdAndUpdate(hostId, { $inc: { wallet: -amount } });
+  
+      res.json(response);
     } catch (error) {
       console.error(error);
       res.status(500).json({ error: error });

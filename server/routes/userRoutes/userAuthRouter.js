@@ -33,6 +33,7 @@ router.get('/getBookingByPropertyId/:propertyId', userPropertyController.getBook
 
 // Wishlist
 router.post('/addToWishList', userPropertyController.addToWishList);
+router.post('/addReview', userPropertyController.addReview);
 router.post('/removeFromWishList', userPropertyController.removeFromWishList);
 router.get('/getWishlist/:userId', userPropertyController.getWishList);
 

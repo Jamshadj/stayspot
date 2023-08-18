@@ -98,6 +98,7 @@ const propertySchema = mongoose.Schema({
     type: String,
     default: "on",
   },
+
   status: {
     type: String,
     default:"inProgress"

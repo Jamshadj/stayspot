@@ -42,7 +42,7 @@ export async function getWithdraw() {
     return await axios.get('/admin/getWithdraw')
 }
 export async function getUserById(Id) {
-    console.log(Id, "id");
+
     return await axios.get(`/admin/getUserById/${Id}`);
   }
 

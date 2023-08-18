@@ -39,6 +39,10 @@ const bookingSchema = new mongoose.Schema({
     type: Date,
     default: Date.now
   },
+  review: {
+    type: Array,
+    default: null
+  },
  status: {
     type:String,
     default:"Booked"

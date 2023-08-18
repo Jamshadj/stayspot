@@ -23,7 +23,7 @@ const withdrawSchema = new mongoose.Schema({
     required: true
   },
   status: {
-    type: Boolean,
+    type: Boolean,  
     default: false
   }
 });

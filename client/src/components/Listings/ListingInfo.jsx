@@ -4,8 +4,8 @@ import ListingCategory from './ListingCategory';
 import Map from './Map';
 import ListingAmentie from './ListingAmentie';
 
-function ListingInfo({ user,amenities, category, description, floorplan, locationValue, host }) {
-  console.log("am",amenities);
+function ListingInfo({ user, amenities, category, description, floorplan, locationValue, host }) {
+  console.log("am", amenities);
   return (
     <div className='col-span-4 flex flex-col gap-8 overflow-y-auto'>
       <div className='flex items-center gap-4'>
@@ -20,13 +20,18 @@ function ListingInfo({ user,amenities, category, description, floorplan, locatio
           </span>
         </div>
       </div>
-          <div className='flex flex-row items-center gap-4 font-light text-neutral-500'>
-            {floorplan.map((item, index) => (
-              <div key={index}>
-                {item.count} {item.type}
-              </div>
-            ))}
+      <div className='flex flex-row items-center gap-4 font-light text-neutral-500'>
+        {floorplan.map((item, index) => (
+          <div key={index}>
+            {item.count} {item.type}
           </div>
+        ))}
+      </div>
+      <div>
+        <button class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-black py-2 px-4 border border-blue-500 hover:border-transparent rounded">
+          Message Host
+        </button>
+      </div>
       <hr />
       {category && (
         <ListingCategory
@@ -37,9 +42,9 @@ function ListingInfo({ user,amenities, category, description, floorplan, locatio
       )}
       <hr />
       {amenities && (
-      <ListingAmentie
-      amenities={amenities}
-      />
+        <ListingAmentie
+          amenities={amenities}
+        />
       )}
       {/* 
         <Listi

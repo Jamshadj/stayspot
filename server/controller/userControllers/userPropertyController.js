@@ -160,6 +160,21 @@ export default {
     console.error(error);
     res.status(500).json({ message: 'An error occurred', error: error.message });
   }
+},
+addReview:async(req,res)=>{
+  try {
+    const booking = await bookingModel.findOne({ _id: req.body.reviewDetails.bookingId });
+    booking.review.push({
+        starCount: req.body.reviewDetails.starCount,
+        comment: req.body.reviewDetails.comment
+    });
+    await booking.save();
+
+    res.status(200).json({ message: 'Review added successfully' });
+} catch (error) {
+    console.error('Error adding review:', error);
+    res.status(500).json({ error: 'An error occurred while adding the review' });
+}
 }
  
 };

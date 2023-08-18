@@ -15,7 +15,7 @@ function UserMenu() {
   const toggleOpen = useCallback(() => {
     setIsOpen((value) => !value);
   }, []);
-  
+
   // Use useNavigate hook to get the navigate function
   const navigate = useNavigate();
 
@@ -71,7 +71,7 @@ function UserMenu() {
     <div className="relative">
       <div className="flex flex-row items-center gap-3">
         <div
-        onClick={()=>navigate('/host')}
+          onClick={() => navigate('/host')}
           className="
             hidden
             md:block
@@ -119,7 +119,7 @@ function UserMenu() {
           </div>
         </div>
         {isOpen && (
-          <div 
+          <div
             className="
               absolute 
               rounded-xl 
@@ -134,52 +134,56 @@ function UserMenu() {
             "
           >
             <div className="flex flex-col cursor-pointer">
-  {currentUser.login ? (
-    <>
-    <div onClick={() => navigate(`/profile/${currentUser.details._id}`)} >
-      <MenuItem 
-        label="Profile" 
-        
-      />
-      </div>
-      <MenuItem 
-        label="My favorites" 
-        onClick="/favorites"
-      />
-      <MenuItem 
-        label="My reservations" 
-        onClick="/reservationHistory"
-      />
-      <MenuItem 
-        label="Withdraw history" 
-        onClick="/paymenthistory"
-      />
-      <MenuItem 
-        label="stayspot your home" 
-        onClick="/my-trips"
-      />
-      <hr />
-      <div  onClick={handleLogout}>
+              {currentUser.login ? (
+                <>
+                  <div onClick={() => navigate(`/profile/${currentUser.details._id}`)} >
+                    <MenuItem
+                      label="Profile"
 
-      <MenuItem 
-        label="Logout" 
-       
-      />
-      </div>
-    </>
-  ) : (
-    <>
-      <MenuItem 
-        label="Login" 
-        onClick={() => navigate('/login')}
-      />
-      <MenuItem 
-        label="Sign up" 
-        onClick={() => navigate('/signup')}
-      />
-    </>
-  )}
-</div>
+                    />
+                  </div>
+                  <MenuItem
+                    label="My favorites"
+                    onClick="/favorites"
+                  />
+                  <MenuItem
+                    label="My reservations"
+                    onClick="/reservationHistory"
+                  />
+                  <MenuItem
+                    label="Withdraw history"
+                    onClick="/paymenthistory"
+                  />
+                  <MenuItem
+                    label="Mesages"
+                    onClick="/chat"
+                  />
+                  <MenuItem
+                    label="stayspot your home"
+                    onClick="/host"
+                  />
+                  <hr />
+                  <div onClick={handleLogout}>
+
+                    <MenuItem
+                      label="Logout"
+
+                    />
+                  </div>
+                </>
+              ) : (
+                <>
+                  <MenuItem
+                    label="Login"
+                    onClick={() => navigate('/login')}
+                  />
+                  <MenuItem
+                    label="Sign up"
+                    onClick={() => navigate('/signup')}
+                  />
+                </>
+              )}
+            </div>
 
           </div>
         )}

@@ -6,11 +6,11 @@ import { useSelector } from 'react-redux';
 
 function Options() {
   const { host } = useSelector((state) => state);
-    const [isOpen, setIsOpen] = useState(false);
-    const navigate=useNavigate()
-    const toggleOpen = useCallback(() => {
-        setIsOpen((value) => !value);
-      }, []);
+  const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate()
+  const toggleOpen = useCallback(() => {
+    setIsOpen((value) => !value);
+  }, []);
   return (
     <div className='flex'>
       <div
@@ -82,9 +82,9 @@ function Options() {
         Insights
       </div>
       <div onClick={toggleOpen} className='flex '>
-      <div
-        // onClick={()=>navigate('/host')}
-        className="
+        <div
+          // onClick={()=>navigate('/host')}
+          className="
           hidden
           md:block
           text-sm 
@@ -96,17 +96,17 @@ function Options() {
           transition 
           cursor-pointer
         "
-      >
-        Menu
-      </div>
-      <div className='mt-3 ml-[-1rem]'>
-      <IoIosArrowDropdownCircle />
+        >
+          Menu
+        </div>
+        <div className='mt-3 ml-[-1rem]'>
+          <IoIosArrowDropdownCircle />
 
-      </div>
+        </div>
       </div>
       {isOpen && (
-  <div 
-    className="
+        <div
+          className="
       absolute 
       rounded-xl 
       shadow-md
@@ -117,27 +117,27 @@ function Options() {
       top-12 
       text-sm
     "
-  >
-    <div className="flex flex-col cursor-pointer">
-      <>
-        <MenuItem
-          label="Listings" 
-          onClick='/my-trips'
-        />
-       <div onClick={() => navigate(`/host/reservations/${host.details._id}`)}>
-        <MenuItem 
-          label="Reverations" 
-        />
-        </div> 
-        
-        <MenuItem 
-          label="Create new listings" 
-          onClick='/my-reservations'
-        />
-      </>
-    </div>
-  </div>
-)}
+        >
+          <div className="flex flex-col cursor-pointer">
+            <>
+              <MenuItem
+                label="Listings"
+                onClick='/my-trips'
+              />
+              <div onClick={() => navigate(`/host/reservations/${host.details._id}`)}>
+                <MenuItem
+                  label="Reverations"
+                />
+              </div>
+
+              <MenuItem
+                label="Create new listings"
+                onClick='/my-reservations'
+              />
+            </>
+          </div>
+        </div>
+      )}
 
     </div>
   );
