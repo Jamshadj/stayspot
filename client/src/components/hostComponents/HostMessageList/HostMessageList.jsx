@@ -103,7 +103,7 @@ export default function HostMessageList({ currentChat, chatClicked, setSendMessa
                         <p className="small me-3 mb-3 rounded-3 text-muted">
                           {format(item.createdAt)} | {new Date(item.createdAt).toLocaleDateString()}
                         </p>
-                      </div>
+                      </div>    
                     </div>
                   )
                 })
