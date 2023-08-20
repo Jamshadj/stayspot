@@ -63,7 +63,6 @@ export default function ChatList({ usersList, onlineUsers, lastMessage, setChatC
                             <Chip label={"Active now"} color="primary" variant="outlined" />
                           }
                         </p>
-                        {/* <span className="badge bg-danger rounded-pill float-end">2</span> */}
                       </div>
                     </Link>
                   </li>
