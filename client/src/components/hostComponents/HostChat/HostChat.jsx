@@ -86,10 +86,9 @@ export default function DoctorChat({ }) {
 
   return (
     <div className=''>
-      {/* <DoctorHeader fullWidth></DoctorHeader> */}
+ 
       <section className="chat-main">
         <div className="d-flex">
-        {/* <DoctorSidebar page={"chat"} ></DoctorSidebar> */}
           <div className="w-100" style={{ boxShadow: "none" }}>
             <div className="card" id="chat3">
               <div className="card-body">
