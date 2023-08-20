@@ -127,10 +127,7 @@ export default function DoctorChat({ }) {
           </div>
         </div>
       </section>
-      {/* {
-      !chatClicked &&
-        <DoctorBottomNav page={'chat'} />
-      } */}
+      
 
     </div>
   )
