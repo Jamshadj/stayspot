@@ -1,11 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react'
 import EmojiPicker from 'emoji-picker-react';
 import { AiFillCloseCircle } from 'react-icons/ai'
-// import { addMessage, getMessages } from '../../api/messageRequests';
 import { useSelector } from 'react-redux';
 import { Avatar } from '@mui/material';
 import { format } from 'timeago.js';
-import { BeatLoader } from 'react-spinners';
 
 import { BounceLoader, PuffLoader } from 'react-spinners';
 import { useNavigate } from 'react-router-dom';
