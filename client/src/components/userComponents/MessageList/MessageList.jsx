@@ -89,20 +89,6 @@ export default function MessageList({ currentChat, chatClicked, setSendMessage, 
               </div>
             </div>
             <div className=" message-box pt-2" data-mdb-perfect-scrollbar="true" style={{ position: 'relative'}}>
-              
-              {/* <div className="d-flex flex-row single-chat-container">
-                <div className='sg-chat'>
-                  <p className="small p-2 mb-1 rounded-3 single-chat">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing
-                    elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua.
-                  </p>
-                  <p className="small ms-3 mb-3 rounded-3 text-muted float-end">
-                    12:00 PM | Aug 13
-                  </p>
-                </div>
-              </div> */}
-              
               {
                 messages[0] &&
                 messages.map((item, index) => {
