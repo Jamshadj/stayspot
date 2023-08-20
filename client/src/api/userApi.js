@@ -95,3 +95,6 @@ export const addReview=async (reviewDetails)=>{
 export const userChats=async (id)=>{
   return axios.get(`/chat/${id}`)
 }
+export const getMessages=async(id)=>{
+  return axios.get(`/chat/messages/${id}`)
+}

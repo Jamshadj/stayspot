@@ -7,9 +7,9 @@ export default function socketConnect(io, activeUsers){
         socket.on("new-user-add", (newUserId) => {
             if (!activeUsers[newUserId]) {
                 activeUsers[newUserId] = { userId: newUserId, socketId: socket.id }
-                console.log("New User Connected", activeUsers);
+                // console.log("New User Connected", activeUsers);
             }
-            console.log("active",activeUsers);
+            // console.log("active",activeUsers);
             io.emit("get-users", activeUsers);
         });
         socket.on("disconnect", () => {
@@ -21,7 +21,7 @@ export default function socketConnect(io, activeUsers){
             console.log("disconnect", socket.id)
             console.log("User Disconnected", activeUsers);
             io.emit("get-users", activeUsers);
-        });
+        }); 
         socket.on("send-message", (data) => {
             const { receiverId } = data;
             console.log("receiverid", receiverId)

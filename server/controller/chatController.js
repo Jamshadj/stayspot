@@ -1,67 +1,97 @@
-import ChatModel from '../models/chatModel.js';
-import messageModel from '../models/MessageModel.js';
+import ChatModel from "../models/ChatModel.js";
+import MessageModel from "../models/MessageModel.js";
+import hostModel from '../models/hostModel.js'; // Adjust the path accordingly
 
 export const createChat = async (req, res) => {
-  const { senderId, receiverId } = req.body;
-  console.log("createChat");
-  try {
-    const newChat = new ChatModel({
-      members: [senderId, receiverId],
+
+     
+        const newChat = new ChatModel({
+        userId: req.body.userId, // Corrected property name
+        hostId: req.body.hostId, // Corrected property name
     });
-    const result = await newChat.save();
-    res.status(201).json(result);
-  } catch (error) {
-    res.status(500).json({ message: 'Error creating chat', error });
-  }
+    try {
+        const result = await newChat.save();
+        res.json({ err: false, result });
+    } catch (error) { 
+        console.log(error);
+        res.json({ err: true });
+    }
+}; 
+
+export const userChats = async (req, res) => {
+    try {
+        const chat = await ChatModel.find({
+            userId: req.params.userId,
+        }).populate('hostId'); // Use 'hostId' instead of 'HostId'
+
+        const messages = await MessageModel.aggregate([
+            {
+                $group: {
+                    _id: "$chatId", 
+                    lastMessage: { $last: "$text" }
+                }
+            }
+        ]);
+
+        let lastMessage = {};
+        messages.map((item, index) => {
+            lastMessage[item._id] = item.lastMessage;
+        });
+        res.json({ err: false, chat, lastMessage });
+    } catch (error) {
+        console.log(error);
+        res.json({ err: true });
+    }
 };
-export const userChats=async(req,res)=>{
-    console.log("userChats");
-    console.log(req.params.userId );
+
+export const hostChats = async (req, res) => {
     try {
-        const chat =await ChatModel.find({
-            members:{$in:[req.params.userId]}
+        const chat = await ChatModel.find({
+            hostId: req.params.hostId,
+        }).populate('userId');
+        console.log("hostchat",chat);
+        
+        const messages= await MessageModel.aggregate([
+            {
+                $group: {
+                    _id: "$chatId",
+                    lastMessage: { $last: "$text" }
+                }
+            }
+        ])
+        let lastMessage={}
+        messages.map((item, index)=>{ 
+            lastMessage[item._id]=item.lastMessage
         })
-        res.status(200).json(chat);
+        res.json({ err: false, chat, lastMessage })
     } catch (error) {
-        res.status(500).json({ message: 'Error creating chat', error });
-    }
-}
+        res.json({ err: true });
 
-export const findChat=async(req,res)=>{
-    console.log("findChat");
-    try {
-        const chat=await ChatModel.findOne({
-            members:{$all:[req.params.firstId,req.params.secondId]}
-        })
-        res.status(200).json(chat)
-    } catch (error) {
-        res.status(500).json({ message: 'Error creating chat', error });
     }
-}
+};
 
-export const addMessage=async(req,res)=>{
-    console.log("addMessage");
-    const {chatId,senderId,text}=req.body
-    const message=new messageModel({
-        chatId,senderId,text
-    })
-    try {
-        const result=await message.save();
-        res.status(200).json(result)
-    } catch (error) {
-        res.status(500).json({ message: 'Error creating chat', error });
-    }
-}
-
-export const getMessages=async(req,res)=>{
-    console.log("getMessages");
-    const {chatId}=req.params
+export const findChat = async (req, res) => {
 
     try {
-        const result= await messageModel.find({chatId})
-        res.status(200).json(result)
+        let chat = await ChatModel.findOne({
+            userId: req.params.userId,
+            hostId: req.params.hostId
+        }).populate('hostId').populate('userId')
+        if (!chat) {
+            chat = await ChatModel.findOneAndUpdate({
+                userId: req.params.userId,
+                hostId: req.params.hostId
+            },{
+                $set:{
+                    userId: req.params.userId,
+                    hostId: req.params.hostId
+                }
+            },{upsert:true}
+            ).populate('hostId').populate('userId')
+        }
+        res.json({ err: false, chat })
     } catch (error) {
-        res.status(500).json({ message: 'Error creating chat', error });
+        console.log(error)
+        res.json({ err: true, message:"server error" });
     }
-
-}
+};

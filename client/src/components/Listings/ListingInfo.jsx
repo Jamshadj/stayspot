@@ -3,8 +3,28 @@ import { RxAvatar } from 'react-icons/rx';
 import ListingCategory from './ListingCategory';
 import Map from './Map';
 import ListingAmentie from './ListingAmentie';
+import { useNavigate } from 'react-router-dom';
+import { createChat } from '../../api/chatRequests';
 
 function ListingInfo({ user, amenities, category, description, floorplan, locationValue, host }) {
+  const navigate = useNavigate()
+ console.log("user",user);
+ console.log("host",host);
+ 
+const handlenavigate = async () => {
+  if (user.details && host) {
+    console.log("ggg");
+    try {
+      const response = await createChat({
+        userId: user.details._id,
+        hostId: host._id,
+      });
+      navigate('/chat');
+    } catch (error) {
+      console.log(error);
+    }
+  }
+};
   console.log("am", amenities);
   return (
     <div className='col-span-4 flex flex-col gap-8 overflow-y-auto'>
@@ -28,9 +48,16 @@ function ListingInfo({ user, amenities, category, description, floorplan, locati
         ))}
       </div>
       <div>
-        <button class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-black py-2 px-4 border border-blue-500 hover:border-transparent rounded">
-          Message Host
-        </button>
+        {host && (
+          <button
+            onClick={handlenavigate}
+            className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-black py-2 px-4 border border-blue-500 hover:border-transparent rounded"
+          >
+            Message Host
+          </button>
+        )}
+
+
       </div>
       <hr />
       {category && (

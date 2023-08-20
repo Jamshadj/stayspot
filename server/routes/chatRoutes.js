@@ -8,7 +8,7 @@ router.get('/:userId',userChats)
 router.get('/find/:firstId/:secondId',findChat)
 
 router.post('/message',addMessage)
-router.get('/:chatId',getMessages)
+router.get('/messages/:chatId',getMessages)
 
 
 export default router

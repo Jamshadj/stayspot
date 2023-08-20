@@ -28,6 +28,7 @@ import HostProfile from "../components/hostComponents/HostProfile/HostProfile.js
 import ReservationDetails from "../components/hostComponents/Reversations/ReservationDetails.jsx";
 import ReservationHistory from "../components/hostComponents/Reversations/ReservationHistory.jsx";
 import PaymentHistoryPage from "../pages/HostPages/PaymentHistoryPage";
+import HostChat from "../components/hostComponents/HostChat/HostChat.jsx";
 
  
 export default function HostRoutes() {
@@ -76,6 +77,7 @@ export default function HostRoutes() {
           <Route path="/manage-your-place/:propertyId/details" element={<ManagePlacePage />} />
           <Route path="/profile/:hostId" element={<HostProfile/>} />
           <Route path="/" element={<HostHome />} />
+          <Route path="/chat" element={<HostChat />} />
         </>
       ) : (
         <>

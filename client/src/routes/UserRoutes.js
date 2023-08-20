@@ -17,7 +17,8 @@ import MatchingListingPages from "../pages/userPages/MatchingListingPages";
 import ReservationHistory from "../pages/userPages/ReservationHistory";
 import ReservationDetailsPage from "../pages/userPages/ReservationDetailsPage";
 import PaymentHistoryPage from "../pages/HostPages/PaymentHistoryPage";
-import Chat from "../pages/userPages/Chat";
+import Chat from "../components/userComponents/Chat/Chat";
+
 
 
 export default function UserRoutes() {
