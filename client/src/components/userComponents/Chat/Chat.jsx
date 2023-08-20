@@ -82,7 +82,6 @@ export default function Chat({ }) {
 
   return (
     <div className='container'>
-      {/* <UserHeader fullWidth></UserHeader> */}
       <section className="chat-main containers">
         <div className>
           <div className="col-md-12" style={{ boxShadow: "none" }}>
@@ -111,7 +110,6 @@ export default function Chat({ }) {
           </div>
         </div>
       </section>
-      {/* <UserBottom page={'chat'}></UserBottom> */}
     </div>
   )
 }
