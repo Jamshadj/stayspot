@@ -1,14 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react'
 import './chat.css'
 import './mdb.min.css'
-// import UserHeader from '../UserHeader/UserHeader' 
+ 
 import ChatList from '../ChatList/ChatList'
 import MessageList from '../MessageList/MessageList'
 import { useParams, useSearchParams } from 'react-router-dom'
-// import { createChat, findChat, getUserChats } from ''
+
 import { useSelector } from 'react-redux'
 import { io } from "socket.io-client";
-// import UserBottom from '../UserBottom/UserBottom'
+
 import { createChat, findChat, getUserChats } from '../../../api/chatRequests'
 const socket = io.connect('http://localhost:4000');
 
