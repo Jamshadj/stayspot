@@ -7,7 +7,7 @@ export default function socketConnect(io, activeUsers){
         socket.on("new-user-add", (newUserId) => {
             if (!activeUsers[newUserId]) {
                 activeUsers[newUserId] = { userId: newUserId, socketId: socket.id }
-                // console.log("New User Connected", activeUsers);
+               console.log("New User Connected", activeUsers);
             }
             // console.log("active",activeUsers);
             io.emit("get-users", activeUsers);

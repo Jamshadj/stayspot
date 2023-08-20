@@ -9,7 +9,7 @@ import { findHostChat, getHostChats } from '../../../api/hostChatRequests';
 
 import { io } from "socket.io-client";
 
-const socket = io.connect('http://localhost:3000'); // Make sure to add 'http://' to the socket URL.
+const socket = io.connect('http://localhost:4000'); // Make sure to add 'http://' to the socket URL.
 
 
 
@@ -95,6 +95,7 @@ export default function DoctorChat({ }) {
                 <div className="row">
                   
                 <HostChatList
+                onlineUsers={onlineUsers}
                     usersList={usersList}
                     chatClicked={chatClicked}
                     lastMessage={lastMessage}

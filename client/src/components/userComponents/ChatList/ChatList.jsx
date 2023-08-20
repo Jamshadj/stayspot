@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 
 export default function ChatList({ usersList, onlineUsers, lastMessage, setChatClicked, chatClicked }) {
+  console.log(onlineUsers,"onlineUsers");
   const [users, setUsers] = useState([])
   useEffect(() => {
     if (usersList) {
@@ -38,6 +39,7 @@ export default function ChatList({ usersList, onlineUsers, lastMessage, setChatC
             {
               users && users[0] &&
               users.map((chat, index) => {
+                console.log( onlineUsers[chat?.hostId?._id],"onen");
                 return (
                   <li className="p-2 border-bottom" key={index}>
                     <Link to={"/chat?id=" + chat?.hostId?._id} onClick={() => setChatClicked(true)} className="d-flex justify-content-between">

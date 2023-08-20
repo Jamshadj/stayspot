@@ -49,7 +49,7 @@ export const hostChats = async (req, res) => {
         const chat = await ChatModel.find({
             hostId: req.params.hostId,
         }).populate('userId');
-        console.log("hostchat",chat);
+
         
         const messages= await MessageModel.aggregate([
             {

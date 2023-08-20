@@ -47,24 +47,24 @@ export default function HostChatList({ usersList, onlineUsers, lastMessage, setC
                         <div>
                           <img src={chat?.userId?.image ? chat?.userId?.image : defaultImg} alt="avatar" className="d-flex align-self-center me-3 chat-avatar" width={60} />
                           {
-                            // onlineUsers[chat.userId._id] &&
-                            // <span className="badge bg-success badge-dot" />
+                            onlineUsers[chat.userId._id] &&
+                            <span className="badge bg-success badge-dot" />
                           }
                         </div>
                         <div className="pt-1">
                           <p className="fw-bold mb-0">{chat.userId.firstName}</p>
-                          {/* <p className="small text-muted"> */}
+                          <p className="small text-muted">
                             {lastMessage[chat._id]}
-                          {/* </p> */}
+                          </p>
                         </div>
                       </div>
                       <div className="pt-1">
-                        {/* <p className="small text-muted mb-1">
+                        <p className="small text-muted mb-1">
                           {
                             onlineUsers[chat.userId._id] &&
                             <Chip label={"Active now"} color="primary" variant="outlined" />
                           }
-                        </p> */}
+                        </p>
                         {/* <span className="badge bg-danger rounded-pill float-end">2</span> */}
                       </div>
                     </Link>
