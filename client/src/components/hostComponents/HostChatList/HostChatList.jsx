@@ -69,7 +69,7 @@ export default function HostChatList({ usersList, onlineUsers, lastMessage, setC
                       </div>
                     </Link>
                   </li>
-                )
+                )            
               })
             }
 
