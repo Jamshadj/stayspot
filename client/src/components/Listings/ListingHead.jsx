@@ -7,7 +7,7 @@ function ListingHead({ title, locationValue, imageSrc }) {
   return (
     <div className="relative">
       <Heading title={title} subtitle={`${locationValue?.text}`} />
-      <div className="w-full h-[60vh] overflow-hidden rounded-xl relative flex md:hidden">
+      <div className="w-full md:h-[60vh] h-[30vh] overflow-hidden rounded-xl relative flex md:hidden">
         <Carousel
           showThumbs={false}
           showStatus={false}

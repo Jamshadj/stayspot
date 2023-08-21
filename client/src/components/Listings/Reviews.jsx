@@ -26,17 +26,17 @@ function Reviews({ id }) {
       ) : (
         <div>
           {reviews.map((booking, index) => (
-            <div key={index} className='flex my-4'>
+            <div key={index} className='md:flex my-4'>
               <div style={{ flex: 1 }}>
                 <div className='flex'>
                   <img src={booking.userId && booking.userId.image} style={{width:"30px",height:"30px"}} alt="" />
                   <p className='pl-4'>{booking.userId && booking.userId.firstName}</p>
                 </div>
               </div>
-              <div style={{ flex: 1, textAlign: 'center' }}>
+              <div >
                 <Rating value={booking.review[0] && booking.review[0].starCount} readonly />
               </div>
-              <div style={{ flex: 1, textAlign: 'right' }}>
+              <div className='md:flex-1 md:text-right'>
                 <input type="text" readOnly value={booking.review[0] && booking.review[0].comment} />
               </div>
             </div>
