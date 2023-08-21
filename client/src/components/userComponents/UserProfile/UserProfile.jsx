@@ -3,10 +3,12 @@ import { useSelector, useDispatch } from 'react-redux';
 import Swal from 'sweetalert2';
 import { updateDetails } from '../../../api/userApi';
 import Navbar from '../Navbar/Navbar';
+import { Button } from "@material-tailwind/react";
 
 function UserProfile() {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state);
+  const profile = user.details.image || "https://imgs.search.brave.com/ltN-AHqc6pHIeJ2056RPITzZ_px0QapnUdkbzH4Uio4/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9jZG4u/dmVjdG9yc3RvY2su/Y29tL2kvcHJldmll/dy0xeC80NS83OS9t/YWxlLWF2YXRhci1w/cm9maWxlLXBpY3R1/cmUtc2lsaG91ZXR0/ZS1saWdodC12ZWN0/b3ItNDY4NDU3OS5q/cGc";
 
   const handleEdit = async (field) => {
     const { value } = await Swal.fire({
@@ -28,10 +30,9 @@ function UserProfile() {
 
     if (value) {
       try {
-        console.log("ddd");
         // Call the API to update the user's field
         await updateDetails(user.details._id, { [field]: value });
-         dispatch({type:"refresh"})
+        dispatch({ type: "refresh" }); // Make sure to use the correct action type
         Swal.fire('Updated', '', 'success');
       } catch (error) {
         Swal.fire('Failed to update. Please try again.', '', 'error');
@@ -39,35 +40,55 @@ function UserProfile() {
     }
   };
 
+  const handleEditProfilePicture = async (event) => {
+    const file = event.target.files[0]; // Get the selected file
+    if (file) {
+      const formData = new FormData();
+      formData.append('profilePicture', file);
+
+      try {
+        // Upload the new profile picture using the API
+        const response = await updateDetails(user.details._id, formData);
+        setProfile(response.newProfileImageUrl); // Update the profile image state
+        dispatch({ type: "REFRESH_ACTION_TYPE" }); // Update the action type
+        Swal.fire("Profile Picture Updated", "", "success");
+      } catch (error) {
+        Swal.fire("Failed to update profile picture. Please try again.", "", "error");
+      }
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen">
       <Navbar reservation="reservation" />
       <div className="pt-28">
-        <div className="m-10 flex">
-          <div className="w-1/3 p-4">
-            <div className="flex justify-center h-48">
-              <img src={user.details.image} className="rounded-full" alt="User" />
+        <div className="m-10 mx-96 border border-gray-300 rounded-lg shadow-sm bg-white p-4">
+          <div className="flex justify-center h-60 mx-auto">
+            <div>
+
+            <img src={profile} className="rounded-full" alt="User" />
             </div>
-            <div className="text-center mt-4">
-              <span className="text-lg font-semibold">
-                {user.details.firstName} {user.details.lastName}
-              </span>
+            <div className='mt-auto'>
+
+            <Button variant="outlined" className="rounded-full my-2" onClick={handleEditProfilePicture}>
+                  Edit
+                </Button>
             </div>
           </div>
-          <div className="w-2/3 p-4">
-            <h2 className="text-xl font-semibold mb-4">Personal Info</h2>
-            {['firstName', 'lastName', 'email', 'phoneNumber'].map((field) => (
-              <div className="mb-4" key={field}>
-                <p className="text-black font-semibold">{field}</p>
-                <div className="flex justify-between items-center">
-                  <div>{user.details[field]}</div>
-                  <div className="text-blue-500 cursor-pointer" onClick={() => handleEdit(field)}>
-                    Edit
-                  </div>
-                </div>
+          {['firstName', 'lastName', 'email', 'phoneNumber'].map((field) => (
+            <div className="mx-12 flex" key={field}>
+              <div>
+                <span>
+                  {field}: {user.details[field]}
+                </span>
               </div>
-            ))}
-          </div>
+              <div className='ml-auto'>
+                <Button variant="outlined" className="rounded-full my-2" onClick={() => handleEdit(field)}>
+                  Edit
+                </Button>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </div>
