@@ -131,7 +131,8 @@ function CheckAvailabilityCard({ listing }) {
   const today = new Date().toISOString().split('T')[0];
 
   return (
-    <div className='sticky top-0 z-10 h-[200px] w-full inline-block'>
+    <div className='h-[100%]'>
+    <div className='sticky top-0 z-10  w-full inline-block'>
       <div className='pb-12'>
         <div className='mt-12'>
           <div className="border border-gray-300 rounded-lg p-6 shadow-md">
@@ -217,6 +218,7 @@ function CheckAvailabilityCard({ listing }) {
               )}
             </div>
           </div>
+        </div>
         </div>
       </div>
     </div>

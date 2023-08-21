@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 const bookingSchema = new mongoose.Schema({
   userId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User', // Reference to the User model (adjust the model name if needed)
+    ref: 'userDetails', // Reference to the User model (adjust the model name if needed)
     required: true
   },
   hostId: {

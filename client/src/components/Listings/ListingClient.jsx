@@ -4,18 +4,18 @@ import ListingHead from './ListingHead';
 import categories from '../hostComponents/AddProperty/StructureData';
 import amenities from '../hostComponents/AddProperty/AmenitiesData';
 import ListingInfo from './ListingInfo';
-import Calendar from './Calendar'
-
+import Calendar from './Calendar';
 
 import { getHostById } from '../../api/userApi'; // Make sure to have the getHostById function implemented in the userApi file or elsewhere.
 import { fetchLocationData } from '../../constant/Mapbox';
-
 import CheckAvaliablityCard from './CheckAvaliablityCard';
+
+import Reviews from './Reviews';
+
 function ListingClient({ listing, currentUser }) {
   const category = categories.find((item) => item.label === listing.structure);
   const amenitiess = amenities.filter((item) => listing.amenities.includes(item.label));
-  console.log(category, "category");
-  console.log(amenitiess, "amenties");
+
   const [locationData, setLocationData] = useState(null);
   const [host, setHost] = useState(null);
 
@@ -29,17 +29,17 @@ function ListingClient({ listing, currentUser }) {
   }, [listing.coordinates]);
 
   useEffect(() => {
-    const fetchGuestData = async () => {
+    const fetchHostData = async () => {
       try {
         const response = await getHostById(listing.hostId);
         setHost(response.data);
       } catch (error) {
-        console.error('Error fetching guest data:', error);
+        console.error('Error fetching host data:', error); // Corrected the error message
       }
     };
 
-    fetchGuestData();
-  }, [listing.hostId])
+    fetchHostData();
+  }, [listing.hostId]);
 
   return (
     <Container>
@@ -53,8 +53,8 @@ function ListingClient({ listing, currentUser }) {
               id={listing._id}
               currentUser={currentUser}
             />
-            <div className="flex">
-              <div className="w-1/2 mt-6">
+            <div className=" md:flex">
+              <div className=" md:w-1/2 mt-6">
                 <ListingInfo
                   user={currentUser}
                   category={category}
@@ -66,15 +66,15 @@ function ListingClient({ listing, currentUser }) {
                 />
                 {/* <Calendar/> */}
               </div>
-              <div className="relative w-1/3 ml-[8%] mr-0">
-               <CheckAvaliablityCard listing={listing}/>
+              <div className=" md:w-1/3 md:ml-[8%] mr-0 mb-2">
+              <CheckAvaliablityCard listing={listing} />
               </div>
             </div>
+            <hr />
+            <div className="mb-6"> {/* Add a margin-bottom to create spacing */}
+              <Reviews id={listing._id} />
+            </div>
           </div>
-        </div>
-        <hr />
-        <div>
-          hello
         </div>
       </div>
     </Container>

@@ -146,21 +146,26 @@ export default {
     }
   },
 
- getBookingByPropertyId: async (req, res) => {
-  try {
-    const { propertyId } = req.params;
-    const bookings = await bookingModel.find({ listingId: propertyId }); // Use find instead of findOne
-    console.log(bookings, "bookings");
-    if (bookings.length === 0) {
-      return res.status(404).json({ message: 'No bookings found' });
+  getBookingByPropertyId: async (req, res) => {
+    try {
+      const { propertyId } = req.params;
+      const bookings = await bookingModel
+        .find({ listingId: propertyId })
+        .populate('userId', 'firstName lastName image') // Populate the user information
+        .populate('review'); // Populate the review information
+      console.log(bookings, "bookings");
+      
+      if (bookings.length === 0) {
+        return res.status(404).json({ message: 'No bookings found' });
+      }
+  
+      res.json({ message: 'Booking items fetched successfully', bookings });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'An error occurred', error: error.message });
     }
-
-    res.json({ message: 'Booking items fetched successfully', bookings });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'An error occurred', error: error.message });
-  }
-},
+  },
+  
 addReview:async(req,res)=>{
   try {
     const booking = await bookingModel.findOne({ _id: req.body.reviewDetails.bookingId });
