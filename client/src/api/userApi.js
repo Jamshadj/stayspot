@@ -76,9 +76,14 @@ export const getMatchingListings = (coordinates) => {
 
 // Update user details
 export const updateDetails = async (userId, details) => {
+  console.log(details,"fur");
   return axios.post(`/updateDetails/${userId}`, { details });
 };
 
+export const updateProfile = async (userId, details) => {
+  console.log(details,"fur");
+  return axios.post(`/updateProfile/${userId}`, { details });
+};
 // Get user's reservations
 export const getReservationById = async (userId) => {
   return axios.get(`/getReservations/${userId}`);

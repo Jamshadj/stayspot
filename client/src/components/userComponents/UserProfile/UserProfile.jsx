@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Swal from 'sweetalert2';
-import { updateDetails } from '../../../api/userApi';
+import { updateDetails,updateProfile } from '../../../api/userApi';
 import Navbar from '../Navbar/Navbar';
 import { Button } from "@material-tailwind/react";
 
@@ -39,25 +39,52 @@ function UserProfile() {
       }
     }
   };
+  const isValidImage = (file) => { // Updated function name to isValidImage
+    const validExtensions = ['jpg', 'png', 'jpeg', 'gif'];
+    const fileExtension = file.name.split('.').pop().toLowerCase();
+    return validExtensions.includes(fileExtension);
+  };
+  const convertToBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onloadend = () => {
+        resolve(reader.result);
+      };
+      reader.onerror = (error) => {
+        reject(error);
+      };
+    });
+  };
+  
+  const handleEditProfilePicture = () => {
+    Swal.fire({
+      title: 'Edit profile',
+      input: 'file',
+    }).then((result) => {
+      if (result.isConfirmed && result.value) {
+        handleSelectedImage(result.value); // Call the helper function
+      }
+    });
+  };
 
-  const handleEditProfilePicture = async (event) => {
-    const file = event.target.files[0]; // Get the selected file
+  // Helper function to handle selected image
+  const handleSelectedImage = async (file) => {
     if (file) {
-      const formData = new FormData();
-      formData.append('profilePicture', file);
-
       try {
-        // Upload the new profile picture using the API
-        const response = await updateDetails(user.details._id, formData);
-        setProfile(response.newProfileImageUrl); // Update the profile image state
-        dispatch({ type: "REFRESH_ACTION_TYPE" }); // Update the action type
+        const base64Image = await convertToBase64(file);
+        setSelectedImage(base64Image);
+
+        // Call the updateProfile API with user ID and base64 image
+        const response = await updateProfile(user.details._id, base64Image);
+        // Update the user's profile image
+        dispatch({ type: "update_profile_image", payload: response.newProfileImageUrl });
         Swal.fire("Profile Picture Updated", "", "success");
       } catch (error) {
         Swal.fire("Failed to update profile picture. Please try again.", "", "error");
       }
     }
   };
-
   return (
     <div className="min-h-screen">
       <Navbar reservation="reservation" />
@@ -66,13 +93,13 @@ function UserProfile() {
           <div className="flex justify-center h-60 mx-auto">
             <div>
 
-            <img src={profile} className="rounded-full" alt="User" />
+            <img src={profile} className="rounded-full w-52" alt="User" />
             </div>
             <div className='mt-auto'>
 
             <Button variant="outlined" className="rounded-full my-2" onClick={handleEditProfilePicture}>
-                  Edit
-                </Button>
+                Edit
+              </Button>
             </div>
           </div>
           {['firstName', 'lastName', 'email', 'phoneNumber'].map((field) => (
