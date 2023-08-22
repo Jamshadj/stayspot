@@ -22,6 +22,11 @@ export const postVerifyOtp= (data) => {
   console.log(data,"daa");
   return axios.post('/verifyotp',{data});
 };
+export const postUpdatePassword= (data) => {
+  console.log(data,"daa");
+  return axios.post('/updatepassword',{data});
+};
+
 
 // Login with Google
 export const loginWithGoogle = (data) => {

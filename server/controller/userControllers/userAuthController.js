@@ -326,5 +326,35 @@ export default {
       console.error(error);
       res.status(500).json({ success: false, message: 'Internal server error' });
     }
+  },
+  postUpdatePassword: async (req, res) => {
+    try {
+      const { email, password } = req.body.data;
+      const hashedPassword = await bcrypt.hash(password, 10);
+      
+      const response = await userModel.findOneAndUpdate(
+        { email },
+        { password: hashedPassword }
+      );
+  
+      if (response) {
+        return res.status(200).json({
+          success: true,
+          message: 'Password updated successfully.'
+        });
+      } else {
+        return res.status(400).json({
+          success: false,
+          message: 'User not found or password not updated.'
+        });
+      }
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({
+        success: false,
+        message: 'An error occurred while updating the password.'
+      });
+    }
   }
+  
 };    

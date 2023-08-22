@@ -10,12 +10,11 @@ function Login() {
       <Navbar />
       <hr />
       <div className="flex flex-col md:flex-row mt-11">
-        {/* Image section on the left */}
-        <div className="w-full md:w-1/2 hidden md:block">
+        <div className="md:w-1/2 ">
           <LoginCardImage />
         </div>
         {/* Login form section on the right */}
-        <div className="w-full md:w-1/2">
+        <div className=" md:w-1/2">
           <LoginCard/>
         </div>
       </div>

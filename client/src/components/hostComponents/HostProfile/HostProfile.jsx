@@ -3,6 +3,7 @@ import HostNavbar from '../HostNavBar/HostNavbar';
 import { useDispatch, useSelector } from 'react-redux';
 import Swal from 'sweetalert2';
 import { updateDetails, withdrawRequest } from '../../../api/hostApi';
+import { Button } from '@material-tailwind/react';
 
 function HostProfile() {
   const dispatch = useDispatch();
@@ -62,7 +63,7 @@ function HostProfile() {
           };
 
           // Custom input validation
-          if (isNaN(request.amount) || request.amount <= 0 && request.amount>host.details.wallet) {
+          if (isNaN(request.amount) || request.amount <= 0 && request.amount > host.details.wallet) {
             Swal.showValidationMessage('Invalid amount');
             return false;
           }
@@ -97,47 +98,47 @@ function HostProfile() {
 
 
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen">
       <HostNavbar />
-      <div className="pt-28">
-        <div className="m-10 flex">
-          <div className="w-1/3 p-4">
-            <div className="flex justify-center h-48">
-              <img src={host.details.image} className="rounded-full" alt="host" />
+      <div className="">
+        <div className="m-10 md:mx-96 border border-gray-300 rounded-lg shadow-sm bg-white p-4">
+          <div className="flex justify-center h-60 mx-auto">
+            <div>
+              <img src={host.details.image} className="rounded-full w-52" alt="Host" />
             </div>
-            <div className="text-center mt-4">
-              <span className="text-lg font-semibold">
-                {host.details.firstName} {host.details.lastName}
-              </span>
+            <div className='mt-auto'>
+              <Button variant="outlined" className="rounded-full my-2" >
+                Edit
+              </Button>
             </div>
           </div>
-          <div className="w-2/3 p-4">
-            <h2 className="text-xl font-semibold mb-4">Personal Info</h2>
-            {['firstName', 'lastName', 'email'].map((field) => (
-              <div className="mb-4" key={field}>
-                <p className="text-black font-semibold">{field}</p>
-                <div className="flex justify-between items-center">
-                  <div>{host.details[field]}</div>
-                  <div className="text-blue-500 cursor-pointer" onClick={() => handleEdit(field)}>
-                    Edit
-                  </div>
-                </div>
+          {['firstName', 'lastName', 'email', 'phoneNumber'].map((field) => (
+            <div className="md:mx-12 md:flex" key={field}>
+              <div>
+                <span>
+                  {field}: {host.details[field]}
+                </span>
               </div>
-            ))}
-            <div className="mb-4">
-              <p className="text-black font-semibold">Wallet Balance</p>
-              <div className="flex justify-between items-center">
-                <div>{host.details.wallet}</div>
-                <div onClick={handleWithdrawRequest} className="text-blue-500 cursor-pointer" >
-                  Withdraw request
-                </div>
+              <div className='ml-auto'>
+                <Button variant="outlined" className="rounded-full my-2" onClick={() => handleEdit(field)}>
+                  Edit
+                </Button>
               </div>
             </div>
-            <div className="mb-4">
-              <p className="text-black font-semibold">Balance Amount to be credited</p>
-              <div className="flex justify-between items-center">
-                <div>{host.details.balance}</div>
+          ))}
+          <div className="mb-4">
+            <p className="text-black font-semibold">Wallet Balance</p>
+            <div className="flex justify-between items-center">
+              <div>{host.details.wallet}</div>
+              <div onClick={handleWithdrawRequest} className="text-blue-500 cursor-pointer" >
+                Withdraw request
               </div>
+            </div>
+          </div>
+          <div className="mb-4">
+            <p className="text-black font-semibold">Balance Amount to be credited</p>
+            <div className="flex justify-between items-center">
+              <div>{host.details.balance}</div>
             </div>
           </div>
         </div>

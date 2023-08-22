@@ -17,6 +17,7 @@ router.post('/updateDetails/:userId', userAuthController.updateDetails);
 router.post('/updateProfile/:userId', userAuthController.updateProfile);
 router.post('/forgotpassword', userAuthController.forgotPassword);
 router.post('/verifyotp', userAuthController.verifyOTP);
+router.post('/updatepassword', userAuthController.postUpdatePassword);
 
 // User property routes
 router.get('/getListings', userPropertyController.getListings);

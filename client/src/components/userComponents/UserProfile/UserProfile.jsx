@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Swal from 'sweetalert2';
-import { updateDetails,updateProfile } from '../../../api/userApi';
+import { updateDetails, updateProfile } from '../../../api/userApi';
 import Navbar from '../Navbar/Navbar';
 import { Button } from "@material-tailwind/react";
 
@@ -56,7 +56,7 @@ function UserProfile() {
       };
     });
   };
-  
+
   const handleEditProfilePicture = () => {
     Swal.fire({
       title: 'Edit profile',
@@ -74,7 +74,7 @@ function UserProfile() {
     if (file) {
       try {
         const base64Image = await convertToBase64(file);
-  
+
         // Show loading indicator
         Swal.fire({
           title: 'Updating Profile Picture',
@@ -85,10 +85,10 @@ function UserProfile() {
             Swal.showLoading();
           },
         });
-  
+
         // Call the updateProfile API with user ID and base64 image
         const response = await updateProfile(user.details._id, base64Image);
-        
+
 
         dispatch({ type: "refresh" });
         Swal.fire("Profile Picture Updated", "", "success");
@@ -98,7 +98,7 @@ function UserProfile() {
       }
     }
   };
-  
+
   return (
     <div className="min-h-screen">
       <Navbar reservation="reservation" />
@@ -107,11 +107,11 @@ function UserProfile() {
           <div className="flex justify-center h-60 mx-auto">
             <div>
 
-            <img src={profile} className="rounded-full w-52" alt="User" />
+              <img src={profile} className="rounded-full w-52" alt="User" />
             </div>
             <div className='mt-auto'>
 
-            <Button variant="outlined" className="rounded-full my-2" onClick={handleEditProfilePicture}>
+              <Button variant="outlined" className="rounded-full my-2" onClick={handleEditProfilePicture}>
                 Edit
               </Button>
             </div>

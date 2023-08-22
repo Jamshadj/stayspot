@@ -5,7 +5,7 @@ import GoogleAuth from '../GooogleAuth/GoogleAuth';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { logInSchema } from '../../../validations/logInValidation';
-import { postForgotPassword, postLogin, postVerifyOtp } from '../../../api/userApi';
+import { postForgotPassword, postLogin, postUpdatePassword, postVerifyOtp } from '../../../api/userApi';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import Swal from 'sweetalert2';
@@ -24,7 +24,7 @@ function LoginCard() {
   const navigate = useNavigate();
 
  // Client-side code (assuming Swal is used)
-const handleEmailSubmit = async (inputValue) => {
+ const handleEmailSubmit = async (inputValue) => {
   try {
     const response = await postForgotPassword(inputValue);
     if (response.data.success) {
@@ -39,16 +39,48 @@ const handleEmailSubmit = async (inputValue) => {
         confirmButtonText: 'Submit',
         cancelButtonText: 'Cancel'
       });
-      
+
       if (otp) {
         const otpResponse = await postVerifyOtp(otp);
-        console.log(otpResponse.data.message,"eff");
+        console.log(otpResponse.data.message, "eff");
         if (otpResponse.data.success) {
-          // OTP verification successful
           Swal.fire({
-            icon: 'success',
-            title: 'Success',
-            text: 'OTP verified successfully'
+            title: 'Set Your New Password',
+            html:
+              '<input type="password" id="password" class="swal2-input" placeholder="Password" minlength="8">' +
+              '<input type="password" id="confirmPassword" class="swal2-input" placeholder="Confirm Password">',
+            focusConfirm: false,
+            preConfirm: () => {
+              const password = document.getElementById('password').value;
+              const confirmPassword = document.getElementById('confirmPassword').value;
+
+              if (password !== confirmPassword) {
+                Swal.showValidationMessage('Passwords do not match');
+              }
+
+              return { password: password, confirmPassword: confirmPassword };
+            }
+          }).then(async (result) => {
+            if (result.isConfirmed) {
+              const password = result.value.password;
+              const email = inputValue; // Make sure to have the 'email' value available
+              const data = { password, email };
+              const updateResponse = await postUpdatePassword(data);
+              if (updateResponse.data.success) {
+                // Password updated successfully
+                Swal.fire({
+                  icon: 'success',
+                  title: 'Success',
+                  text: updateResponse.data.message
+                });
+              } else {
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Error',
+                  text: updateResponse.data.message
+                });
+              }
+            }
           });
         } else {
           Swal.fire({
@@ -59,7 +91,7 @@ const handleEmailSubmit = async (inputValue) => {
         }
       }
     } else {
-      // Show error message
+      // Show error message for forgot password response
       Swal.fire({
         icon: 'error',
         title: 'Error',
@@ -70,6 +102,7 @@ const handleEmailSubmit = async (inputValue) => {
     console.error(error);
   }
 };
+
 
 
   const forgotPassword = async () => {
