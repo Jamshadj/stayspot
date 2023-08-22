@@ -40,60 +40,60 @@ function Details({ checkInDate, checkOutDate, guests, onDatesChange, onGuestsCha
   };
 
   return (
+    <div className="bg-gray-100 p-4 sm:p-8">
     <div>
+      <span className='text-2xl ml-5 font-semibold'>
+        Book Your Stay
+      </span>
+    </div>
+    <div className='ml-8 mt-10'>
       <div>
-        <span className='text-2xl ml-5 font-semibold'>
-          Book Your Stay
+        <span className='text-xl font-semibold'>
+          Your trip
         </span>
       </div>
-      <div className='ml-8 mt-10'>
-        <div>
-          <span className='text-xl font-semibold'>
-            Your trip
-          </span>
-        </div>
 
-        <div className='mt-6'>
-          <div className='flex'>
-            <div>
-              <span className='text-base font-semibold'>
-                Dates
-              </span>
-            </div>
-            <div className='ml-auto'>
-              <span
-                className='text-base pl-auto font-semibold cursor-pointer'
-                onClick={handleEditDates}
-              >
-                Edit
-              </span>
-            </div>
-          </div>
+      <div className='mt-6 sm:w-72'>
+        <div className='flex'>
           <div>
-            <span>Check-in: {checkInDate.toDateString()}</span>
-            <span>Check-out: {checkOutDate.toDateString()}</span>
+            <span className='text-base font-semibold'>
+              Dates
+            </span>
+          </div>
+          <div className='ml-auto'>
+            <span
+              className='text-base pl-auto font-semibold cursor-pointer'
+              onClick={handleEditDates}
+            >
+              Edit
+            </span>
           </div>
         </div>
-        <div className='mt-6'>
-          <div className='flex'>
-            <div>
-              <span className='text-base font-semibold'>
-                Guests
-              </span>
-            </div>
-            <div className='ml-auto'>
-              <span
-                className='text-base pl-auto font-semibold cursor-pointer'
-                onClick={handleEditGuests}
-              >
-                Edit
-              </span>
-            </div>
-          </div>
-          <span>{guests} guest</span>
+        <div>
+          <span>Check-in: {checkInDate.toDateString()}</span>
+          <span>Check-out: {checkOutDate.toDateString()}</span>
         </div>
       </div>
+      <div className='mt-6 sm:w-72'>
+        <div className='flex'>
+          <div>
+            <span className='text-base font-semibold'>
+              Guests
+            </span>
+          </div>
+          <div className='ml-auto'>
+            <span
+              className='text-base pl-auto font-semibold cursor-pointer'
+              onClick={handleEditGuests}
+            >
+              Edit
+            </span>
+          </div>
+        </div>
+        <span>{guests} guest</span>
+      </div>
     </div>
+  </div>
   );
 }
 

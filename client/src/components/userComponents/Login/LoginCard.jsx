@@ -38,7 +38,7 @@ function LoginCard() {
     };
   return (
 
-    <div className="max-w-80 sm:max-w-96" style={{ width: "30rem" }}>
+    <div className="max-w-80 sm:max-w-96 md:w-[30rem]" >
     <div className="bg-white shadow-lg rounded-lg p-6" style={{ height: "36rem" }}>
       <Card color="transparent" shadow={false}>
       <Typography className="mb-4 text-center" variant="h4" color="blue-gray">

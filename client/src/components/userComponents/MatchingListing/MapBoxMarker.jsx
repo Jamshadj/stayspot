@@ -36,7 +36,8 @@ function MapboxComponent({ locations }) {
     return () => map.remove();
   }, [locations]);
 
-  return <div id="map" className="map-container h-[30rem] m-10" />;
+  return<div id="map" className="map-container mb-4 mt-6 sm:mb-0 md:m-10 h-[30rem]" />;
+
 }
 
 export default MapboxComponent;

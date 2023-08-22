@@ -1,13 +1,14 @@
 // ReserveRooms.js
 import React, { useEffect, useState } from 'react';
 import Navbar from '../Navbar/Navbar';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import Details from './Details';
 import { Button } from "@material-tailwind/react";
 import { getListingById, postCheckout } from '../../../api/userApi';
 import { useSelector } from 'react-redux';
 import axios from '../../../axios'
 import Swal from 'sweetalert2';
+import { createChat } from '../../../api/chatRequests';
 function ReserveRooms() {
   const { user } = useSelector((state) => state);
 
@@ -26,7 +27,7 @@ function ReserveRooms() {
   const [currentCheckInDate, setCurrentCheckInDate] = useState(checkInDate);
   const [currentCheckOutDate, setCurrentCheckOutDate] = useState(checkOutDate);
 
-
+  const navigate=useNavigate()
   const handlePhoneNumberSave = async () => {
     const phoneNumberInput = await Swal.fire({
       title: 'Add Phone Number',
@@ -192,17 +193,30 @@ function ReserveRooms() {
     return pricePerNight * numberOfNights;
   };
 
+
+  const messageHost=async()=>{
+    if (user.details && listing) {
+      console.log("ggg");
+      try {
+        const response = await createChat({
+          userId: user.details._id,
+          hostId: listing.hostId,
+        });
+        navigate('/chat');
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  }
   return (
     <div>
       <div>
         <Navbar reservation={true} />
-
       </div>
-
       <div className='pb-20 pt-20'>
-        <div className='m-20 mx-28'>
-          <div className='flex'>
-            <div className='md:w-1/2'>
+        <div className='md:m-10 lg:m-20'>
+          <div className='md:flex flex-col lg:flex-row'>
+            <div className='md:w-full lg:w-1/2 mb-10 md:mb-0'>
               <Details
                 checkInDate={currentCheckInDate}
                 checkOutDate={currentCheckOutDate}
@@ -211,37 +225,34 @@ function ReserveRooms() {
                 onGuestsChange={handleGuestsChange}
               />
               <hr />
-              <div>
-                <span className='ml-4 text-xl font-medium text-black'>
-                  Required for your trip
-                </span>
-              </div>
-              <div className='mt-3  text-black flex'>
+              {/* Required for your trip sections */}
+              <div className='mt-3 sm:w-full md:w-full text-black flex'>
                 <div>
-                  <div>
-                    <span className='text-base font-medium ml-4  '>
+                  <div className=''>
+                    <span className='text-base font-medium ml-4'>
                       Message the host
                     </span>
                   </div>
                   <div>
-                    <span className='text-base font-normal text-gray-700 ml-4  '>
+                    <span className='text-base font-normal text-gray-700 ml-4'>
                       Let the host know why you're travelling and when you'll check in.
                     </span>
                   </div>
                 </div>
                 <div className='ml-auto'>
-                  <Button variant="outlined">Add</Button>
+                  <Button variant="outlined" onClick={messageHost}>Message</Button>
                 </div>
               </div>
-              <div className='mt-3  text-black flex'>
+              {!user.details.phoneNumber &&
+              <div className='mt-3 sm:w-full md:w-full text-black flex'>
                 <div>
                   <div>
-                    <span className='text-base font-medium ml-4  '>
+                    <span className='text-base font-medium ml-4'>
                       Phone Number
                     </span>
                   </div>
                   <div>
-                    <span className='text-base font-normal text-gray-700 ml-4  '>
+                    <span className='text-base font-normal text-gray-700 ml-4'>
                       Add and confirm your phone number to get trip updates.
                     </span>
                   </div>
@@ -250,15 +261,13 @@ function ReserveRooms() {
                   <Button onClick={handlePhoneNumberSave} variant="outlined">
                     Add
                   </Button>
-
                 </div>
               </div>
+}
+             
+              {/* Ground rules sections */}
               <hr />
-              <div>
-                Ground rues
-              </div>
-              <hr />
-              <div className='mt-3  text-black '>
+              <div className='mt-3 text-black'>
                 <div>
                   <span className='ml-4 text-xl font-medium text-black'>
                     Pay With
@@ -267,43 +276,48 @@ function ReserveRooms() {
                 <div className='flex'>
                   <div>
                     <div className='mt-4'>
-                      <span className='text-base font-medium ml-4  '>
+                      <span className='text-base font-medium ml-4'>
                         Pay using card
                       </span>
                     </div>
                     <div>
-                      <span className='text-base font-normal text-gray-700 ml-4  '>
+                      <span className='text-base font-normal text-gray-700 ml-4'>
                         Let the host know why you're travelling and when you'll check in.
                       </span>
                     </div>
                   </div>
                   <div className='ml-auto'>
-                    <Button onClick={handleStripePay} variant="outlined">Pay now</Button>
+                    <Button onClick={handleStripePay} variant="outlined">
+                      Pay now
+                    </Button>
                   </div>
                 </div>
                 <div className='flex'>
                   <div>
                     <div className='mt-4'>
-                      <span className='text-base font-medium ml-4  '>
-                        Pay using upi
+                      <span className='text-base font-medium ml-4'>
+                        Pay using UPI
                       </span>
                     </div>
                     <div>
-                      <span className='text-base font-normal text-gray-700 ml-4  '>
+                      <span className='text-base font-normal text-gray-700 ml-4'>
                         Let the host know why you're travelling and when you'll check in.
                       </span>
                     </div>
                   </div>
                   <div className='ml-auto'>
-                    <Button onClick={handleBooking} variant="outlined">Pay now</Button>
+                    <Button onClick={handleBooking} variant="outlined">
+                      Pay now
+                    </Button>
                   </div>
                 </div>
               </div>
             </div>
-            <div className='md:w-1/2'>
+            <div className='md:w-1/2  w-72' >
+              {/* Images and listing information */}
               <div className='m-8 flex'>
-                <div className='flex -mr-11'>
-                  <div className='md:w-1/3 ml-28 '>
+                <div className='md:flex -mr-11'>
+                  <div className='md:w-1/3 md:ml-28'>
                     {listing && listing.images && listing.images.length > 0 && (
                       <img className='max-w-[66%] border-r-2 rounded-md' src={listing.images[0]} alt="" />
                     )}
@@ -311,7 +325,7 @@ function ReserveRooms() {
                   <div>
                     <div>
                       <span>
-                        {listing && listing.title} {/* Removed the unnecessary curly braces */}
+                        {listing && listing.title}
                       </span>
                     </div>
                     <div>
@@ -319,35 +333,33 @@ function ReserveRooms() {
                         {listing && listing.location}
                       </span>
                     </div>
-
                   </div>
                 </div>
               </div>
-              <hr className='ml-32' />
-              <div className='ml-32'>
+              <hr className='md:ml-32' />
+              <div className='md:ml-32'>
                 <span className='text-lg font-semibold ml-4'>
                   Price details
                 </span>
               </div>
-              <div className='ml-32'>
-                <span className='text-sm ml-4'>
+              <div className='md:ml-32'>
+                <span className='text-sm md:ml-4'>
                   ₹ {listing && listing.pricePerNight} x {calculateNumberOfNights()} nights
                 </span>
-                <span className='text-sm ml-4'>
+                <span className='text-sm md:ml-4'>
                   Total: ₹ {calculateTotalAmount()}
                 </span>
               </div>
-              <hr className='ml-32' />
-              <div className='ml-32'>
+              <hr className='md:ml-32' />
+              <div className='md:ml-32'>
                 Total: ₹ {calculateTotalAmount()}
               </div>
-
-
             </div>
           </div>
         </div>
       </div>
     </div>
+
   );
 }
 

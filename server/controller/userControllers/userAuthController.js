@@ -3,6 +3,7 @@ import sentOTP from "../../helper/sentOTP.js";
 import jwt from "jsonwebtoken";
 import bcrypt from 'bcrypt';
 import axios from "axios";
+import cloudinary from '../../helper/config.js';
 import bookingModel from "../../models/bookingModel.js";
 
 // Helper function to create a token
@@ -253,5 +254,32 @@ export default {
       console.error(error);
       return res.status(500).json({ message: 'Internal server error' });
     }
+  },
+  updateProfile: async (req, res) => {
+    try {
+      const { userId } = req.params;
+      const { details } = req.body; // Assuming you're sending the image URL in the 'details' field
+      console.log("dd");
+      // Upload the image to Cloudinary
+      const result = await cloudinary.uploader.upload(details, {
+        folder: 'profileImage'
+      });
+      
+      // Update the user's image URL in the database
+      const updatedUser = await userModel.updateOne(
+        { _id: userId },
+        {
+          $set: {
+            image: result.secure_url
+          }
+        }
+      );
+      console.log("d4d",updatedUser);
+        return res.status(200).json({ message: 'User profile image updated successfully' });
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ message: 'Internal server error' });
+    }
   }
+  
 }; 

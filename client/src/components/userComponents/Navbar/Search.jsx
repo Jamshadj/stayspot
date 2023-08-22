@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { FaSearch } from 'react-icons/fa';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { Input } from '@material-tailwind/react';
 
 function Search() {
   const [showInput, setShowInput] = useState(false);
@@ -77,39 +78,82 @@ function Search() {
   return (
     <div
       className="border-[1px] w-full md:w-auto py-2 rounded-full shadow-sm hover:shadow-md transition cursor-pointer"
-
     >
       {showInput ? (
-        <div className="flex flex-row items-center">
-          <input
-            type="text"
-            className="w-[22%] px-4 py-1 text-sm outline-none"
-            placeholder="Location"
-            value={location}
-            onChange={handleSearchChange}
-          />
-          <label className="px-4 py-1 text-sm text-gray-600">Check-in</label>
-          <input
-            type="date"
-            className="w-[22%] px-2 py-1 text-sm outline-none"
-            value={checkInDate}
-            onChange={handleCheckInDateChange}
-            min={new Date().toISOString().split('T')[0]} // Disable past dates
-          />
-          <label className="px-4 py-1 text-sm text-gray-600">Check-out</label>
-          <input
-            type="date"
-            className="w-[22%] px-2 py-1 text-sm outline-none"
-            value={checkOutDate}
-            onChange={handleCheckOutDateChange}
-            min={checkInDate || new Date().toISOString().split('T')[0]} // Disable before check-in date
-            disabled={!checkInDate} // Disable until check-in date is selected
-          />
-          <div
-            className="p-2 bg-rose-500 rounded-full text-black"
-            onClick={searchListingsByLocation}
-          >
-            <FaSearch size={18} />
+        <div>
+          <div className='hidden md:block'>
+            <div className="  flex flex-row items-center">
+              <div>
+                <Input
+                  type="text"
+                  className="w-[22%] ml-3 px-4 py-1 text-sm outline-none"
+                  placeholder="Location"
+                  value={location}
+                  onChange={handleSearchChange}
+                />
+              </div>
+              <div></div>
+              <label className="px-4 py-1 text-sm text-gray-600">Check-in</label>
+              <input
+                type="date"
+                className="w-[22%] px-2 py-1 text-sm outline-none"
+                value={checkInDate}
+                onChange={handleCheckInDateChange}
+                min={new Date().toISOString().split('T')[0]} // Disable past dates
+              />
+              <label className="px-4 py-1 text-sm text-gray-600">Check-out</label>
+              <input
+                type="date"
+                className="w-[22%] px-2 py-1 text-sm outline-none"
+                value={checkOutDate}
+                onChange={handleCheckOutDateChange}
+                min={checkInDate || new Date().toISOString().split('T')[0]} // Disable before check-in date
+                disabled={!checkInDate} // Disable until check-in date is selected
+              />
+              <div
+                className="p-2 bg-rose-500 rounded-full text-black"
+                onClick={searchListingsByLocation}
+              >
+                <FaSearch size={18} />
+              </div>
+            </div>
+          </div>
+          <div className="md:hidden">
+            <div className='mx-3'>
+              <Input type="text"  value={location}
+                  onChange={handleSearchChange}/>
+            </div>
+            <div className='flex mx-4'>
+              <div className='mt-3'>
+                <label className="px-4 py-1 text-sm text-gray-600">Check-in</label>
+                <input
+                  type="date"
+                  className="w-[54%] px-2 py-1 text-sm outline-none"
+                  value={checkInDate}
+                  onChange={handleCheckInDateChange}
+                  min={new Date().toISOString().split('T')[0]} // Disable past dates
+                />
+              </div>
+            </div>
+            <div className='flex mx-4'>
+              <div className='mt-3'>
+                <label className="px-4 py-1 text-sm text-gray-600">Check-out</label>
+                <input
+                  type="date"
+                  className="w-[50%] px-2 py-1 text-sm outline-none"
+                  onChange={handleCheckOutDateChange}
+                min={checkInDate || new Date().toISOString().split('T')[0]} // Disable before check-in date
+                disabled={!checkInDate} // Disable until check-in date is selected
+                />
+              </div>
+            </div>
+            <div
+                className="p-2 bg-rose-500  rounded-full text-black"
+                onClick={searchListingsByLocation}
+              >
+                <FaSearch className='mx-auto' size={18} />
+              </div>
+
           </div>
         </div>
       ) : (

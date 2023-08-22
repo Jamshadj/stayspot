@@ -82,20 +82,21 @@ function MatchingListing() {
       </div>
       <div className='pb-20 pt-20'>
         <Container>
-          <div className='flex'>
-            <div className='w-1/2'>
-              <div className='pt-24 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-3 gap-4'>
-                {filteredListings.map((item, index) => (
-                  <ListingCard key={item.id} data={item} currentUser={user} />
-                ))}
-              </div>
-            </div>
-            <div className='w-1/2'>
+          <div className='md:flex'>
+           
+            <div className='md:w-1/2'>
             {filteredListings.length > 0 && (
               <div className='pt-24'>
                 <MapboxComponent locations={filteredListings} />
               </div>
             )}
+            </div>
+            <div className='md:w-1/2'>
+              <div className='md:pt-36 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-3 gap-4'>
+                {filteredListings.map((item, index) => (
+                  <ListingCard key={item.id} data={item} currentUser={user} />
+                ))}
+              </div>
             </div>
           </div>
         </Container>
