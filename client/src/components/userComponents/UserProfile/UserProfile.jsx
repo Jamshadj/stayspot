@@ -70,26 +70,40 @@ function UserProfile() {
 
   // Helper function to handle selected image
   const handleSelectedImage = async (file) => {
+
     if (file) {
       try {
         const base64Image = await convertToBase64(file);
-        setSelectedImage(base64Image);
-
+  
+        // Show loading indicator
+        Swal.fire({
+          title: 'Updating Profile Picture',
+          allowOutsideClick: false,
+          showCancelButton: false,
+          showConfirmButton: false,
+          onBeforeOpen: () => {
+            Swal.showLoading();
+          },
+        });
+  
         // Call the updateProfile API with user ID and base64 image
         const response = await updateProfile(user.details._id, base64Image);
-        // Update the user's profile image
-        dispatch({ type: "update_profile_image", payload: response.newProfileImageUrl });
+        
+
+        dispatch({ type: "refresh" });
         Swal.fire("Profile Picture Updated", "", "success");
       } catch (error) {
+        console.log(error, "error");
         Swal.fire("Failed to update profile picture. Please try again.", "", "error");
       }
     }
   };
+  
   return (
     <div className="min-h-screen">
       <Navbar reservation="reservation" />
       <div className="pt-28">
-        <div className="m-10 mx-96 border border-gray-300 rounded-lg shadow-sm bg-white p-4">
+        <div className="m-10 md:mx-96 border border-gray-300 rounded-lg shadow-sm bg-white p-4">
           <div className="flex justify-center h-60 mx-auto">
             <div>
 
@@ -103,7 +117,7 @@ function UserProfile() {
             </div>
           </div>
           {['firstName', 'lastName', 'email', 'phoneNumber'].map((field) => (
-            <div className="mx-12 flex" key={field}>
+            <div className="md:mx-12 md:flex" key={field}>
               <div>
                 <span>
                   {field}: {user.details[field]}
