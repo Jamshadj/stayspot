@@ -5,11 +5,12 @@ import bcrypt from 'bcrypt';
 import axios from "axios";
 import cloudinary from '../../helper/config.js';
 import bookingModel from "../../models/bookingModel.js";
-
+import otpGenerator from 'otp-generator';
 // Helper function to create a token
 const createToken = (userId) => {
   return jwt.sign({ id: userId }, "00f3f20c9fc43a29d4c9b6b3c2a3e18918f0b23a379c152b577ceda3256f3ffa");
 };
+let storedOtp=null;
 
 export default {
   postSignUp: async (req, res) => {
@@ -284,15 +285,43 @@ export default {
   forgotPassword: async (req, res) => {
     try {
       const email = req.body.data; // Extract email from request body
-
+  
       const result = await userModel.findOne({ email });
       if (!result) {
-       return res.status(200).json({ success: false, message: "Email not found" });
+        return res.status(200).json({ success: false, message: "Email not found" });
       }
       if (result.blocked) {
-       return res.status(200).json({ success: false, message: "Sorry you are blocked" });
+        return res.status(200).json({ success: false, message: "Sorry you are blocked" });
       }
+      
+      // Generate a 4-digit numeric OTP as a string
+      const numericOtp = otpGenerator.generate(4, { digits: true, alphabets: false, specialChars: false });
+      console.log(numericOtp, "Generated OTP");
+      storedOtp=numericOtp;
+      // Convert the OTP from a string to a number
+      const numericOtpNumber = parseInt(numericOtp, 10);
+  
+      // Send the numeric OTP to the user's email
+      await sentOTP(email, numericOtpNumber); // You would replace this with your actual function
+  
       res.status(200).json({ success: true });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ success: false, message: 'Internal server error' });
+    }
+  },
+  
+  verifyOTP:async(req,res)=>{
+    try {
+      const receivedOtp = req.body.data;
+      if (receivedOtp === storedOtp) {
+        console.log("rffr");
+        storedOtp=null;
+        res.status(200).json({ success: true, message: 'OTP verified successfully' });
+      } else {
+        console.log("rffefr");
+        res.status(400).json({ success: false, message: 'Invalid OTP' });
+      }
     } catch (error) {
       console.error(error);
       res.status(500).json({ success: false, message: 'Internal server error' });

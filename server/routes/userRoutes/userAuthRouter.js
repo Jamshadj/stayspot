@@ -16,6 +16,7 @@ router.patch('/updatePhoneNumber', userAuthController.userPhoneNumber);
 router.post('/updateDetails/:userId', userAuthController.updateDetails);
 router.post('/updateProfile/:userId', userAuthController.updateProfile);
 router.post('/forgotpassword', userAuthController.forgotPassword);
+router.post('/verifyotp', userAuthController.verifyOTP);
 
 // User property routes
 router.get('/getListings', userPropertyController.getListings);

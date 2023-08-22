@@ -18,6 +18,11 @@ export const postForgotPassword = (data) => {
   console.log(data,"daa");
   return axios.post('/forgotpassword',{data});
 };
+export const postVerifyOtp= (data) => {
+  console.log(data,"daa");
+  return axios.post('/verifyotp',{data});
+};
+
 // Login with Google
 export const loginWithGoogle = (data) => {
   return axios.post('/auth/login/google', data);
