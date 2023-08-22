@@ -32,7 +32,8 @@ function ReservationHistoryCard({ data}) {
     return (
         listing && (
 
-            <div className="col-span-1 cursor-pointer group">
+        
+            <div className="col-span-1 cursor-pointer group mx-2">
                 <div className="flex flex-col gap-2 w-full">
                     <div className="aspect-square w-full relative overflow-hidden rounded-xl">
                         <img
@@ -42,16 +43,15 @@ function ReservationHistoryCard({ data}) {
                         />
                     </div>
                     <div onClick={navigateToRoomDetails}>
-                        <div className="font-semibold text-lg">
+                        <div className="font-semibold text-lg h-14">
                             {listing.title}
                         </div>
                         <div className="flex flex-row items-center gap-1">
                             <div className="font-semibold">
-                                ₹ {data.totalAmount}
+                                ₹ {data.totalAmount}   night
                             </div>
-                            <div className="font-light">night</div>
-                            <div className="font-light ml-auto">{data.status}</div>
                         </div>
+                            <div className="font-light ml-auto">{data.status}</div>
                     </div>
                 </div>
             </div> 
