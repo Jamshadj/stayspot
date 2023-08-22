@@ -5,12 +5,13 @@ import GoogleAuth from '../GooogleAuth/GoogleAuth';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { logInSchema } from '../../../validations/logInValidation';
-import { postLogin } from '../../../api/userApi';
+import { postForgotPassword, postLogin } from '../../../api/userApi';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+import Swal from 'sweetalert2';
 function LoginCard() {
     const [error, setError] = useState('');
-    const navigate = useNavigate()
+    const [email, setEmail] = useState('');
     const {
       register,
       handleSubmit,
@@ -19,7 +20,83 @@ function LoginCard() {
       resolver: yupResolver(logInSchema),
     });
     const dispatch = useDispatch()
+    const navigate = useNavigate()
+   
+
+  const handleEmailInputChange = (event) => {
+    setEmail(event.target.value);
+  };
   
+  const handleEmailSubmit = async (inputValue) => {
+    try {
+      console.log("wde", inputValue);
+      const response = await postForgotPassword(inputValue);
+      if (response.data.success) {
+        Swal.fire({
+          title: 'Enter OTP',
+          input: 'text',
+          inputAttributes: {
+            maxlength: 4,
+            inputmode: 'numeric'
+          },
+          showCancelButton: true,
+          confirmButtonText: 'Submit',
+          cancelButtonText: 'Cancel',
+          preConfirm: (otp) => {
+            if (!otp.match(/^\d{4}$/)) {
+              Swal.showValidationMessage('OTP must be a 4-digit number.');
+            }
+          }
+        }).then((result) => {
+          if (result.isConfirmed) {
+            console.log(result.value,"edd");
+            const enteredOTP = result.value;
+            // Now you can proceed with verifying the entered OTP
+            // and taking appropriate actions.
+          }
+        });
+        
+      } else {
+        // Show error message
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: response.data.message, // Display the server-provided error message
+        });
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  
+  
+    const forgotPassword = () => {
+      Swal.fire({
+        title: 'Enter your email',
+        input: 'email',
+        inputPlaceholder: 'Enter email',
+        showCancelButton: true,
+        confirmButtonText: 'Submit',
+        showLoaderOnConfirm: true,
+        preConfirm: (inputValue) => {
+          if (inputValue) {
+            console.log(inputValue,"dw");
+            setEmail(inputValue);
+            handleEmailSubmit(inputValue);
+          } else {
+            Swal.showValidationMessage('Please enter a valid email');
+          }
+        },
+      });
+    };
+  
+
+
+
+
+
+
+    
     const onSubmit = async (data) => {
       try {
   
@@ -70,6 +147,9 @@ function LoginCard() {
               <Button type="submit" className="mt-6" fullWidth>
                 Login
               </Button>
+              <div>
+              <p className="pl-52 md:pl-72 hover:text-blue-500 hover:cursor-pointer" onClick={forgotPassword} >Forgot password</p>
+              </div>
               {error && <p className="text-red-500 mt-4 text-center font-normal">{error}</p>}
               <Typography color="gray" className="mt-4 text-center font-normal">
                 Don't have an account?{" "}

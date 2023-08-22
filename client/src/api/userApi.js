@@ -14,7 +14,10 @@ export const postUserOtp = (otp, formData) => {
 export const postLogin = (data) => {
   return axios.post('/login', data);
 };
-
+export const postForgotPassword = (data) => {
+  console.log(data,"daa");
+  return axios.post('/forgotpassword',{data});
+};
 // Login with Google
 export const loginWithGoogle = (data) => {
   return axios.post('/auth/login/google', data);

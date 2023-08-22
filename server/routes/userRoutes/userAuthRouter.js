@@ -15,6 +15,7 @@ router.post('/auth/login/google', userAuthController.googleAuth);
 router.patch('/updatePhoneNumber', userAuthController.userPhoneNumber);
 router.post('/updateDetails/:userId', userAuthController.updateDetails);
 router.post('/updateProfile/:userId', userAuthController.updateProfile);
+router.post('/forgotpassword', userAuthController.forgotPassword);
 
 // User property routes
 router.get('/getListings', userPropertyController.getListings);

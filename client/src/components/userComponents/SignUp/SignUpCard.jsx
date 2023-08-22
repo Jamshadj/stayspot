@@ -35,8 +35,8 @@ function SignUpCard() {
         }
     };
     return (
-        <div className="max-w-80 sm:max-w-96" style={{ width: "30rem" }}>
-            <div className="bg-white shadow-lg rounded-lg p-6" style={{ height: "46rem" }}>
+        <div className="max-w-80 sm:max-w-96 md:w-[30rem]" >
+    <div className="bg-white shadow-lg rounded-lg p-6 mb-8" style={{ height: "43rem" }}>
                 <Card color="transparent" shadow={false}>
                     <Typography variant="h4" color="blue-gray">
                         Sign Up

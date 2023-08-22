@@ -55,7 +55,7 @@ export default {
     try {
       let otp = req.body.otp;
       let userToken = req.cookies.signUpToken;
-  
+
       const OtpToken = jwt.verify(
         userToken,
         "00f3f20c9fc43a29d4c9b6b3c2a3e18918f0b23a379c152b577ceda3256f3ffa"
@@ -83,7 +83,7 @@ export default {
         res.json({ err: true, message: 'Check otp' });
       }
     } catch (error) {
-      console.log("error",error);
+      console.log("error", error);
       res.json({ err: true, message: error.message });
     }
   },
@@ -110,7 +110,7 @@ export default {
     } catch (err) {
       console.log(err);
       res.json({ loggedIn: false, error: true, message: err.message });
-    } 
+    }
   },
 
   postLogIn: async (req, res) => {
@@ -159,7 +159,7 @@ export default {
               httpOnly: true,
               secure: true,
               maxAge: 1000 * 60 * 60 * 24 * 7,
-              sameSite: "none", 
+              sameSite: "none",
             }).json({ created: true, user, token, message: "Login Success" });
           } else {
             return res.status(200).json({ user, message: "Sorry, you are banned!" });
@@ -172,7 +172,7 @@ export default {
             firstName: response.data.given_name,
             lastName: response.data.family_name,
             email: response.data.email,
-            image:response.data.picture,
+            image: response.data.picture,
             loginWithGoogle: true,
             password: bcrypPassword,
           });
@@ -199,16 +199,16 @@ export default {
   userLogout: async (req, res) => {
     console.log("userlogout ");
     return res.cookie("userToken", '', {
-        httpOnly: true,
-        secure: true,
-        maxAge: 0, // Set the maxAge to 0 to expire the cookie immediately
-        sameSite: "none",
+      httpOnly: true,
+      secure: true,
+      maxAge: 0, // Set the maxAge to 0 to expire the cookie immediately
+      sameSite: "none",
     }).json({ err: false, message: 'Logged out successfully' });
-},
-  userPhoneNumber:async (req,res)=>{
+  },
+  userPhoneNumber: async (req, res) => {
     try {
       const { phoneNumber, _id } = req.body;
-      await userModel.findByIdAndUpdate(_id, { phoneNumber }); 
+      await userModel.findByIdAndUpdate(_id, { phoneNumber });
       res.status(200).json({ message: 'Phone number updated successfully.' });
     } catch (error) {
       console.error(error);
@@ -231,20 +231,20 @@ export default {
       res.status(500).json({ error: 'An error occurred while getting booking details' });
     }
   },
-  updateDetails:async(req,res)=>{
+  updateDetails: async (req, res) => {
     try {
       console.log("update sredde");
 
       const { userId } = req.params; // Assuming you're getting the user ID from the request parameters
       const { details } = req.body; // Assuming you're sending the updated details in the request body
       // Use Mongoose's updateOne or findOneAndUpdate to update the user details
-      console.log(userId,details);
+      console.log(userId, details);
       const updatedUser = await userModel.updateOne(
         { _id: userId },
         { $set: details },
         { new: true }
       );
-  
+
       if (updatedUser) {
         return res.status(200).json({ message: 'User details updated successfully' });
       } else {
@@ -264,7 +264,7 @@ export default {
       const result = await cloudinary.uploader.upload(details, {
         folder: 'profileImage'
       });
-      
+
       // Update the user's image URL in the database
       const updatedUser = await userModel.updateOne(
         { _id: userId },
@@ -274,12 +274,28 @@ export default {
           }
         }
       );
-      console.log("d4d",updatedUser);
-        return res.status(200).json({ message: 'User profile image updated successfully' });
+      console.log("d4d", updatedUser);
+      return res.status(200).json({ message: 'User profile image updated successfully' });
     } catch (error) {
       console.error(error);
       return res.status(500).json({ message: 'Internal server error' });
     }
+  },
+  forgotPassword: async (req, res) => {
+    try {
+      const email = req.body.data; // Extract email from request body
+
+      const result = await userModel.findOne({ email });
+      if (!result) {
+       return res.status(200).json({ success: false, message: "Email not found" });
+      }
+      if (result.blocked) {
+       return res.status(200).json({ success: false, message: "Sorry you are blocked" });
+      }
+      res.status(200).json({ success: true });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ success: false, message: 'Internal server error' });
+    }
   }
-  
-}; 
+};    
