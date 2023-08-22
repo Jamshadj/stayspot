@@ -150,14 +150,10 @@ function UserMenu() {
                     label="My reservations"
                     onClick="/reservationHistory"
                   />
+                    <div onClick={() => navigate('/chat')} >
                   <MenuItem
-                    label="Withdraw history"
-                    onClick="/paymenthistory"
-                  />
-                  <MenuItem
-                    label="Mesages"
-                    onClick="/chat"
-                  />
+                    label="Mesagess"
+                  /></div>
                   <MenuItem
                     label="stayspot your home"
                     onClick="/host"
@@ -175,11 +171,11 @@ function UserMenu() {
                 <>
                   <MenuItem
                     label="Login"
-                    onClick={() => navigate('/login')}
+                    onClick="/login"
                   />
                   <MenuItem
                     label="Sign up"
-                    onClick={() => navigate('/signup')}
+                    onClick="/signup"
                   />
                 </>
               )}

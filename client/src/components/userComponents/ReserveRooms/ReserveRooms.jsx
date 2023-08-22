@@ -10,7 +10,7 @@ import axios from '../../../axios'
 import Swal from 'sweetalert2';
 function ReserveRooms() {
   const { user } = useSelector((state) => state);
-  
+
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const checkInDate = new Date(queryParams.get('checkIn'));
@@ -22,143 +22,143 @@ function ReserveRooms() {
   const checkInMonth = checkInDate.toLocaleString('default', { month: 'short' });
   const checkOutMonth = checkOutDate.toLocaleString('default', { month: 'short' });
   const [listing, setListing] = useState(null);
-  const [currentGuest,setCurrentGuest]=useState(guests)
+  const [currentGuest, setCurrentGuest] = useState(guests)
   const [currentCheckInDate, setCurrentCheckInDate] = useState(checkInDate);
   const [currentCheckOutDate, setCurrentCheckOutDate] = useState(checkOutDate);
 
-  
+
   const handlePhoneNumberSave = async () => {
-  const phoneNumberInput = await Swal.fire({
-    title: 'Add Phone Number',
-    input: 'number',
-    inputAttributes: {
-      type: 'tel', // Set input type to "tel" to show numeric keyboard on mobile
-      min: 1000000000, // Minimum 10-digit number
-      max: 9999999999, // Maximum 10-digit number
-      pattern: '[0-9]*', // Allow only numeric input
-    },
-    inputValidator: (value) => {
-      if (!value || value.length !== 10) {
-        return 'Please enter a valid 10-digit phone number.';
+    const phoneNumberInput = await Swal.fire({
+      title: 'Add Phone Number',
+      input: 'number',
+      inputAttributes: {
+        type: 'tel', // Set input type to "tel" to show numeric keyboard on mobile
+        min: 1000000000, // Minimum 10-digit number
+        max: 9999999999, // Maximum 10-digit number
+        pattern: '[0-9]*', // Allow only numeric input
+      },
+      inputValidator: (value) => {
+        if (!value || value.length !== 10) {
+          return 'Please enter a valid 10-digit phone number.';
+        }
+      },
+      showCancelButton: true,
+      confirmButtonText: 'Save',
+    });
+
+    if (phoneNumberInput.isConfirmed) {
+      const updatedPhoneNumber = phoneNumberInput.value;
+      const userId = user.details._id
+      try {
+        await axios.patch('/updatephonemunber', { phoneNumber: updatedPhoneNumber, _id: userId });
+        // Show success message
+        Swal.fire('Phone Number Updated', 'Your phone number has been updated successfully!', 'success');
+      } catch (error) {
+        console.error(error);
+        // Show error message
+        Swal.fire('Error', 'An error occurred while updating your phone number.', 'error');
       }
-    },
-    showCancelButton: true,
-    confirmButtonText: 'Save',
-  });
-
-  if (phoneNumberInput.isConfirmed) {
-    const updatedPhoneNumber = phoneNumberInput.value;
-    const userId=user.details._id
-    try {
-      await axios.patch('/updatephonemunber',{phoneNumber:updatedPhoneNumber,_id:userId});
-      // Show success message
-      Swal.fire('Phone Number Updated', 'Your phone number has been updated successfully!', 'success');
-    } catch (error) {
-      console.error(error);
-      // Show error message
-      Swal.fire('Error', 'An error occurred while updating your phone number.', 'error');
     }
-  }
-};
+  };
 
-  console.log(checkInDate,"checking date");
+  console.log(checkInDate, "checking date");
   const handleStripePay = async () => {
     try {
       const details = {
-        userId:user.details._id,
-        hostId:listing.hostId,
+        userId: user.details._id,
+        hostId: listing.hostId,
         checkInDate: currentCheckInDate,
         checkOutDate: currentCheckOutDate,
         listingId,
-        guests:currentGuest,
+        guests: currentGuest,
         numberOfNights: calculateNumberOfNights(),
         totalAmount: calculateTotalAmount() // Ensure this value is a valid numeric value
       };
-      
-      
-  
+
+
+
       const response = await postCheckout(details);
-      console.log(response,"ew");
+      console.log(response, "ew");
       // Redirect to the Stripe checkout page
-      window.location = response.data.URL ;
-    } catch (error) { 
+      window.location = response.data.URL;
+    } catch (error) {
       console.error(error);
     }
   }
   const handleBooking = async () => {
     const { data } = await axios.post("/payment", { amount: calculateTotalAmount() });
-    console.log(data,"data");
+    console.log(data, "data");
     if (!data.err) {
       handleRazroPay(data.order);
     }
-    
-};
-const handleDatesChange = (newCheckInDate, newCheckOutDate) => {
-  setCurrentCheckInDate(newCheckInDate);
-  setCurrentCheckOutDate(newCheckOutDate);
-  // ... (any additional logic you want to perform when dates change)
-};
 
-const handleGuestsChange = (newGuests) => {
-  setCurrentGuest(newGuests)
-};
-
-
-const handleRazroPay = async (order) => {
-  const details = {
-      userId: user.details._id,
-      hostId:listing.hostId,
-      checkInDate:currentCheckInDate,
-      checkOutDate: currentCheckOutDate,
-      listingId,
-      guests:currentGuest,
-      numberOfNights: calculateNumberOfNights(), // You should have a function to calculate this
-      totalAmount: calculateTotalAmount() // Ensure this value is a valid numeric value
+  };
+  const handleDatesChange = (newCheckInDate, newCheckOutDate) => {
+    setCurrentCheckInDate(newCheckInDate);
+    setCurrentCheckOutDate(newCheckOutDate);
+    // ... (any additional logic you want to perform when dates change)
   };
 
-  try {
-    console.log(order.id,"order id");
+  const handleGuestsChange = (newGuests) => {
+    setCurrentGuest(newGuests)
+  };
+
+
+  const handleRazroPay = async (order) => {
+    const details = {
+      userId: user.details._id,
+      hostId: listing.hostId,
+      checkInDate: currentCheckInDate,
+      checkOutDate: currentCheckOutDate,
+      listingId,
+      guests: currentGuest,
+      numberOfNights: calculateNumberOfNights(), // You should have a function to calculate this
+      totalAmount: calculateTotalAmount() // Ensure this value is a valid numeric value
+    };
+
+    try {
+      console.log(order.id, "order id");
       const options = {
-          key: "rzp_test_3qgmRXzHbaIU3G",
-          amount: order.amount,
-          currency: order.currency,
-          name: "Acme Corp",
-          description: "Test Transaction",
-          order_id: order.id,
-          handler: async (response) => {
-              try {
-                  const { data } = await axios.post("/payment/verify", { details,response });
-                  console.log(data,"dataaa");
-                  if (data.err) {
-                      Swal.fire({
-                          icon: 'error',
-                          title: 'Oops...',
-                          text: data.message,
-                      });
-                  } else {
-                      Swal.fire(
-                          'Success!',
-                          'Successfully Booked',
-                          'success'
-                      );
-                      navigate("/profile");
-                  }
-              } catch (error) {
-                  console.error(error);
-                  // Handle error here
-              }
+        key: "rzp_test_3qgmRXzHbaIU3G",
+        amount: order.amount,
+        currency: order.currency,
+        name: "Acme Corp",
+        description: "Test Transaction",
+        order_id: order.id,
+        handler: async (response) => {
+          try {
+            const { data } = await axios.post("/payment/verify", { details, response });
+            console.log(data, "dataaa");
+            if (data.err) {
+              Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: data.message,
+              });
+            } else {
+              Swal.fire(
+                'Success!',
+                'Successfully Booked',
+                'success'
+              );
+              navigate("/profile");
+            }
+          } catch (error) {
+            console.error(error);
+            // Handle error here
           }
+        }
       };
 
       const paymentObject = new window.Razorpay(options);
       paymentObject.open();
-  } catch (error) {
+    } catch (error) {
       console.error(error);
       // Handle error here
-  }
-};
+    }
+  };
 
-  
+
   useEffect(() => {
     async function fetchListing() {
       try {
@@ -202,14 +202,14 @@ const handleRazroPay = async (order) => {
       <div className='pb-20 pt-20'>
         <div className='m-20 mx-28'>
           <div className='flex'>
-            <div className='w-1/2'>
-            <Details
-        checkInDate={currentCheckInDate}
-        checkOutDate={currentCheckOutDate}
-        guests={currentGuest}
-        onDatesChange={handleDatesChange}
-        onGuestsChange={handleGuestsChange}
-      />
+            <div className='md:w-1/2'>
+              <Details
+                checkInDate={currentCheckInDate}
+                checkOutDate={currentCheckOutDate}
+                guests={currentGuest}
+                onDatesChange={handleDatesChange}
+                onGuestsChange={handleGuestsChange}
+              />
               <hr />
               <div>
                 <span className='ml-4 text-xl font-medium text-black'>
@@ -232,8 +232,6 @@ const handleRazroPay = async (order) => {
                 <div className='ml-auto'>
                   <Button variant="outlined">Add</Button>
                 </div>
-
-
               </div>
               <div className='mt-3  text-black flex'>
                 <div>
@@ -249,9 +247,9 @@ const handleRazroPay = async (order) => {
                   </div>
                 </div>
                 <div className='ml-auto'>
-                 <Button onClick={handlePhoneNumberSave} variant="outlined">
-  Add
-</Button>
+                  <Button onClick={handlePhoneNumberSave} variant="outlined">
+                    Add
+                  </Button>
 
                 </div>
               </div>
@@ -302,10 +300,10 @@ const handleRazroPay = async (order) => {
                 </div>
               </div>
             </div>
-            <div className='w-1/2'>
+            <div className='md:w-1/2'>
               <div className='m-8 flex'>
                 <div className='flex -mr-11'>
-                  <div className='w-1/3 ml-28 '>
+                  <div className='md:w-1/3 ml-28 '>
                     {listing && listing.images && listing.images.length > 0 && (
                       <img className='max-w-[66%] border-r-2 rounded-md' src={listing.images[0]} alt="" />
                     )}
@@ -339,7 +337,7 @@ const handleRazroPay = async (order) => {
                   Total: ₹ {calculateTotalAmount()}
                 </span>
               </div>
-              <hr className='ml-32'/>
+              <hr className='ml-32' />
               <div className='ml-32'>
                 Total: ₹ {calculateTotalAmount()}
               </div>

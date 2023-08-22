@@ -59,14 +59,15 @@ function ReservationDetails() {
             <div>
                 <Navbar reservation={'reservation'} />
             </div>
-            {loading ? (
-                <CircularProgress />
+            {loading ? ( <div className="flex items-center justify-center h-screen">
+          <CircularProgress />
+        </div>
             ) : (
                 <div >
-                    <div className='flex pt-36'>
-                        <div className='w-1/2'>
+                    <div className='md:flex pt-36'>
+                        <div className='md:w-1/2'>
                             <div>
-                                {listing && <img className='w-96 h-96 ml-12 rounded' src={listing.images[0]} alt="" />}
+                                {listing && <img className='w-80  ml-9 h-96 md:ml-12 rounded' src={listing.images[0]} alt="" />}
                             </div>
                             <div className='mt-8 ml-12'>
                                 <div>
@@ -87,7 +88,7 @@ function ReservationDetails() {
                                 <span className='font-semibold'>Contact : {host && host.phoneNumber}</span>
                             </div>
                         </div>
-                        <div className='w-1/2'>
+                        <div className='md:w-1/2'>
                             <div className='mt-8 ml-12 flex flex-col gap-6'>
                                 <div className='font-semibold'>
                                     Details
@@ -115,7 +116,7 @@ function ReservationDetails() {
                                 </div>
                             </div>
                             {listing && (
-                                <div className='mt-8 ml-12 flex flex-col gap-6'>
+                                <div className='mt-8 ml-12 mb-7 flex flex-col gap-6'>
                                     <div className='font-semibold'>
                                         Address
                                     </div>
