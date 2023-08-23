@@ -18,6 +18,7 @@ import { postAddProperty } from '../../../api/hostApi';
 function PropertyDetails() {
   const [open, setOpen] = useState(false);
   const propertyDetails = useSelector((state) => state.propertyDetails);
+  const {host} = useSelector((state) => state);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -43,6 +44,14 @@ function PropertyDetails() {
   };
 
   const complete = async () => {
+    // if (!host.details.phoneNumber) {
+    //   Swal.fire({
+    //     title: "Missing Phone Number",
+    //     text: "Please provide your phone number before saving the property.",
+    //     icon: "warning",
+    //     confirmButtonText: "OK",
+    //   });
+    // }
     try {
       Swal.fire({
         title: 'Please wait',

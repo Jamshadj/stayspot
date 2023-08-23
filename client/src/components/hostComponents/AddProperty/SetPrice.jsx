@@ -57,6 +57,7 @@ function SetPrice() {
         <div>
           <h2 className="pt-3 text-2xl font-bold">Now set your price</h2>
           <p>You can change it any time</p>
+          <p>Price per night</p>
         </div>
         <input
           style={{

@@ -53,40 +53,50 @@ function Location() {
   const fetchSuggestions = async (value) => {
     try {
       const response = await axios.get(
-        `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(value)}.json?access_token=pk.eyJ1IjoiamFtc2hhZDEiLCJhIjoiY2xrOXc0cXM1MDFkYjNtcWQ3NDVmZmh4ciJ9.GCP7IIfzt1ms84ZeOr7uag`
+        `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(value)}.json?access_token=${process.env.REACT_APP_MAPBOX_API_KEY}`
       );
-      console.log(response.data.features);
-      const suggestions = response.data.features.map((feature) => ({
-        location: feature.place_name,
-        coordinates: feature.center,
-      }));
-      // Extracting the country from the first feature's properties
-      const country = response.data.features[0]?.context?.find((item) => item.id.includes('country'));
-      const city = response.data.features[0]?.context?.find((item) => item.id.includes('locality'));
-      const postcode = response.data.features[0]?.context?.find((item) => item.id.includes('postcode'));
-      const region = response.data.features[0]?.context?.find((item) => item.id.includes('region'));
-      const countryName = country ? country.text : null;
-      const cityName = city ? city.text : null;
-      const postCodeName = postcode ? postcode.text : null;
-      const regionName = region ? region.text : null;
-      setCountry(countryName)
-      setCity(cityName)
-      setPostCode(postCodeName)
-      setRegion(regionName)
-      setSuggestions(suggestions);
-      setCoordinates(response.data.features[0].center);
+      console.log(response,"res");
+      const suggestions = response.data.features.map((feature) => {
+        // Extracting context information
+        const context = feature.context;
+      
+        // Finding context items by their IDs
+        const postcodeContext = context.find((item) => item.id.startsWith('postcode.'));
+        const countryContext = context.find((item) => item.id.startsWith('country.'));
+        const regionContext = context.find((item) => item.id.startsWith('region.'));
+        const cityContext = context.find((item) => item.id.startsWith('locality'));
+        // Extracting context text values
+        const postcode = postcodeContext ? postcodeContext.text : '';
+        const country = countryContext ? countryContext.text : '';
+        const region = regionContext ? regionContext.text : '';
+        const cityName = cityContext ? cityContext.text : '';
+        return {
+          location: feature.place_name,
+          coordinates: feature.center,
+          postcode,
+          country,
+          region,
+          cityName
+        };
+      });
+      setSuggestions(suggestions)
+      
     } catch (error) {
       console.error('Error fetching suggestions:', error);
     }
   };
 
   const handleSuggestionClick = (suggestion) => {
+    console.log(suggestion,"rfrf");
+    setCountry(suggestion.country);
+    setCity(suggestion.cityName);
+    setPostCode(suggestion.postcode);
+    setRegion(suggestion.region);
     setSearchValue(suggestion.location);
     setSuggestions([]);
     setCoordinates(suggestion.coordinates);
     setSelectedLocation(true);
   };
-
   const handleNext = async () => {
     try {
       await validateAddress.validate(Address, { abortEarly: false });
@@ -102,6 +112,7 @@ function Location() {
       setError(errors);
     }
   };
+  {suggestions && console.log(suggestions,"deded");}
 
   return (
     <div className="flex flex-col min-h-screen">

@@ -15,7 +15,7 @@ function ListingCard({ data, currentUser,filter }) {
           `https://api.mapbox.com/geocoding/v5/mapbox.places/${data.coordinates.longitude},${data.coordinates.latitude}.json`,
           {
             params: {
-              access_token: 'pk.eyJ1IjoiamFtc2hhZDEiLCJhIjoiY2xrOXc0cXM1MDFkYjNtcWQ3NDVmZmh4ciJ9.GCP7IIfzt1ms84ZeOr7uag', // Replace with your Mapbox access token
+              access_token: process.env.REACT_APP_MAPBOX_API_KEY
             },
           }
         );
@@ -48,7 +48,7 @@ function ListingCard({ data, currentUser,filter }) {
           </div>
         </div>
         <div  onClick={navigateToRoomDetails} >
-        <div className="font-semibold text-lg">
+        <div className="font-semibold text-lg h-14">
           {locationData ? `${locationData.text}` : 'Loading location...'}
         </div>
         {/* <div className="font-light text-neutral-500">

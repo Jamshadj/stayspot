@@ -94,20 +94,17 @@ function MenuItems() {
 
                   />
                 </div>
-                <MenuItem
-                  label="Account"
-                  onClick={() => navigate('/my-favorites')}
-                />
+
                 <MenuItem
                   label="Listings"
-                  onClick={() => navigate('/my-reservations')}
+                  onClick='/host/listings'
                 />
                 <div onClick={() => navigate('/host/paymenthistory')}>
                   <MenuItem
                     label="Payment history"
                   />
                 </div>
-                <div onClick={() => navigate('/host/messages')}>
+                <div onClick={() => navigate('/host/chat')}>
                 <MenuItem
                   label="messages"
                   onClick={() => navigate('/my-properties')}

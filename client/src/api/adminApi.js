@@ -3,6 +3,11 @@ import axios from "../axios"
 export async function postLogin(data) {
     return axios.post('/admin/login', data);
 }
+
+export async function postAddHost(data) {
+    console.log("jjdfj");
+    return axios.post('/admin/addhost', data);
+}
 export async function getUsers() {
     return await axios.get('/admin/users');
 }

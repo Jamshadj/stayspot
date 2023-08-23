@@ -110,9 +110,9 @@ function ReservationDetails() {
                             <div className='mt-8 ml-12'>
                                 <span className='font-semibold'>Hosted By: {host && host.firstName}</span>
                             </div>
-                            <div className='mt-8 ml-12'>
+                            {/* <div className='mt-8 ml-12'>
                                 <span className='font-semibold'>Contact : {host && host.phoneNumber}</span>
-                            </div>
+                            </div> */}
                         </div>
                         <div className='w-1/2'>
                             <div className='mt-8 ml-12 flex flex-col gap-6'>
@@ -121,6 +121,11 @@ function ReservationDetails() {
                                 </div>
                                 <div className='font-semibold'>
                                     Booked By: {user && user.firstName}
+                                    
+                                </div>
+                                <div className='font-semibold'>
+                                   PhoneNumber: {user && user.phoneNumber}
+                                    
                                 </div>
                                 <div>
                                     <DateRangeIcon /> Check In: {new Date(bookingData.checkInDate).toLocaleDateString()}

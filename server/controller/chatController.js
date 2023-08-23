@@ -3,20 +3,31 @@ import MessageModel from "../models/MessageModel.js";
 import hostModel from '../models/hostModel.js'; // Adjust the path accordingly
 
 export const createChat = async (req, res) => {
+    const { userId, hostId } = req.body; // Destructure userId and hostId from request body
 
-     
-        const newChat = new ChatModel({
-        userId: req.body.userId, // Corrected property name
-        hostId: req.body.hostId, // Corrected property name
+    // Check if a chat with the given userId and hostId already exists
+    const existingChat = await ChatModel.findOne({ userId, hostId });
+
+    if (existingChat) {
+        // A chat already exists, return a response indicating this
+        return res.json({err: false, message: 'Chat already exists' });
+    }
+
+    // Create a new chat since it doesn't exist
+    const newChat = new ChatModel({
+        userId,
+        hostId,
     });
+
     try {
         const result = await newChat.save();
         res.json({ err: false, result });
-    } catch (error) { 
+    } catch (error) {
         console.log(error);
         res.json({ err: true });
     }
-}; 
+};
+ 
 
 export const userChats = async (req, res) => {
     try {

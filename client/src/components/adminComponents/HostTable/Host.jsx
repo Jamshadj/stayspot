@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Swal from "sweetalert2"; // Import SweetAlert library
-import { getHosts, postBlockHost, postUnBlockHost } from "../../../api/adminApi"; // Import your API functions
+import { getHosts, postAddHost, postBlockHost, postUnBlockHost } from "../../../api/adminApi"; // Import your API functions
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -51,27 +51,30 @@ const Host = () => {
         };
       }
     });
-
     if (formValues) {
       try {
-        const response= await postSignUp(formValues); 
-        
-        if (!response.data.err) {
+          const response = await postAddHost(formValues);
 
-        } else {
-         
-        }
-        // Your API function to add the host
-        await getHostsData(); // Refresh host data
-        Swal.fire({
-          title: 'Host Added',
-          icon: 'success',
-          text: `The host ${formValues.firstName} has been successfully added.`,
-        });
+          if (!response.data.err) {
+              // Show success message
+              await getHostsData(); // Refresh host data
+              Swal.fire({
+                  title: 'Host Added',
+                  icon: 'success',
+                  text: `The host ${formValues.firstName} has been successfully added.`
+              });
+          } else {
+              // Show error message from response
+              Swal.fire({
+                  title: 'Error',
+                  icon: 'error',
+                  text: response.data.message // Assuming the error message is in response.data.message
+              });
+          }
       } catch (error) {
-        console.error(error);
+          console.error(error);
       }
-    }
+  }
   };
 
 

@@ -68,12 +68,12 @@ function Search() {
     }
   }
 
-  const handle = (location) => {
-    setLocation(location.location)
-    setLatitude(location.coordinates[1])
-    setLongitude(location.coordinates[0])
+  const handle = (suggestion) => {
+    setLocation(suggestion.location)
+    setLatitude(suggestion.coordinates[1])
+    setLongitude(suggestion.coordinates[0])
     setSuggestions([])
-    console.log("hello", location);
+    console.log("hello", suggestion);
   }
   return (
     <div

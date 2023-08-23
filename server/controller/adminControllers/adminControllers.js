@@ -249,6 +249,33 @@ console.log("propr");
       res.status(500).json({ error: 'Failed to update listing status' });
     }
   },
+  postAddHost: async (req, res) => {
+    try {
+        const { firstName, lastName, email, phoneNumber, password } = req.body;
+
+        // Create a new host using the hostModel
+        const newHost = new hostModel({
+            firstName,
+            lastName,
+            email,
+            phoneNumber,
+            password
+        });
+
+        // Save the new host to the database
+        const savedHost = await newHost.save();
+
+        res.status(201).json({
+            message: 'Host created successfully',
+            host: savedHost
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            message: 'An error occurred while creating the host'
+        });
+    }
+}
   
  
 };
