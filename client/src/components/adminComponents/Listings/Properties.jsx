@@ -35,8 +35,8 @@ function Properties() {
   };
 
   return (
-    <div className="mt-12 ml-24 w-[92%]">
-      <h2>Proerty details</h2>
+    <div className="mt-12 mr-[1.5rem] ml-[5.5rem] md:ml-24 md:w-[calc(100%-320px)]">
+    <h2 className="italic mb-4">Property details</h2>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>

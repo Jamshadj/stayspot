@@ -97,7 +97,7 @@ const WithdrawRequests = () => {
   const TABLE_HEAD = ["No", "Name", "Wallet balance","Requested Amount", "Status", "Action"];
 
   return (
-    <div className="mt-12 ml-24 w-[92%]">
+    <div className="mt-12  ml-[5.5rem] md:ml-24 md:w-[calc(100%-320px)]">
       <h2 className="italic mb-4">Withdraw requests</h2>
       {loading ? (
         <div className="flex justify-center mt-80">

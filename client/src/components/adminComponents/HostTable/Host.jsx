@@ -141,11 +141,9 @@ const Host = () => {
   const TABLE_HEAD = ["No", "Profile", "Name", "Email", "PhoneNo", "Status", "Action"];
 
   return (
-    <div className="mt-12 ml-24 w-[92%]">
-      <div className="flex">
-        <div>
-          <h2 className="italic mb-4">Host details</h2>
-        </div>
+    <div className="mt-12 mr-[1.5rem] ml-[5.5rem] md:ml-24 md:w-[calc(100%-320px)]">
+      <div>
+    <h2 className="italic mb-4">Host details</h2>
         <div className="ml-auto">
           <Button color="blue" onClick={addHostPrompt}>Add host</Button>
         </div>

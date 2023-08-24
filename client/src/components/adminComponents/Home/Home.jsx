@@ -58,10 +58,10 @@ function Home() {
   }, []);
 
   return (
-    <div className='m-10 ml-24'>
-      <div className='flex gap-4'>
-        <div className='bg-blue-gray-200 rounded-lg'>
-          <div className='m-8'>
+    <div className='m-10 md:ml-24 ml-12'>
+       <div className="md:flex md:pl-36 gap-4">
+        <div className="bg-blue-gray-200 md:ml-0 ml-8 h-28 w-60  rounded-lg">
+          <div className="m-8 md:p-0 p-6 ">
             <div>
               <GroupIcon />
             </div>
@@ -70,8 +70,8 @@ function Home() {
             </div>
           </div>
         </div>
-        <div className='bg-blue-gray-200 rounded-lg'>
-          <div className='m-8'>
+        <div className="bg-blue-gray-200 h-28  md:ml-0 ml-8 w-60 rounded-lg">
+          <div className="m-8 md:p-0 p-6">
             <div>
               <GroupIcon />
             </div>
@@ -80,8 +80,8 @@ function Home() {
             </div>
           </div>
         </div>
-        <div className='bg-blue-gray-200 rounded-lg'>
-          <div className='m-8'>
+        <div className="bg-blue-gray-200 h-28 w-60  md:ml-0 ml-8 rounded-lg">
+          <div className="m-8 md:p-0 p-6">
             <div>
               <BookIcon />
             </div>
@@ -90,8 +90,8 @@ function Home() {
             </div>
           </div>
         </div>
-        <div className='bg-blue-gray-200 rounded-lg'>
-          <div className='m-8'>
+        <div className="bg-blue-gray-200 h-28 w-60  md:ml-0 ml-8 rounded-lg">
+          <div className="m-8 md:p-0 p-6">
             <div>
               <BookIcon />
             </div>
@@ -100,8 +100,8 @@ function Home() {
             </div>
           </div>
         </div>
-        <div className='bg-blue-gray-200 rounded-lg'>
-          <div className='m-8'>
+        <div className="bg-blue-gray-200 h-28 w-60  md:ml-0 ml-8 rounded-lg">
+          <div className="m-8 md:p-0 p-6">
             <div>
               <BookIcon />
             </div>
@@ -112,12 +112,12 @@ function Home() {
         </div>
       </div>
       {bookingData.length > 0 && (
-      <div className='flex mt-28'>
-        <div className='w-1/2 h-full w-full'>
+       <div className='md:flex mt-28'>
+       <div className='md:w-1/2 h-full w-[90%]'>
           <h4>Revenue</h4>
           <RevenueCharts bookings={bookingData} />
         </div>
-        <div className='w-1/2'>
+        <div className='md:w-1/3 md:ml-48'>
           <h4>Bookings</h4>
           <BookingCharts
             pendingBookingCount={pendingBookingCount}

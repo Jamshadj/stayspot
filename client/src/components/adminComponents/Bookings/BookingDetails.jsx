@@ -64,14 +64,15 @@ function BookingDetails() {
     }, [listing]);
 
     return (
-        <div className="mt-12 ml-24">
+        <div className="mt-12 md:ml-24 ml-8">
             {loading ? (
                 <CircularProgress />
             ) : (
-                <div className='flex'>
-                    <div className='w-1/2'>
+                <div>
+                 <div className='md:flex pt-36'>
+                        <div className='md:w-1/2'>
                         <div>
-                            {listing && <img className='w-96 h-96 ml-12 rounded' src={listing.images[0]} alt="" />}
+                        {listing && <img className='w-80  ml-9 h-96 md:ml-12 rounded' src={listing.images[0]} alt="" />}
                         </div>
                         <div className='mt-8 ml-12'>
                             <div>
@@ -94,7 +95,7 @@ function BookingDetails() {
                             <span className='font-semibold'>Hosted By: {host && host.firstName}</span>
                         </div>
                     </div>
-                    <div className='w-1/2'>
+                    <div className='md:w-1/2'>
                         <div className='mt-8 ml-12 flex flex-col gap-6'>
                             <div className='font-semibold'>
                                 Booked By: {user && user.firstName}
@@ -174,6 +175,7 @@ function BookingDetails() {
 
 
                     </div>
+                </div>
                 </div>
             )}
         </div>

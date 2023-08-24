@@ -66,8 +66,8 @@ const Bookings = () => {
   const TABLE_HEAD = ["No", "BookingId", "User", "check-In", "Check-Out", "Amount", "status", "Action"];
 
   return (
-    <div className="mt-12 ml-24 w-[92%]">
-      <h2 className="italic mb-4">Booking details</h2>
+    <div className="mt-12  ml-[5.5rem] md:ml-24 md:w-[calc(100%-320px)]">
+  <h2 className="italic mb-4">Booking details</h2>
       <div>
         {loading ? (
           <div className="flex justify-center mt-80">
