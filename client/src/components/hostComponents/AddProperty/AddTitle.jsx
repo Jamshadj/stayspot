@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import PropertyNavbar from './PropertyNavbar';
+import HostNavbar from '../HostNavBar/HostNavbar';
 import Footer from './Footer';
 import { useDispatch } from 'react-redux';
 
@@ -29,7 +29,7 @@ function AddTitle() {
   return (
     <div className="flex flex-col min-h-screen">
       <header className="fixed top-0 left-0 w-full z-10 bg-white">
-        <PropertyNavbar />
+        <HostNavbar />
       </header>
       <main className="flex-grow mx-auto max-w-screen-xl mt-24 px-4">
         <div>

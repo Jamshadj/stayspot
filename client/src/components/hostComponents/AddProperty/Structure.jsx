@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import categoriess from './StructureData'; // Import the categories array with types and corresponding icons
-import PropertyNavbar from './PropertyNavbar';
+import HostNavbar from '../HostNavBar/HostNavbar';
 import Footer from './Footer';
 
 function Structure() {
@@ -45,7 +45,7 @@ function Structure() {
   return (
     <div className="flex flex-col min-h-screen">
       <header className="fixed top-0 left-0 w-full z-10 bg-white">
-        <PropertyNavbar />
+      <HostNavbar />
       </header>
       <main className="flex-grow mx-auto max-w-screen-xl mt-24 px-4">
         <div>

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import PropertyNavbar from './PropertyNavbar';
+import HostNavbar from '../HostNavBar/HostNavbar';
 import Footer from './Footer';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
@@ -56,7 +56,7 @@ function Floorplan() {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <PropertyNavbar />
+      <HostNavbar />
       <div className="flex-grow mx-auto max-w-screen-xl px-4">
         <div>
           <h2 className="pt-3 text-2xl font-bold">Share some basics about your place</h2>

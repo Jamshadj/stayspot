@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import PropertyNavbar from './PropertyNavbar';
+import HostNavbar from '../HostNavBar/HostNavbar';
 import Footer from './Footer';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
@@ -51,31 +51,28 @@ function AddImages() {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <header className="fixed top-0 left-0 w-full z-10 bg-white">
-        <PropertyNavbar />
-      </header>
-      <main className="flex-grow mx-auto w-1/3 mt-44 px-4">
-        <div>
-          <h2 className="pt-3 text-2xl font-bold">Add some images of your place</h2>
-        </div>
-
-        {/* Render selected images */}
-        <div className="flex flex-wrap justify-center">
+    <header className="fixed top-0 left-0 w-full z-10 bg-white">
+      <HostNavbar />
+    </header>
+    <main className="flex-grow mx-auto max-w-screen-xl px-4 md:px-8 lg:px-16 xl:px-32 mt-16">
+      <div className='mt-20'>
+        <h2 className="pt-3 text-2xl md:text-3xl font-bold">Add some images of your place</h2>
+      </div>
+      <div className="flex flex-wrap justify-center mt-6">
           {selectedImages.map((image, index) => (
-            <div key={index} className="max-w-full max-h-64 w-3/3 m-4">
+            <div key={index} className="max-w-full w-full md:w-1/2 lg:w-1/3 xl:w-1/4 m-4">
               <img
                 src={image}
                 alt={`Image ${index + 1}`}
-                className="object-cover w-full h-64 rounded-lg"
+                className="object-cover w-full h-48 md:h-64 xl:h-80 rounded-lg"
               />
             </div>
           ))}
         </div>
-
         <div className="flex items-center justify-center w-full mt-6">
           <label
             htmlFor="dropzone-file"
-            className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
+            className="flex flex-col items-center justify-center w-full h-48 md:h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
           >
             <div className="flex flex-col items-center justify-center pt-5 pb-6">
               <svg

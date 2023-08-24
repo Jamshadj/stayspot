@@ -56,7 +56,7 @@ function PaymentHistory() {
   const TABLE_HEAD = ["No", "Name", "Wallet balance", "Requested Amount", "Status"];
 
   return (
-    <div className="pt-32 mx-24 w-[92%]">
+    <div className="md:pt-12 pt-6 mx-3 md:mx-24">
       <h2 className="italic mb-4">Withdraw History</h2>
       {loading ? (
         <div className="flex justify-center mt-80">

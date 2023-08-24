@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import PropertyNavbar from "./PropertyNavbar";
+import HostNavbar from '../HostNavBar/HostNavbar';
 import Footer from "./Footer";
 import axios from "axios";
 import map from '../../../assets/Map/GoogleMaps.jpg';
@@ -116,8 +116,8 @@ function Location() {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <PropertyNavbar />
-      <div className="flex-grow mx-auto max-w-screen-xl px-4">
+      <HostNavbar />
+      <div className="flex-grow md:mx-auto md:max-w-screen-xl w-[24rem] px-4">
         {selectedLocation ? (
           <>
             <div>
@@ -267,24 +267,23 @@ function Location() {
               <h2 className="pt-16 text-2xl font-bold">Where is your place located?</h2>
               <p className="text-gray-500">Your address is only shared with guests after they’ve made a reservation.</p>
             </div>
-            <div className="relative mt-6" style={{ width: "32rem" }}>
+            <div className="relative mt-6 md:w-[32rem] w-[22rem]">
               <img src={map} alt="" style={{ height: "24rem" }} />
               <input
                 type="text"
                 value={searchValue}
                 style={{
-                  width: "29rem",
                   backgroundImage: `url(${LocationIcon})`,
                   backgroundSize: "1.5rem",
                   backgroundPosition: "8px 50%",
                   backgroundRepeat: "no-repeat",
                 }}
                 onChange={handleSearchChange}
-                className="absolute top-0 left-0 m-4 px-4 py-2 rounded-md border bg-white border-gray-300 focus:outline-none"
+                className=" md:w-[29rem] w-[19rem] absolute top-0 left-0 m-4 px-4 py-2 rounded-md border bg-white border-gray-300 focus:outline-none"
                 placeholder="   Enter your location..."
               />
               {suggestions.length > 0 && (
-                <ul className="absolute z-10 w-full bg-white border border-gray-300 rounded-md shadow-lg" style={{
+                <ul className="absolute z-10 w-[19rem] md:w-full bg-white border border-gray-300 rounded-md shadow-lg" style={{
                   marginLeft: "21px", marginTop: "-19rem", width: "29rem"
                 }}>
                   {suggestions.map((suggestion) => (

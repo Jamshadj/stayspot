@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import PropertyNavbar from './PropertyNavbar';
+import HostNavbar from '../HostNavBar/HostNavbar';
 import home from '../../../assets/animation/home.png';
 import Footer from './Footer';
 import Structure from './Structure';
@@ -14,24 +14,24 @@ function AboutYourPlace() {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <PropertyNavbar />
-      <div className="flex-grow mx-auto w-full flex flex-col md:flex-row justify-center items-center">
-        <div className="w-full md:w-1/2 ml-10">
-          <div className="p-4 md:p-28">
-            <h5>Step 1</h5>
-            <h2>Tell about your place</h2>
-            <p>
-              In this step, we'll ask you which type of property you have and if guests will book the entire place or just
-              a room. Then let us know the location and how many guests can stay.
-            </p>
-          </div>
-        </div>
-        <div className="w-full md:w-1/2 mt-4 md:mt-0">
-          <img src={home} alt="" className="mx-auto" />
+    <HostNavbar />
+    <div className="flex-grow mx-auto w-full md:flex md:flex-row justify-center items-center p-4 md:p-10">
+      <div className="w-full md:w-1/2 md:ml-10 mb-6 md:mb-0">
+        <div className="p-4 md:p-8 lg:p-10">
+          <h5 className="text-xl lg:text-2xl">Step 1</h5>
+          <h2 className="text-2xl lg:text-4xl mt-2">Tell about your place</h2>
+          <p className="text-sm lg:text-base mt-2">
+            In this step, we'll ask you which type of property you have and if guests will book the entire place or just
+            a room. Then let us know the location and how many guests can stay.
+          </p>
         </div>
       </div>
-      <Footer onNext={handleNext} />
+      <div className="w-full md:w-1/2">
+        <img src={home} alt="" className="md:mx-auto w-[22rem] md:w-auto lg:w-3/4" />
+      </div>
     </div>
+    <Footer onNext={handleNext} />
+  </div>
   );
 }
 

@@ -61,7 +61,7 @@ export default function HostRoutes() {
           <Route path="/location" element={<AddLocation/>}/>
           <Route path="/floor-plan" element={<SetFloorplan/>}/>
           <Route path="/step-2" element={<Step2page/>}/>
-          <Route path="/anamites" element={<SelectAmenities/>}/>
+          <Route path="/amenities" element={<SelectAmenities/>}/>
           <Route path="/add-images" element={<AddImagesPlace/>}/>
           <Route path="/add-title" element={<AddTitlePage/>}/>
           <Route path="/add-description" element={<AddDescriptonPage/>}/>
