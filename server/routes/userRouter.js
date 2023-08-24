@@ -1,7 +1,7 @@
 import Express from 'express';
-import userAuthController from '../../controller/userControllers/userAuthController.js';
-import userPropertyController from '../../controller/userControllers/userPropertyController.js';
-import paymentController from '../../controller/paymentController.js';
+import userAuthController from '../controller/userAuthController.js';
+import userPropertyController from '../controller/userPropertyController.js';
+import paymentController from '../controller/paymentController.js';
 
 const router = Express.Router();
 
@@ -27,7 +27,7 @@ router.get('/getHostById/:hostId', userPropertyController.getHostById);
 // Payment routes
 router.post('/payment', paymentController.paymentOrder);
 router.post('/payment/verify', paymentController.paymentVerify);
-router.get('/order-success', paymentController.getOrderSucess);
+router.get('/order-success', paymentController.getOrderSuccess);
 router.post('/checkout', paymentController.postCheckout);
 
 // Booking

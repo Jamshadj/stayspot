@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 const withdrawSchema = new mongoose.Schema({
   hostId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'hostDetails', // Reference to the User model (adjust the model name if needed)
+    ref: 'hostDetails', 
     required: true
   },
   accountHolder: {

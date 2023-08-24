@@ -1,10 +1,10 @@
 import jwt from "jsonwebtoken";
-import adminModel from "../models/adminModel.js";
-import userModel from "../models/userModel.js";
-import hostModel from "../models/hostModel.js";
-import propertyModel from "../models/propertyModel.js";
-import bookingModel from "../models/bookingModel.js";
-import WithdrawModel from "../models/withdrawModel.js";
+import adminModel from "../models/AdminModel.js";
+import userModel from "../models/UserModel.js";
+import hostModel from "../models/HostModel.js";
+import propertyModel from "../models/PropertyModel.js";
+import bookingModel from "../models/BookingModel.js";
+import WithdrawModel from "../models/WithdrawModel.js";
 
 export default {
     // Admin login

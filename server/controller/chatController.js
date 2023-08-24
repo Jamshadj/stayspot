@@ -1,19 +1,16 @@
 import ChatModel from "../models/ChatModel.js";
 import MessageModel from "../models/MessageModel.js";
-import hostModel from '../models/hostModel.js'; // Adjust the path accordingly
 
+// Create a new chat
 export const createChat = async (req, res) => {
-    const { userId, hostId } = req.body; // Destructure userId and hostId from request body
+    const { userId, hostId } = req.body;
 
-    // Check if a chat with the given userId and hostId already exists
     const existingChat = await ChatModel.findOne({ userId, hostId });
 
     if (existingChat) {
-        // A chat already exists, return a response indicating this
-        return res.json({err: false, message: 'Chat already exists' });
+        return res.json({ err: false, message: 'Chat already exists' });
     }
 
-    // Create a new chat since it doesn't exist
     const newChat = new ChatModel({
         userId,
         hostId,
@@ -27,13 +24,13 @@ export const createChat = async (req, res) => {
         res.json({ err: true });
     }
 };
- 
 
+// Get chats for a user
 export const userChats = async (req, res) => {
     try {
         const chat = await ChatModel.find({
             userId: req.params.userId,
-        }).populate('hostId'); // Use 'hostId' instead of 'HostId'
+        }).populate('hostId');
 
         const messages = await MessageModel.aggregate([
             {
@@ -45,9 +42,10 @@ export const userChats = async (req, res) => {
         ]);
 
         let lastMessage = {};
-        messages.map((item, index) => {
+        messages.forEach((item) => {
             lastMessage[item._id] = item.lastMessage;
         });
+
         res.json({ err: false, chat, lastMessage });
     } catch (error) {
         console.log(error);
@@ -55,39 +53,41 @@ export const userChats = async (req, res) => {
     }
 };
 
+// Get chats for a host
 export const hostChats = async (req, res) => {
     try {
         const chat = await ChatModel.find({
             hostId: req.params.hostId,
         }).populate('userId');
 
-        
-        const messages= await MessageModel.aggregate([
+        const messages = await MessageModel.aggregate([
             {
                 $group: {
                     _id: "$chatId",
                     lastMessage: { $last: "$text" }
                 }
             }
-        ])
-        let lastMessage={}
-        messages.map((item, index)=>{ 
-            lastMessage[item._id]=item.lastMessage
-        })
-        res.json({ err: false, chat, lastMessage })
+        ]);
+
+        let lastMessage = {};
+        messages.forEach((item) => {
+            lastMessage[item._id] = item.lastMessage;
+        });
+
+        res.json({ err: false, chat, lastMessage });
     } catch (error) {
         res.json({ err: true });
-
     }
 };
 
+// Find or create a chat
 export const findChat = async (req, res) => {
-
     try {
         let chat = await ChatModel.findOne({
             userId: req.params.userId,
             hostId: req.params.hostId
-        }).populate('hostId').populate('userId')
+        }).populate('hostId').populate('userId');
+
         if (!chat) {
             chat = await ChatModel.findOneAndUpdate({
                 userId: req.params.userId,
@@ -98,11 +98,12 @@ export const findChat = async (req, res) => {
                     hostId: req.params.hostId
                 }
             },{upsert:true}
-            ).populate('hostId').populate('userId')
+            ).populate('hostId').populate('userId');
         }
-        res.json({ err: false, chat })
+
+        res.json({ err: false, chat });
     } catch (error) {
-        console.log(error)
+        console.log(error);
         res.json({ err: true, message:"server error" });
     }
 };

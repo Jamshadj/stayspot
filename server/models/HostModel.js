@@ -47,5 +47,5 @@ const hostSchema=mongoose.Schema({
     
 })
 
-const hostModel=mongoose.model('hostDetails',hostSchema)
-export default hostModel;
+const HostModel=mongoose.model('hostDetails',hostSchema)
+export default HostModel;
