@@ -92,8 +92,8 @@ const Users = () => {
   const TABLE_HEAD = ["No","Profile", "Name", "Email", "Status", "Action"];
 
   return (
-    <div className="mt-12 ml-24 w-[92%]">
-       <h2 className="italic mb-4">User details</h2>
+    <div className="mt-12 mr-[1.5rem] ml-[5.5rem] md:ml-24 md:w-[calc(100%-320px)]">
+    <h2 className="italic mb-4">User details</h2>
        {loading ? (
           <div className="flex justify-center mt-80">
          <Box sx={{ display: 'flex' }}>

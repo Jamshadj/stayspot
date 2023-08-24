@@ -6,8 +6,9 @@ function AdminHome() {
   return (
     <div>
       <SideDrawer/>
-      <Home/></div>
+      <Home/>
+      </div>
   )
-}
+}   
 
 export default AdminHome
