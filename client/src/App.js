@@ -8,7 +8,7 @@ import AdminRoutes from './routes/AdminRoutes'
 function App() {
   return (
 
-    <div className='App'>
+    <div className='App h-[100vh]'>
       <Router>
         <Routes>
           <Route element={<UserRoutes />} path='/*' />
