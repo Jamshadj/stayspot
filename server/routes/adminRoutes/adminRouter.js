@@ -1,5 +1,5 @@
 import  Express  from "express";
-import adminControllers from "../../controller/adminControllers/adminControllers.js";
+import adminControllers from "../../controller/adminController.js";
 const router=Express.Router();
 
 router.post('/login',adminControllers.postLogIn)
