@@ -3,7 +3,7 @@ import EmojiPicker from 'emoji-picker-react';
 import { AiFillCloseCircle } from 'react-icons/ai'
 import { useSelector } from 'react-redux';
 import { Avatar } from '@mui/material';
-import { format } from 'timeago.js';
+// import { format } from 'timeago.js';
 import { BounceLoader, PuffLoader } from 'react-spinners';
 import { useNavigate } from 'react-router-dom';
 // import { addDoctorMessage, getDoctorMessages } from '../../api/doctorMessageRequests';
@@ -94,18 +94,22 @@ export default function HostMessageList({ currentChat, chatClicked, setSendMessa
               {
                 messages[0] &&
                 messages.map((item, index) => {
+                  const messageDate = new Date(item.createdAt);
+                  const time = messageDate.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit', hour12: true });
+                  const date = `${messageDate.getDate()}/${messageDate.getMonth() + 1}/${messageDate.getFullYear()}`;
+
                   return (
-                    <div key={index} className={`d-flex flex-row single-chat-container ${host._id === item.senderId ? 'me' : ''}`} ref={scrollRef}>
+                    <div className={`d-flex flex-row single-chat-container ${host._id === item.senderId ? 'me' : ''}`} ref={scrollRef} key={index}>
                       <div className={`sg-chat ${host._id === item.senderId ? 'me' : ''}`}>
-                        <p className={`small p-2 mb-1 rounded-3 text-black single-chat ${host._id === item.senderId ? 'me' : ''}`}>
+                        <p className={`small p-2 mb-1 rounded-3 single-chat text-black ${host._id === item.senderId ? 'me' : ''}`}>
                           {item.text}
                         </p>
                         <p className="small me-3 mb-3 rounded-3 text-muted">
-                          {format(item.createdAt)} | {new Date(item.createdAt).toLocaleDateString()}
+                          {time} | {date}
                         </p>
-                      </div>    
+                      </div>
                     </div>
-                  )
+                  );
                 })
               }
             </div>

@@ -3,39 +3,38 @@ import EmojiPicker from 'emoji-picker-react';
 import { AiFillCloseCircle } from 'react-icons/ai'
 import { useSelector } from 'react-redux';
 import { Avatar } from '@mui/material';
-import { format } from 'timeago.js';
 
 import { BounceLoader, PuffLoader } from 'react-spinners';
 import { useNavigate } from 'react-router-dom';
-import { addMessage,getMessages } from '../../../api/messageRequests';
+import { addMessage, getMessages } from '../../../api/messageRequests';
 
 export default function MessageList({ currentChat, chatClicked, setSendMessage, receivedMessage }) {
   const [showEmoji, setShowEmoji] = useState(false)
   const [message, setMessage] = useState("")
   const [messages, setMessages] = useState([])
   const [sendLoading, setSendLoading] = useState(false)
-  const navigate= useNavigate()
+  const navigate = useNavigate()
   const user = useSelector((state) => state.user.details)
   const scrollRef = useRef()
 
   const sentMessage = async (e) => {
     e.preventDefault()
-    
-    if(message.trim()===""){
+
+    if (message.trim() === "") {
       return;
     }
     setSendLoading(true)
-    try { 
+    try {
       const { data } = await addMessage({
         chatId: currentChat._id,
         senderId: user._id,
         text: message
       })
-      const tempMessage={
-        text:message,
-        createdAt:new Date(),
-        senderId:user._id,
-        receiverId:currentChat?.hostId?._id
+      const tempMessage = {
+        text: message,
+        createdAt: new Date(),
+        senderId: user._id,
+        receiverId: currentChat?.hostId?._id
       }
 
       setMessages([...messages, tempMessage])
@@ -54,7 +53,7 @@ export default function MessageList({ currentChat, chatClicked, setSendMessage, 
         const { data } = await getMessages(currentChat._id)
         if (!data.err)
           setMessages(data.result)
-          console.log(messages,"mess");
+        console.log(messages, "mess");
       })()
 
     } catch (err) {
@@ -62,17 +61,17 @@ export default function MessageList({ currentChat, chatClicked, setSendMessage, 
     }
   }, [currentChat])
 
-  useEffect(()=>{
-    if(scrollRef.current){
+  useEffect(() => {
+    if (scrollRef.current) {
       scrollRef.current.scrollIntoView({ behavior: "smooth" });
     }
-  },[messages])
+  }, [messages])
 
-  useEffect(()=>{
-    if(receivedMessage && currentChat?.hostId?._id==receivedMessage?.senderId){
+  useEffect(() => {
+    if (receivedMessage && currentChat?.hostId?._id == receivedMessage?.senderId) {
       setMessages([...messages, receivedMessage])
     }
-  },[receivedMessage])
+  }, [receivedMessage])
 
 
   return (
@@ -83,27 +82,31 @@ export default function MessageList({ currentChat, chatClicked, setSendMessage, 
           <>
             <div className="row ps-2 d-flex align-items-center message-head" style={{ height: "45px" }}>
               <div className='d-flex align-items-center' style={{ gap: "10px" }} >
-                <i className="fa-sharp fa-solid fa-arrow-left-long" onClick={()=>navigate("/chat")}  />
+                <i className="fa-sharp fa-solid fa-arrow-left-long" onClick={() => navigate("/chat")} />
                 <Avatar alt="Remy Sharp" sx={{ width: 32, height: 32 }} src={currentChat.hostId.image && currentChat.hostId.image} />
                 <b className="ps-1">{currentChat.hostId.firstName}</b>
               </div>
             </div>
-            <div className=" message-box pt-2" data-mdb-perfect-scrollbar="true" style={{ position: 'relative'}}>
+            <div className=" message-box pt-2" data-mdb-perfect-scrollbar="true" style={{ position: 'relative' }}>
               {
                 messages[0] &&
                 messages.map((item, index) => {
+                  const messageDate = new Date(item.createdAt);
+                  const time = messageDate.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit', hour12: true });
+                  const date = `${messageDate.getDate()}/${messageDate.getMonth() + 1}/${messageDate.getFullYear()}`;
+
                   return (
-                    <div className={`d-flex flex-row single-chat-container ${user._id === item.senderId ? 'me' : ''}`} ref={scrollRef}>
+                    <div className={`d-flex flex-row single-chat-container ${user._id === item.senderId ? 'me' : ''}`} ref={scrollRef} key={index}>
                       <div className={`sg-chat ${user._id === item.senderId ? 'me' : ''}`}>
                         <p className={`small p-2 mb-1 rounded-3 single-chat text-black ${user._id === item.senderId ? 'me' : ''}`}>
                           {item.text}
                         </p>
                         <p className="small me-3 mb-3 rounded-3 text-muted">
-                          {format(item.createdAt)} | {new Date(item.createdAt).toLocaleDateString()}
+                          {time} | {date}
                         </p>
                       </div>
                     </div>
-                  )
+                  );
                 })
               }
             </div>
