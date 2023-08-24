@@ -283,8 +283,8 @@ function Location() {
                 placeholder="   Enter your location..."
               />
               {suggestions.length > 0 && (
-                <ul className="absolute z-10 w-[19rem] md:w-full bg-white border border-gray-300 rounded-md shadow-lg" style={{
-                  marginLeft: "21px", marginTop: "-19rem", width: "29rem"
+                <ul className="absolute z-10 w-[19rem] md:w-[29rem]  bg-white border border-gray-300 rounded-md shadow-lg" style={{
+                  marginLeft: "21px", marginTop: "-19rem", 
                 }}>
                   {suggestions.map((suggestion) => (
                     <li

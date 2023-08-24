@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Card, Input, Typography } from '@material-tailwind/react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import PropertyNavbar from './PropertyNavbar';
+import HostNavbar from '../HostNavBar/HostNavbar';
 import Footer from './Footer';
 
 function Availability() {
@@ -32,7 +32,7 @@ function Availability() {
   return (
     <div className="flex flex-col min-h-screen">
       <header className="fixed top-0 left-0 w-full z-10 bg-white">
-        <PropertyNavbar />
+        <HostNavbar />
       </header>
       <main className="flex-grow mx-auto max-w-screen-xl mt-28 px-4">
         <Card color="transparent" shadow={false}>

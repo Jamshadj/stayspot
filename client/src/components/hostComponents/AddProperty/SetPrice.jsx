@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import PropertyNavbar from './PropertyNavbar';
+import HostNavbar from '../HostNavBar/HostNavbar';
 import Footer from './Footer';
 import { useDispatch, useSelector } from 'react-redux';
 import { postAddProperty } from '../../../api/hostApi';
+
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.css';
 
@@ -51,7 +52,7 @@ function SetPrice() {
   return (
     <div className="flex flex-col min-h-screen">
       <header className="fixed top-0 left-0 w-full z-10 bg-white">
-        <PropertyNavbar />
+        <HostNavbar />
       </header>
       <main className="flex-grow mx-auto max-w-screen-xl mt-24 px-4">
         <div>
