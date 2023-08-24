@@ -38,19 +38,19 @@ function Home() {
   }, [hostDetails._id]);
 
   return (
-    <div>
+    <div className='md:w-full w-[378px]'>
       <HostNavbar />
 
       {/* Welcome and Complete Your Listing */}
-      <div className="inline-flex">
-        <h2 className="pl-36 pt-12">Welcome {hostDetails.firstName}!</h2>
+      <div className="md:flex md:justify-between md:items-center md:pl-36 pt-12">
+        <h2>Welcome {hostDetails.firstName}!</h2>
         <Link to="/host/about-your-place">
-          <button className="listing">Complete Your Listing</button>
+        <button className="md:ml-[2rem] listing mt-4 md:mt-0">Complete Your Listing</button>
         </Link>
       </div>
-      <div className="flex pl-36 gap-4">
-        <div className="bg-blue-gray-200 rounded-lg">
-          <div className="m-8">
+      <div className="md:flex md:pl-36 gap-4">
+        <div className="bg-blue-gray-200 md:ml-0 ml-8 h-28 w-60  rounded-lg">
+          <div className="m-8 md:p-0 p-6 ">
             <div>
               <BookIcon />
             </div>
@@ -59,8 +59,8 @@ function Home() {
             </div>
           </div>
         </div>
-        <div className="bg-blue-gray-200 rounded-lg">
-          <div className="m-8">
+        <div className="bg-blue-gray-200 h-28  md:ml-0 ml-8 w-60 rounded-lg">
+          <div className="m-8 md:p-0 p-6">
             <div>
               <BookIcon />
             </div>
@@ -69,8 +69,8 @@ function Home() {
             </div>
           </div>
         </div>
-        <div className="bg-blue-gray-200 rounded-lg">
-          <div className="m-8">
+        <div className="bg-blue-gray-200 h-28 w-60  md:ml-0 ml-8 rounded-lg">
+          <div className="m-8 md:p-0 p-6">
             <div>
               <BookIcon />
             </div>
@@ -80,7 +80,7 @@ function Home() {
           </div>
         </div>
       </div>
-      <div className='m-10'>
+      <div className='md:m-10'>
         {bookingData.length > 0 && (
           <div className='md:flex mt-28'>
             <div className='md:w-1/2 h-full w-full'>

@@ -27,8 +27,14 @@ class BookingCharts extends Component {
   render() {
     return (
       <div className="donut mt-16">
+      {/* 
+        Use "mx-auto" to center the chart horizontally, 
+        and use "max-w-screen-md" to limit the width on larger screens.
+      */}
+      <div className="mx-auto max-w-screen-md">
         <Chart options={this.state.options} series={this.state.series} type="donut" />
       </div>
+    </div>
     );
   }
 }

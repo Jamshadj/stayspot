@@ -1,11 +1,11 @@
 import React from 'react'
-import Navbar from '../../components/userComponents/Navbar/Navbar'
+import HostNavbar from '../../components/hostComponents/HostNavBar/HostNavbar'
 import PaymentHistory from '../../components/hostComponents/PaymentHistory/PaymentHistory'
 
 function PaymentHistoryPage() {
   return (
     <div>
-      <Navbar reservation={"reservaions"} />
+      <HostNavbar/>
       <PaymentHistory/>
     </div>
   )

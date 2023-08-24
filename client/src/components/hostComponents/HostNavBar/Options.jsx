@@ -14,7 +14,7 @@ function Options() {
   return (
     <div className='flex'>
       <div
-        // onClick={()=>navigate('/host')}
+        onClick={()=>navigate('/host')}
         className="
           hidden
           md:block
@@ -31,7 +31,7 @@ function Options() {
         Home
       </div>
       <div
-        // onClick={()=>navigate('/host')}
+        onClick={()=>navigate('/host/chat')}
         className="
           hidden
           md:block
@@ -85,7 +85,7 @@ function Options() {
         <div
           // onClick={()=>navigate('/host')}
           className="
-          hidden
+         
           md:block
           text-sm 
           font-semibold 
@@ -110,8 +110,9 @@ function Options() {
       absolute 
       rounded-xl 
       shadow-md
-      w-[20vw]
+     
       md:w-1/4 
+      w-[11rem]
       bg-white 
       overflow-hidden 
       top-12 
@@ -122,7 +123,7 @@ function Options() {
             <>
               <MenuItem
                 label="Listings"
-                onClick='/my-trips'
+                onClick='/host/listings'
               />
               <div onClick={() => navigate(`/host/reservations/${host.details._id}`)}>
                 <MenuItem
@@ -132,7 +133,7 @@ function Options() {
 
               <MenuItem
                 label="Create new listings"
-                onClick='/my-reservations'
+                onClick='/host/about-your-place'
               />
             </>
           </div>

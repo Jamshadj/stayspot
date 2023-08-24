@@ -61,7 +61,7 @@ function MenuItems() {
         transition
       "
       >
-        <div className="hidden md:block">
+        <div className=" md:block">
           <img
             src={host.details.image}
             alt=" Avatar"
@@ -101,22 +101,20 @@ function MenuItems() {
                 />
                 <div onClick={() => navigate('/host/paymenthistory')}>
                   <MenuItem
-                    label="Payment history"
+                    label="Withdraw history"
                   />
                 </div>
                 <div onClick={() => navigate('/host/chat')}>
                 <MenuItem
-                  label="messages"
+                  label="Messages"
                   onClick={() => navigate('/my-properties')}
                 />
                 </div>
 
                 <hr />
                 <div onClick={handleLogout}>
-
-
                   <MenuItem
-                    label="Logouttt"
+                    label="Logout"
 
                   />
                 </div>

@@ -11,7 +11,7 @@ import CurrencyExchangeIcon from '@mui/icons-material/CurrencyExchange';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 
-import Navbar from '../Login/Navbar';
+import HostNavbar from '../../hostComponents/HostNavBar/HostNavbar';
 import { updateBookingStatus } from '../../../api/hostApi';
 
 function ReservationDetails() {
@@ -84,16 +84,16 @@ function ReservationDetails() {
     return (
         <div>
             <div>
-                <Navbar reservation={'reservation'} />
+                <HostNavbar/>
             </div>
             {loading ? (
                 <CircularProgress />
             ) : (
                 <div >
-                    <div className='flex pt-20'>
-                        <div className='w-1/2'>
+                    <div className='md:flex pt-20'>
+                        <div className='md:w-1/2'>
                             <div>
-                                {listing && <img className='w-96 h-96 ml-12 rounded' src={listing.images[0]} alt="" />}
+                                {listing && <img className='md:w-96 w-[19rem] h-96 ml-12 rounded' src={listing.images[0]} alt="" />}
                             </div>
                             <div className='mt-8 ml-12'>
                                 <div>
@@ -114,8 +114,8 @@ function ReservationDetails() {
                                 <span className='font-semibold'>Contact : {host && host.phoneNumber}</span>
                             </div> */}
                         </div>
-                        <div className='w-1/2'>
-                            <div className='mt-8 ml-12 flex flex-col gap-6'>
+                        <div className='md:w-1/2 '>
+                            <div className='mt-8 mb-5 ml-12 flex flex-col gap-6'>
                                 <div className='font-semibold'>
                                     Details
                                 </div>

@@ -6,13 +6,13 @@ function Logo() {
   const navigate = useNavigate();
 
   const handleLogoClick = () => {
-    navigate('/');
+    navigate('/host');
   };
 
   return (
     <img
       onClick={handleLogoClick}
-      className="hidden md:block cursor-pointer" 
+      className=" md:block cursor-pointer" 
       src={Image} 
       height="20" 
       width="40" 

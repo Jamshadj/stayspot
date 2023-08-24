@@ -40,12 +40,17 @@ class RevenueCharts extends Component {
     return (
       <div className="app mt-6">
         <div className="row">
-          <div className="mixed-chart">
+          <div className="mixed-chart w-full sm:w-2/3 md:w-1/2 lg:w-1/3 xl:w-1/4 mx-auto">
+            {/* 
+              The "w-full" class ensures that the chart takes up the full width on all screen sizes.
+              The responsive width classes like "sm:w-2/3", "md:w-1/2", etc., adjust the width on different screen sizes.
+              The "mx-auto" class centers the chart horizontally within its container.
+            */}
             <Chart
               options={this.state.options}
               series={this.state.series}
               type="bar"
-              width="700"
+              width="100%" // Make sure the chart takes up the full width of its container
             />
           </div>
         </div>
