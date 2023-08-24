@@ -105,18 +105,18 @@ function PropertyDetails() {
 
   return (
     <div className="container mx-auto py-8">
-      <h2 className="text-3xl font-bold mb-4">Property Details</h2>
-      <div className="grid grid-cols-2 gap-4">
-        <div>
+    <h2 className="text-3xl font-bold mb-4">Property Details</h2>
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="mb-4 md:mb-0">
           <h3 className="text-xl font-semibold">Basic Details</h3>
           <p>Structure: {propertyDetails.structure}</p>
           <p>Privacy Type: {propertyDetails.privacyType}</p>
           <p>Location: {propertyDetails.location}</p>
-          <p>Coordinates: {JSON.stringify(propertyDetails.coordinates)}</p>
+          {/* <p>Coordinates: {JSON.stringify(propertyDetails.coordinates)}</p> */}
           <p>Title: {propertyDetails.title}</p>
-          <p>Description: {propertyDetails.description}</p>
+          {/* <p>Description: {propertyDetails.description}</p> */}
         </div>
-        <div>
+        <div className="mb-4 md:mb-0">
           <h3 className="text-xl font-semibold">APleaseddress</h3>
           <p>Country: {propertyDetails.address.country}</p>
           <p>City: {propertyDetails.address.city}</p>
@@ -127,7 +127,7 @@ function PropertyDetails() {
           <p>Street Address: {propertyDetails.address.streetAddress}</p>
           <p>Landmark: {propertyDetails.address.landMark}</p>
         </div>
-        <div>
+        <div className="mb-4 md:mb-0">
           <h3 className="text-xl font-semibold">Availability</h3>
           <p>Minimum Stay: {propertyDetails.minimumStay}</p>
           <p>Maximum Stay: {propertyDetails.maximumStay}</p>
@@ -137,10 +137,10 @@ function PropertyDetails() {
             End: {JSON.stringify(propertyDetails.availability[1])}
           </p>
         </div>
-        <div>
+        <div className="mb-4 md:mb-0">
           <h3 className="text-xl font-semibold">Images</h3>
           <Card
-            className="h-64 w-96 cursor-pointer overflow-hidden transition-opacity hover:opacity-90"
+            className="h-64 md:w-96 w-[23rem] cursor-pointer overflow-hidden transition-opacity hover:opacity-90"
             onClick={handleOpen}
           >
             <img
@@ -174,7 +174,7 @@ function PropertyDetails() {
       </div>
       <button
         onClick={complete}
-        className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 focus:outline-none focus:bg-blue-600"
+        className="bg-blue-500  text-white py-2 px-4 rounded hover:bg-blue-600 focus:outline-none focus:bg-blue-600"
       >
         Confirm
       </button>
