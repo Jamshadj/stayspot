@@ -21,6 +21,7 @@ function SignUpCard() {
     });
     const onSubmit = async (data) => {
         try {
+            console.log("data");
             const response = await postSignUp(data);
             console.log("@#@$$$$#$", response);
             if (!response.data.err) {

@@ -4,8 +4,11 @@ import { IoIosArrowDropdown } from 'react-icons/io';
 import { useNavigate } from 'react-router-dom';
 import { getBookingByPropertyId } from '../../api/userApi';
 import Swal from 'sweetalert2';
+import { useSelector } from 'react-redux';
 
 function CheckAvailabilityCard({ listing }) {
+  const {user}=useSelector((state)=>state)
+  console.log(user,"uddser");
   const [checkInDate, setCheckInDate] = useState('');
   const [checkOutDate, setCheckOutDate] = useState('');
   const [isDatesSelected, setIsDatesSelected] = useState(false);
@@ -104,7 +107,23 @@ function CheckAvailabilityCard({ listing }) {
           title: 'Oops...',
           text: 'Selected dates Not available. Please choose different dates.',
         });
-      } else {
+      }
+      else if(!user.login){
+        Swal.fire({
+          title: 'Not Logged In!',
+          text: 'Please log in to access this page.',
+          icon: 'warning',
+          confirmButtonText: 'Log In',
+          cancelButtonText: 'Cancel',
+          showCancelButton: true,
+          reverseButtons: true,
+        }).then((result) => {
+          if (result.isConfirmed) {
+            navigate('/login')
+          }
+        });
+      } 
+      else {
         const queryParams = new URLSearchParams({
           listingId: listing._id,
           nights: numberOfNights,

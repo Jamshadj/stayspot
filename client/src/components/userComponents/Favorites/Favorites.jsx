@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Card, CardHeader, CardBody, CardFooter, Typography, Button } from '@material-tailwind/react';
 import Navbar from '../Navbar/Navbar';
 import CircularProgress from '@mui/material/CircularProgress';
@@ -14,7 +14,7 @@ function Favorites() {
   const [wishlistDetails, setWishlistDetails] = useState([]); // Store the listing details
   const [loading, setLoading] = useState(true); // Loading state
   const navigate = useNavigate();
-
+  const emptyWishlist = 'https://cdn-icons-png.flaticon.com/128/5478/5478526.png'
   const fetchWishlist = async () => {
     try {
       const response = await getWishlist(user.details._id);
@@ -60,7 +60,11 @@ function Favorites() {
         ) : (
           <div className="m-10" style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', gap: '20px' }}>
             {wishlistDetails.length === 0 ? (
-              <Typography className="text-center mt-4">Your wishlist is empty.</Typography>
+              <div className='mx-auto'>
+                Your wishlist is empty.
+                <img src={emptyWishlist} alt="" />
+               <Link to='/'> <button>Go to home</button></Link>
+              </div>
             ) : (
               wishlistDetails.map((item) => (
                 <Card className="w-96" key={item._id}>

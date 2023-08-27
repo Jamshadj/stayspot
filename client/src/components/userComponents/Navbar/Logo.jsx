@@ -2,11 +2,11 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 // import Image from './image.png'
 import Image from '../../../assets/logo/logo.png'
-function Logo() {
+function Logo(link) {
   const navigate = useNavigate();
 
   const handleLogoClick = () => {
-    navigate('/host');
+    navigate(link);
   };
 
   return (

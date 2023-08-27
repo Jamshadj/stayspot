@@ -23,7 +23,24 @@ function HeartButton({ listingId, currentUser, favorites, updateWishlist }) {
   }, [currentUser, listingId]);
 
   const toggleFavorite = async () => {
+    console.log("currentuser",currentUser);
     try {
+      if (!currentUser.login) {
+        Swal.fire({
+          title: 'Not Logged In!',
+          text: 'Please log in to access wishlist.',
+          icon: 'warning',
+          confirmButtonText: 'Log In',
+          cancelButtonText: 'Cancel',
+          showCancelButton: true,
+          reverseButtons: true,
+        }).then((result) => {
+          if (result.isConfirmed) {
+            navigate('/login')
+          }
+        });
+      } else {
+        
       if (hasFavorited || favorites) {
         await removeFromWishList(listingId, currentUser.details._id);
         Swal.fire({
@@ -45,6 +62,8 @@ function HeartButton({ listingId, currentUser, favorites, updateWishlist }) {
       if (updateWishlist) {
         updateWishlist(listingId); // Notify parent component to update wishlist
       }
+      }
+
     } catch (error) {
       console.error(error);
     }

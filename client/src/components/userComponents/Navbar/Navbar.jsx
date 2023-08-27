@@ -11,7 +11,7 @@ function Navbar({ reservation }) {
       <div className='py-3 ' style={{ border: 'solid black 0.2px' }}>
         <Container>
           <div className='flex flex-row items-center justify-between gap-3 md:gap-0'>
-            <Logo />
+            <Logo link={'/'}/>
             {reservation ? (
              null
             ) : <>

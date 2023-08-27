@@ -116,11 +116,11 @@ function UserProfile() {
               </Button>
             </div>
           </div>
-          {['firstName', 'lastName', 'email', 'phoneNumber'].map((field) => (
+          {['firstName', 'lastName',  'phoneNumber'].map((field) => (
             <div className="md:mx-12 md:flex" key={field}>
               <div>
                 <span>
-                  {field}: {user.details[field]}
+                  {field}: {user.details[field]||"Please add your details"}
                 </span>
               </div>
               <div className='ml-auto'>

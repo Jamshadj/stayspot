@@ -18,6 +18,7 @@ import ReservationHistory from "../pages/userPages/ReservationHistory";
 import ReservationDetailsPage from "../pages/userPages/ReservationDetailsPage";
 import PaymentHistoryPage from "../pages/HostPages/PaymentHistoryPage";
 import Chat from "../components/userComponents/Chat/Chat";
+import ErrorPage from "../components/ErrorPage/ErrorPage";
 
 
 
@@ -39,30 +40,33 @@ export default function UserRoutes() {
 
   return (
     <Routes>
-     {user.login ? (
+      {user.login ? (
         <>
           <Route path="/signup" element={<Navigate to="/" replace />} />
           <Route path="/otp" element={<Navigate to="/" replace />} />
           <Route path="/login" element={<Navigate to="/" replace />} />
-          <Route path="/reserve" element={<PropertyReserve/>} />
-          <Route path="/order-success" element={<BookingSucessPage/>} />
-          <Route path="/favorites" element={<FavoritesPage/>} />
-          <Route path="/rooms/:propertyId" element={<UserIndiviualProperty />} />
+          <Route path="/reserve" element={<PropertyReserve />} />
+          <Route path="/order-success" element={<BookingSucessPage />} />
+          <Route path="/favorites" element={<FavoritesPage />} />
+          <Route path="/matchingListing" element={<MatchingListingPages />} />
           <Route path="/profile/:userId" element={<UserProfilePage />} />
           <Route path="/" element={<UserHome />} />
+          <Route path="/*" element={<ErrorPage />} />
           <Route path="/" element={<UserHome />} />
-          <Route path="/matchingListing" element={<MatchingListingPages/>} />
-          <Route path="/reservationHistory" element={<ReservationHistory/>} />
-          <Route path="/chat" element={<Chat/>} />
-          <Route path="/reservationDetails/:bookingId" element={<ReservationDetailsPage/>} />
-         
+          <Route path="/rooms/:propertyId" element={<UserIndiviualProperty />} />
+          <Route path="/reservationHistory" element={<ReservationHistory />} />
+          <Route path="/chat" element={<Chat />} />
+          <Route path="/reservationDetails/:bookingId" element={<ReservationDetailsPage />} />
+
         </>
       ) : (
         <>
+          <Route path="/rooms/:propertyId" element={<UserIndiviualProperty />} />
           <Route path="/login" element={<UserLogin />} />
+          <Route path="/matchingListing" element={<MatchingListingPages />} />
           <Route path="/signup" element={<UserSignup />} />
           <Route path="/otp" element={<OTPModal />} />
-
+          <Route path="/*" element={<ErrorPage />} />
           <Route path="/" element={<UserHome />} />
           {/* <Route path="/" element={<Navigate to="/login" replace />} /> */}
         </>
@@ -70,4 +74,3 @@ export default function UserRoutes() {
     </Routes>
   );
 }
- 

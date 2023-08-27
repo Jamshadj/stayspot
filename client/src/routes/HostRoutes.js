@@ -29,6 +29,7 @@ import ReservationDetails from "../components/hostComponents/Reversations/Reserv
 import ReservationHistory from "../components/hostComponents/Reversations/ReservationHistory.jsx";
 import PaymentHistoryPage from "../pages/HostPages/PaymentHistoryPage";
 import HostChat from "../components/hostComponents/HostChat/HostChat.jsx";
+import ErrorPage from "../components/ErrorPage/ErrorPage.jsx";
 
  
 export default function HostRoutes() {
@@ -59,6 +60,7 @@ export default function HostRoutes() {
           <Route path="/structure" element={<SelectStructure/>}/>
           <Route path="/privacy-type" element={<PrivacyType/>}/>
           <Route path="/location" element={<AddLocation/>}/>
+          <Route path="/*" element={<ErrorPage />} />
           <Route path="/floor-plan" element={<SetFloorplan/>}/>
           <Route path="/step-2" element={<Step2page/>}/>
           <Route path="/amenities" element={<SelectAmenities/>}/>
@@ -82,6 +84,7 @@ export default function HostRoutes() {
       ) : (
         <>
           <Route path="/signup" element={<HostSignup />} />
+          <Route path="/*" element={<ErrorPage />} />
           <Route path="/" element={<Navigate to="/host/login"/>}/>
           <Route path="/login" element={<HostLogin />} />
         </>

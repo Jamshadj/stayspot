@@ -8,6 +8,9 @@ import { Button } from '@material-tailwind/react';
 function HostProfile() {
   const dispatch = useDispatch();
   const { host } = useSelector((state) => state);
+  const avatarLink = 'https://imgs.search.brave.com/ltN-AHqc6pHIeJ2056RPITzZ_px0QapnUdkbzH4Uio4/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9jZG4u/dmVjdG9yc3RvY2su/Y29tL2kvcHJldmll/dy0xeC80NS83OS9t/YWxlLWF2YXRhci1w/cm9maWxlLXBpY3R1/cmUtc2lsaG91ZXR0/ZS1saWdodC12ZWN0/b3ItNDY4NDU3OS5q/cGc'
+  const profile = host.details.image || avatarLink;
+
   console.log(host.details._id);
   const handleEdit = async (field) => {
     const { value } = await Swal.fire({
@@ -104,7 +107,7 @@ function HostProfile() {
         <div className="m-10 md:mx-96 border border-gray-300 rounded-lg shadow-sm bg-white p-4">
           <div className="flex justify-center h-60 mx-auto">
             <div>
-              <img src={host.details.image} className="rounded-full w-52" alt="Host" />
+              <img src={profile} className="rounded-full w-52" alt="Host" />
             </div>
             <div className='mt-auto'>
               <Button variant="outlined" className="rounded-full my-2" >
@@ -130,13 +133,19 @@ function HostProfile() {
             <p className="text-black font-semibold">Wallet Balance</p>
             <div className="flex justify-between items-center">
               <div>{host.details.wallet}</div>
-              <div onClick={handleWithdrawRequest} className="text-blue-500 cursor-pointer" >
+
+              <button
+                onClick={handleWithdrawRequest}
+                className="text-blue-500 cursor-pointer"
+                disabled={host.details.wallet === 0}
+              >
                 Withdraw request
-              </div>
+              </button>
+
             </div>
           </div>
           <div className="mb-4">
-            <p className="text-black font-semibold">Balance Amount to be credited</p>
+            <p className="text-black font-semibold">Balance Amount to be credited || Amount credited after user checkout</p>
             <div className="flex justify-between items-center">
               <div>{host.details.balance}</div>
             </div>

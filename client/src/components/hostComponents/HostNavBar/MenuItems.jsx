@@ -13,6 +13,9 @@ function MenuItems() {
   const toggleOpen = useCallback(() => {
     setIsOpen((value) => !value);
   }, []);
+  const avatarLink='https://imgs.search.brave.com/ltN-AHqc6pHIeJ2056RPITzZ_px0QapnUdkbzH4Uio4/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9jZG4u/dmVjdG9yc3RvY2su/Y29tL2kvcHJldmll/dy0xeC80NS83OS9t/YWxlLWF2YXRhci1w/cm9maWxlLXBpY3R1/cmUtc2lsaG91ZXR0/ZS1saWdodC12ZWN0/b3ItNDY4NDU3OS5q/cGc'
+  const profile = host.details.image || avatarLink;
+
   const handleLogout = async () => {
     try {
       console.log("wsw");
@@ -63,7 +66,7 @@ function MenuItems() {
       >
         <div className=" md:block">
           <img
-            src={host.details.image}
+            src={profile}
             alt=" Avatar"
             className="w-10  rounded-full"
           />
@@ -107,7 +110,6 @@ function MenuItems() {
                 <div onClick={() => navigate('/host/chat')}>
                 <MenuItem
                   label="Messages"
-                  onClick={() => navigate('/my-properties')}
                 />
                 </div>
 

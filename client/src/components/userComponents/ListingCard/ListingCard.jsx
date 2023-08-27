@@ -51,9 +51,6 @@ function ListingCard({ data, currentUser,filter }) {
         <div className="font-semibold text-lg h-14">
           {locationData ? `${locationData.text}` : 'Loading location...'}
         </div>
-        {/* <div className="font-light text-neutral-500">
-          {reservationDate || data.category}
-        </div> */}
         <div className="flex flex-row items-center gap-1">
           <div className="font-semibold">
             ₹ {data.pricePerNight}
