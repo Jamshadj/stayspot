@@ -11,9 +11,8 @@ services:
 
   # Node API service
   api:
-    build: .
-    context: .
-    dockerfile: /full/path/to/Dockerfile
+    build:
+      context: .
     ports: 
       - "4000:4000"  # Map container port to host port
     environment:
@@ -30,7 +29,6 @@ services:
       MONGO_DB_URL: "mongodb://localhost:27017/stayspot"
     depends_on:
       - mongo_db
-
 
 volumes:
   mongo_data:
