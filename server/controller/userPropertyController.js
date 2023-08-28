@@ -7,11 +7,12 @@ export default {
  // Get listings endpoint
 getListings: async (req, res) => {
   try {
+    console.log("hekko");
     const { structure } = req.query;
     const baseQuery = { status: "Listed" };
 
     const listings = structure
-      ? await propertyModel.find({ ...baseQuery, structure })
+      ? await propertyModel.find({ ...baseQuery, structure,message: 'listings' })
       : await propertyModel.find(baseQuery);
 
     res.json({ error: false, listings });
@@ -34,7 +35,7 @@ getListingById: async (req, res) => {
     res.json(property);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Internal server error' });
+    res.status(500).json({ error: 'Intewedewdwernal server error' });
   }
 },
 
