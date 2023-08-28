@@ -12,6 +12,8 @@ services:
   # Node API service
   api:
     build: .
+    context: .
+    dockerfile: /full/path/to/Dockerfile
     ports: 
       - "4000:4000"  # Map container port to host port
     environment:
