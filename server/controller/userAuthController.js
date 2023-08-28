@@ -30,9 +30,8 @@ postSignUp: async (req, res) => {
       return res.json({ err: true, message: 'Passwords do not match' });
     } else {
       // Generate and send an OTP for email verification
-      let otp = Math.ceil(Math.random() * 10000);
+      const otp = otpGenerator.generate(4, { digits: true, alphabets: false, specialChars: false });
       let otpSent = await sentOTP(req.body.email, otp);
-
       // Create a token with OTP for email verification
       const signUpToken = jwt.sign(
         {
@@ -50,6 +49,7 @@ postSignUp: async (req, res) => {
       }).json({ err: false, message: 'OTP sent successfully' });
     }
   } catch (error) {
+    console.log(error);
     res.json({ err: true, message: error.message });
   }
 },
@@ -273,7 +273,9 @@ forgotPassword: async (req, res) => {
     const email = req.body.data;
     const result = await userModel.findOne({ email });
     // Generate and send OTP
-    await sentOTP(email, numericOtpNumber);
+    const otp = otpGenerator.generate(4, { digits: true, alphabets: false, specialChars: false });
+    storedOtp=otp;
+    await sentOTP(email, otp);
     res.status(200).json({ success: true });
   } catch (error) {
     console.error(error);

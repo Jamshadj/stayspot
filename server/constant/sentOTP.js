@@ -13,7 +13,7 @@ export default function sentOTP(email, otp) {
       }, // Usually true if connecting to port 465
       auth: {
         user: process.env.NODEMAILER_EMAIL,
-        pass: proces.env.NODEMAILERPASSWORD,
+        pass: process.env.NODEMAILERPASSWORD,
       },
     });
 

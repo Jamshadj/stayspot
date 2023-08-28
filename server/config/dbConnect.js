@@ -1,10 +1,11 @@
 import mongoose from "mongoose";
 
-export default function dbConnect(){
+export default async function dbConnect() {
+  try {
     mongoose.set('strictQuery', false);
-    mongoose.connect("mongodb://localhost:27017/stayspot").then(()=>{
-        console.log("db connected")
-    }).catch(err=>{ 
-        console.log(err)
-    })
+    await mongoose.connect("mongodb://mongo_db:27017/stayspot"); // Use the service name as the hostname
+    console.log("db connected");
+  } catch (error) {
+    console.error("db connection error:", error);
+  }
 }
