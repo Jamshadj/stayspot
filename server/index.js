@@ -54,5 +54,5 @@ dbConnect();
 
 // Start the server
 server.listen(4000, () => {
-  console.log('Server running on http://localhost:4000');
+  console.log('Server running on http://0.0.0.0:4000');
 });
