@@ -2,6 +2,7 @@ import axios from '../axios';
 
 // User registration
 export const postSignUp = (data) => {
+  console.log('wde');
   return axios.post('/signup', data);
 };
 
