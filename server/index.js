@@ -54,5 +54,5 @@ dbConnect();
 
 // Start the server
 server.listen(4000, () => {
-  console.log('Server running on https://64f23dc57953d30094ab55dd--gilded-puffpuff-32ff29.netlify.app/signup');
+  console.log('Server running on https://64f23dc57953d30094ab55dd--gilded-puffpuff-32ff29.netlify.app');
 });

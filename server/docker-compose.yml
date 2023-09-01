@@ -25,7 +25,7 @@ services:
       CLOUDINARY_NAME: "dwf41qfxv"
       CLOUDINARY_API_KEY: "251486947687782"
       CLOUDINARY_API_SECRET: "fMytGYObh2e8zjrUvJffJ6x698k"
-      # ORIGIN: "http://localhost:3000"
+      ORIGIN: "https://64f23dc57953d30094ab55dd--gilded-puffpuff-32ff29.netlify.app"
       MONGO_DB_URL: "mongodb://localhost:27017/stayspot"
     depends_on:
       - mongo_db
