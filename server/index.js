@@ -33,7 +33,7 @@ let activeUsers = {};
 
 // Pass the activeUsers object to the socketConnect function
 socketConnect(io, activeUsers);
-
+ 
 // Middleware
 app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 app.use(express.json({ limit: '50mb' }));
@@ -54,5 +54,5 @@ dbConnect();
 
 // Start the server
 server.listen(4000, () => {
-  console.log('Server running on http://0.0.0.0:4000');
+  console.log('Server running on https://64f23dc57953d30094ab55dd--gilded-puffpuff-32ff29.netlify.app/signup');
 });
