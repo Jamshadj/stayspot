@@ -1,9 +1,9 @@
 import axios from '../axios';
-
+// import axios from 'axios'
 // User registration
 export const postSignUp = (data) => {
   console.log('wde');
-  return axios.post('/signup', data);
+  return axios.post('http://13.51.175.249:4000/signup', data);
 };
 
 // Verify user OTP
