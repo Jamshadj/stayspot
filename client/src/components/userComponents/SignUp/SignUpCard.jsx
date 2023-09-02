@@ -40,7 +40,7 @@ function SignUpCard() {
     <div className="bg-white shadow-lg rounded-lg p-6 mb-8" style={{ height: "43rem" }}>
                 <Card color="transparent" shadow={false}>
                     <Typography variant="h4" color="blue-gray">
-                        Sign gUp
+                        Sign Up
                     </Typography>
                     <Typography color="gray" className="mt-1 font-normal">
                         Enter your details to register.
@@ -101,7 +101,7 @@ function SignUpCard() {
                                     {errors.password.message}
                                 </p>
                             )}
-
+.
                             <Input
                                 type="password"
                                 size="lg"
