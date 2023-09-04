@@ -17,7 +17,7 @@ export default {
 postCheckout: async (req, res) => {
   try {
     const { checkInDate, hostId, checkOutDate, listingId, guests, numberOfNights, userId, totalAmount } = req.body;
-    const cancelUrl = `http://localhost:3000/reserve?listingId=${listingId}&nights=${numberOfNights}&checkIn=${checkInDate}&checkOut=${checkOutDate}&guests=${guests}`;
+    const cancelUrl = `https://stayspot.surge.sh/reserve?listingId=${listingId}&nights=${numberOfNights}&checkIn=${checkInDate}&checkOut=${checkOutDate}&guests=${guests}`;
     const listing = await propertyModel.findById(listingId);
     const user = await userModel.findById(userId);
     
@@ -48,7 +48,7 @@ postCheckout: async (req, res) => {
       ],
       mode: "payment",
       customer_email: user.email,
-      success_url: `http://localhost:3000/order-success?bookingId=${bookingResponse._id}`,
+      success_url: `https://stayspot.surge.sh/order-success?bookingId=${bookingResponse._id}`,
       cancel_url: cancelUrl,
     });
     
