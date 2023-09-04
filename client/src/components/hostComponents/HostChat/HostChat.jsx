@@ -9,7 +9,7 @@ import { findHostChat, getHostChats } from '../../../api/hostChatRequests';
 
 import { io } from "socket.io-client";
 
-const socket = io.connect('https://spotstay.netlify.app'); // Make sure to add 'http://' to the socket URL.
+const socket = io.connect('https://stayspot.boltt.store'); // Make sure to add 'http://' to the socket URL.
 
 
 
