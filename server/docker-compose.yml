@@ -28,7 +28,7 @@ services:
       CLOUDINARY_API_KEY: "251486947687782"
       CLOUDINARY_API_SECRET: "fMytGYObh2e8zjrUvJffJ6x698k"
       ORIGIN: "https://spotstay.netlify.app/"
-      MONGO_DB_URL: "mongodb://mongo_db:27017/stayspot"
+      MONGO_DB_URL: "mongodb://127.0.0.1:27017/stayspot"
     depends_on:
       - mongo_db
 
