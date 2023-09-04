@@ -10,7 +10,7 @@ import { useSelector } from 'react-redux'
 import { io } from "socket.io-client";
 
 import { createChat, findChat, getUserChats } from '../../../api/chatRequests'
-const socket = io.connect('http://13.51.175.249:4000');
+const socket = io.connect('https://spotstay.netlify.app');
 
 
 export default function Chat({ }) {
