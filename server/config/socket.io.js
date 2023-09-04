@@ -8,7 +8,7 @@ export default function socketConnect(io, activeUsers){
                 activeUsers[newUserId] = { userId: newUserId, socketId: socket.id }
               
             }
-            // console.log("active",activeUsers);
+        console.log("active",activeUsers);
             io.emit("get-users", activeUsers);
         });
         socket.on("disconnect", () => {

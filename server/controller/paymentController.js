@@ -8,8 +8,8 @@ import hostModel from '../models/HostModel.js';
 
 const stripe = Stripe(process.env.STRIPE_SECERET_KEY)
 let instance = new Razorpay({
-  key_id: process.env.STRIPE_KEY_ID,
-  key_secret: process.env.STRIPE_KEY_SECERET,
+  key_id:  process.env.RAZOR_PAY_KEY_ID,
+  key_secret: process.env.RAZOR_PAY_SECERET_KEY,
 });
 
 export default {
@@ -107,7 +107,7 @@ paymentVerify: async (req, res) => {
     
     // Calculate the signature
     const expectedSignature = crypto
-      .createHmac('sha256', process.env.STRIPE_KEY_SECERET)
+      .createHmac('sha256', process.env.Razro_pay_KEY_ID)
       .update(body)
       .digest('hex');
 

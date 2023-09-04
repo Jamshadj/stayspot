@@ -54,5 +54,5 @@ dbConnect();
 
 // Start the server
 server.listen(4000, () => {
-  console.log('Server running on https://spotstay.netlify.app');
+  console.log('Server is running on https://spotstay.netlify.app');
 });

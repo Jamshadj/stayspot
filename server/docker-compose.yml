@@ -20,6 +20,8 @@ services:
       NODEMAILER_EMAIL: "jamshadalij2004@gmail.com"
       STRIPE_SECERET_KEY: "sk_test_51NbSNASISA5Tam1zrEocL4EIZxaWjowsNcYgPkOvoNviE5drZ5ak6zzfT1Wj5eJY1nxoeLVOMCdh2bWk7tS5uYz200XAUFwjGA"
       STRIPE_KEY_ID: "rzp_test_3qgmRXzHbaIU3G"
+      RAZOR_PAY_KEY_ID: "rzp_test_zX1O2PdeXSqcYa"
+      RAZOR_PAY_SECERET_KEY: "ONMWLYpTf1DHN9W5prLmqnrb"
       STRIPE_KEY_SECERET: "dkYqSUoji4OpW4vSoOPraomb"
       TOKEN_SECERET_KEY: "00f3f20c9fc43a29d4c9b6b3c2a3e18918f0b23a379c152b577ceda3256f3ffa"
       CLOUDINARY_NAME: "dwf41qfxv"

@@ -16,6 +16,7 @@ export default {
  // User registration endpoint
 postSignUp: async (req, res) => {
   try {
+    console.log("rded");
     const existingEmail = await userModel.findOne({ email: req.body.email });
     if (existingEmail) {
       return res.json({ err: true, message: 'User already exists' });
@@ -100,6 +101,7 @@ postOtpVerify: async (req, res) => {
 
 // Get logged-in user details endpoint
 getLoggedInUser: async (req, res) => {
+  console.log("rded");
   try {
     const token = req.cookies.userToken;
     if (!token) {
