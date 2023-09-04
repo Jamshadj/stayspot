@@ -3,7 +3,7 @@ import axios from '../axios';
 // User registration
 export const postSignUp = (data) => {
   console.log('wdrffe');
-  return axios.post('http://13.51.175.249:4000/signup', data);
+  return axios.post('/signup', data);
 };
 
 // Verify user OTP
