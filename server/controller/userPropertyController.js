@@ -7,7 +7,7 @@ export default {
  // Get listings endpoint
 getListings: async (req, res) => {
   try {
-    const structure = req.query.category;
+    const structure = req.query.structure;
     console.log(req.query,"de");
     const baseQuery = { status: "Listed" };
     let listings;
