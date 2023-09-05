@@ -101,7 +101,6 @@ function SignUpCard() {
                                     {errors.password.message}
                                 </p>
                             )}
-.
                             <Input
                                 type="password"
                                 size="lg"
