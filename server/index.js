@@ -1,13 +1,13 @@
 // Import necessary modules
-import dotenv from 'dotenv';
+import 'dotenv/config.js';
 import express from 'express';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import path from 'path';
-import http from 'http';
+import { createServer } from 'http';
 import { Server } from 'socket.io';
-import dbConnect from './config/dbConnect.js';
-import socketConnect from './config/socket.io.js';
+import dbConnect from './config/dbConnect.js'; 
+import socketConnect from './config/socket.io.js'; 
 
 // Import routers
 import chatRouter from './routes/chatRouter.js';
@@ -17,17 +17,14 @@ import userRouter from './routes/userRouter.js';
 import hostRouter from './routes/hostRouter.js';
 import adminRouter from './routes/adminRouter.js';
 
-// Initialize dotenv
-dotenv.config();
-
 // Create an Express app
 const app = express();
-const server = http.createServer(app);
+const server = createServer(app);
 
 // Initialize Socket.IO with CORS options
 const io = new Server(server, {
   cors: {
-    origin: [process.env.ORIGIN],
+    origin: [process.env.ORIGIN], 
     credentials: true,
   },
 });
@@ -37,12 +34,12 @@ let activeUsers = {};
 
 // Pass the activeUsers object to the socketConnect function
 socketConnect(io, activeUsers);
-
-// Middleware (configure before defining routes)
-app.use(cors({ origin: "https://stayspot.surge.sh", credentials: true }));
-app.use(cookieParser());
+ 
+// Middleware
 app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 app.use(express.json({ limit: '50mb' }));
+app.use(cors({ origin: [process.env.ORIGIN], credentials: true }));
+app.use(cookieParser());
 
 // Route handling
 app.use('/', userRouter);
@@ -51,12 +48,12 @@ app.use('/admin', adminRouter);
 app.use('/chat', chatRouter);
 app.use('/host/chat', hostChatRouter);
 app.use('/message', messageRouter);
-app.use('/host/message', messageRouter); // Ensure this path is consistent
+app.use('/host/message/', messageRouter);
 
 // Connect to the database
 dbConnect();
 
 // Start the server
 server.listen(4000, () => {
-  console.log('Server is running on https://stayspot.surge.sh');
+  console.log('Server is running on https://spotstay.netlify.app');
 });

@@ -7,6 +7,7 @@ import propertyModel from '../models/PropertyModel.js';
 import hostModel from '../models/HostModel.js';
 
 const stripe = Stripe(process.env.STRIPE_SECERET_KEY)
+console.log(process.env.RAZOR_PAY_KEY_ID);
 let instance = new Razorpay({
   key_id:  process.env.RAZOR_PAY_KEY_ID,
   key_secret: process.env.RAZOR_PAY_SECERET_KEY,
