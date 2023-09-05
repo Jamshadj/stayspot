@@ -1,4 +1,5 @@
 import jwt from "jsonwebtoken";
+import bcrypt from 'bcrypt';
 import adminModel from "../models/AdminModel.js";
 import userModel from "../models/UserModel.js";
 import hostModel from "../models/HostModel.js";
@@ -17,7 +18,7 @@ export default {
                 return res.json({ err: true, message: 'Email does not exist' });
             }
 
-            if (password !== admin.password) {
+            if (bcrypt.compareSync(password, admin.password) ){
                 return res.json({ err: true, message: 'Incorrect password' });
             }
 
