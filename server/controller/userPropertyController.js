@@ -8,7 +8,7 @@ export default {
 getListings: async (req, res) => {
   try {
     const structure = req.query.category;
-    console.log(req.query.category);
+    console.log(req.query,"de");
     const baseQuery = { status: "Listed" };
     let listings;
     if (structure) {
