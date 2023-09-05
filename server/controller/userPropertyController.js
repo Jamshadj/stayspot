@@ -7,18 +7,23 @@ export default {
  // Get listings endpoint
 getListings: async (req, res) => {
   try {
-    console.log("hekko");
-    const { structure } = req.query;
+    const { category } = req.query;
+    const structure=category;
     const baseQuery = { status: "Listed" };
-
-    const listings = structure
-      ? await propertyModel.find({ ...baseQuery, structure,message: 'listings' })
-      : await propertyModel.find(baseQuery);
-
+    let listings;
+    if (structure) {
+      console.log('Query:', { ...baseQuery, structure, message: 'listings' });
+      listings = await propertyModel.find({ structure });
+    } else {
+      console.log('Query:', baseQuery);
+      listings = await propertyModel.find(baseQuery);
+    }
+    
+    console.log(listings);
     res.json({ error: false, listings });
   } catch (error) {
     console.error('Error retrieving listings:', error);
-    res.status(500).json({ error: true, message: 'Error retrieving listings' });
+    res.status(500).json({ error: true, message: 'Error retrieving listings' }); 
   }
 },
 
