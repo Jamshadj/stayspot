@@ -254,6 +254,7 @@ export default {
     postUpdateListingStatus: async (req, res) => {
         try {
             const { propertyId } = req.params;
+            console.log(req.body);
             const { status } = req.body; // Get the status string from the request body
             
             const property = await propertyModel.updateOne({ _id: propertyId }, { status: status });
