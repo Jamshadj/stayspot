@@ -55,7 +55,12 @@ function Properties() {
                   {index + 1}
                 </TableCell>
                 <TableCell align="left" className='w-60'>
-                  <img  src={data.images[0]} className='w-28 h-28 ml-9' alt={data.title} />
+                <img
+  src={data.images && data.images.length > 0 ? data.images[0] : ''} // Check if data.images is defined and has elements
+  className='w-28 h-28 ml-9'
+  alt={data.title}
+/>
+
                 </TableCell>
                 <TableCell align="left">{data.title}</TableCell>
                 <TableCell align="left">{data.location}</TableCell>

@@ -131,6 +131,7 @@ postLogIn: async (req, res) => {
   try {
     const { email, password } = req.body;
     const existingUser = await userModel.findOne({ email: email });
+    
     if (existingUser) {
       if (existingUser.blocked === true) {
         return res.json({ err: true, message: 'Sorry, you are banned' });
@@ -138,13 +139,11 @@ postLogIn: async (req, res) => {
         // Generate a token for the authenticated user
         const token = createToken(existingUser._id);
 
-        // Set the user token in a cookie and respond with success message
-        return res.cookie("userToken", token, {
-          httpOnly: true,
-          secure: true,
-          maxAge: 1000 * 60 * 60 * 24 * 7,
-          sameSite: "none",
-        }).json({ err: false, message: 'User login success' });
+        // Store the token in Local Storage
+        localStorage.setItem('userToken', token);
+
+        // Respond with success message
+        return res.json({ err: false, message: 'User login success' });
       } else {
         return res.json({ err: true, message: 'Incorrect password' });
       }

@@ -124,9 +124,9 @@ function PropertyManagement() {
               {listing.amenities.map((amenity, index) => (
                 <p key={index}>{amenity}</p>
               ))}
-              {/* <h3 className="text-xl font-semibold mt-4">Availability</h3>
+              <h3 className="text-xl font-semibold mt-4">Availability</h3>
               <p>Minimum Stay: {listing.minimumStay}</p>
-              <p>Maximum Stay: {listing.maximumStay}</p> */}
+              <p>Maximum Stay: {listing.maximumStay}</p>
             </div>
           </div>
           <h2 className="text-2xl font-bold mt-4">Status: {status}</h2>

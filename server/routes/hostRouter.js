@@ -1,6 +1,7 @@
 import Express from "express";
 import hostAuth from "../controller/hostAuthControllers.js";
 import hostPropertyControllers from "../controller/hostPropertyControllers.js";
+import checkHost from "../middlewares/checkHost.js";
 
 const router = Express.Router();
 // Authentication Routes
@@ -12,21 +13,21 @@ router.get('/auth', hostAuth.getLoggedInHost);
 router.post("/auth/login/google", hostAuth.googleAuth);
 
 // Property Routes
-router.post('/add-property', hostPropertyControllers.postAddProperty);
-router.post('/set-date', hostPropertyControllers.setDates);
-router.get('/properties/:hostId', hostPropertyControllers.getProperties);
-router.get('/property/:propertyId', hostPropertyControllers.getProperty);
-router.post('/edit-data', hostPropertyControllers.postPropertyEditBasics);
-router.post('/update-property-field', hostPropertyControllers.postPropertyEditProperty);
-router.post('/update-price', hostPropertyControllers.postPropertyEditPrice);
+router.post('/add-property',checkHost, hostPropertyControllers.postAddProperty);
+router.post('/set-date',checkHost, hostPropertyControllers.setDates);
+router.get('/properties/:hostId',checkHost, hostPropertyControllers.getProperties);
+router.get('/property/:propertyId',checkHost, hostPropertyControllers.getProperty);
+router.post('/edit-data',checkHost, hostPropertyControllers.postPropertyEditBasics);
+router.post('/update-property-field',checkHost, hostPropertyControllers.postPropertyEditProperty);
+router.post('/update-price',checkHost, hostPropertyControllers.postPropertyEditPrice);
 
 // Booking Routes
-router.get('/getBookingById/:hostId', hostPropertyControllers.getBookingByHostId);
-router.post('/updatestatus/:bookingId', hostPropertyControllers.updateBookingStatus);
+router.get('/getBookingById/:hostId',checkHost, hostPropertyControllers.getBookingByHostId);
+router.post('/updatestatus/:bookingId',checkHost, hostPropertyControllers.updateBookingStatus);
 
 // Withdraw Routes
-router.post('/withdraw', hostPropertyControllers.withdrawRequest);
-router.get('/withdraw/:hostId', hostPropertyControllers.getWithdrawById);
+router.post('/withdraw',checkHost, hostPropertyControllers.withdrawRequest);
+router.get('/withdraw/:hostId',checkHost, hostPropertyControllers.getWithdrawById);
 
 
 export default router;
