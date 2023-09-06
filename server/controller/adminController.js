@@ -254,8 +254,8 @@ export default {
     postUpdateListingStatus: async (req, res) => {
         try {
             const { propertyId } = req.params;
-            const status = req.body.status; // Get the status from the request body directly
-
+            const { status } = req.body; // Get the status string from the request body
+            
             const property = await propertyModel.updateOne({ _id: propertyId }, { status: status });
             res.json({ message: 'Listing status updated successfully' });
         } catch (error) {
@@ -263,6 +263,7 @@ export default {
             res.status(500).json({ error: 'Failed to update listing status' });
         }
     },
+    
 
     // Add a new host
     postAddHost: async (req, res) => {
