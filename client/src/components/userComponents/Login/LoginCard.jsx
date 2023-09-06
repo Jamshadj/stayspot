@@ -9,6 +9,7 @@ import { postForgotPassword, postLogin, postUpdatePassword, postVerifyOtp } from
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import Swal from 'sweetalert2';
+import { setItem } from '../../../constant/localStorage';
 
 function LoginCard() {
   const [error, setError] = useState('');
@@ -146,7 +147,9 @@ function LoginCard() {
       console.error(error);
     }
   };
-
+  const storeTokenInLocalStorage = (token) => {
+    setItem('userToken', token);
+  };
   return (
     <div className="max-w-80 sm:max-w-96 md:w-[30rem]">
       <div className="bg-white shadow-lg rounded-lg p-6" style={{ height: "36rem" }}>

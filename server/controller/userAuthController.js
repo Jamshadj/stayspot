@@ -143,7 +143,7 @@ postLogIn: async (req, res) => {
         localStorage.setItem('userToken', token);
 
         // Respond with success message
-        return res.json({ err: false, message: 'User login success' });
+        return res.json({ err: false, message: 'User login success', token: token });
       } else {
         return res.json({ err: true, message: 'Incorrect password' });
       }
