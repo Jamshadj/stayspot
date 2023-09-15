@@ -124,7 +124,7 @@ function ReserveRooms() {
     try {
       console.log(order.id, "order id");
       const options = {
-        key:process.env.RAZOR_PAY_KEY_ID,
+        key:"rzp_test_ecsvobI48VlfNP",
         amount: totalAmount,
         currency: "INR", // Set the currency to your desired currency code
         name: "Stayspot Corp",
