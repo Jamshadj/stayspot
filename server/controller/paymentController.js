@@ -15,32 +15,31 @@ let instance = new Razorpay({
 
 export default {
 // Perform the checkout process
+
 postCheckout: async (req, res) => {
   try {
-    const { checkInDate, hostId, checkOutDate, listingId, guests, numberOfNights, userId, totalAmount } = req.body;
-    const cancelUrl = `https://spotstay.netlify.app/reserve?listingId=${listingId}&nights=${numberOfNights}&checkIn=${checkInDate}&checkOut=${checkOutDate}&guests=${guests}`;
+    const {
+      listingId,
+      numberOfNights,
+      checkInDate,
+      checkOutDate,
+      guests,
+      userId,
+      totalAmount,
+    } = req.body;
+
     const listing = await propertyModel.findById(listingId);
     const user = await userModel.findById(userId);
-    
-    // Increment host balance
-    await hostModel.findByIdAndUpdate(listing.hostId, { $inc: { balance: +totalAmount } });
-    
-    // Create a new booking
-    const bookingResponse = await bookingModel.create({
-      userId, hostId, listingId, checkInDate, checkOutDate, guests, numberOfNights, totalAmount
-    });
-    
+
     // Create a Stripe checkout session
     const session = await stripe.checkout.sessions.create({
       line_items: [
-        { 
+        {
           price_data: {
             currency: "inr",
             product_data: {
               name: listing.title,
-              images: [
-                listing.images[0]      
-              ],
+              images: [listing.images[0]],
             },
             unit_amount: totalAmount * 100,
           },
@@ -49,74 +48,87 @@ postCheckout: async (req, res) => {
       ],
       mode: "payment",
       customer_email: user.email,
-      success_url: `https://spotstay.netlify.app/order-success?bookingId=${bookingResponse._id}`,
-      cancel_url: cancelUrl,
+      success_url: `https://stayspot.boltt.store/order-success?bookingDetails=${encodeURIComponent(JSON.stringify(req.body))}`,
+      cancel_url: `https://spotstay.netlify.app/reserve?listingId=${listingId}&nights=${numberOfNights}&checkIn=${checkInDate}&checkOut=${checkOutDate}&guests=${guests}`,
     });
-    
+
+    // Send a response with the session URL
     res.json({ URL: session.url });
   } catch (error) {
     console.error("Error:", error);
-    res.status(500).json({ error: 'An error occurred while creating the payment.' });
+    res.status(500).json({ error: 'An error occurred while creat ing the payment.' });
   }
 },
 
 // Handle successful payment
 getOrderSuccess: async (req, res) => {
   try {
-    const { userId, hostId, listingId, checkInDate, checkOutDate, guests, numberOfNights, totalAmount } = req.query;
-    const newBooking = new bookingModel({
-      userId,
-      checkInDate,
-      checkOutDate,
-      listingId,
-      guests,
-      numberOfNights,
-      totalAmount
-    });
+    // Retrieve the booking details from the query parameter
+    const bookingDetails = JSON.parse(req.query.bookingDetails);
+    console.log("ewwd",bookingDetails);
+    const listing = await propertyModel.findById(bookingDetails.listingId);
+    await hostModel.findByIdAndUpdate(listing.hostId, { $inc: { balance: +bookingDetails.totalAmount } });
     
+    // Store booking details in the database (you need to import the respective models)
+    const newBooking = new bookingModel({
+      userId: bookingDetails.userId,
+      checkInDate: bookingDetails.checkInDate,
+      checkOutDate: bookingDetails.checkOutDate,
+      listingId: bookingDetails.listingId,
+      guests: bookingDetails.guests,
+      hostId:bookingDetails.hostId,
+      numberOfNights: bookingDetails.numberOfNights,
+      totalAmount: bookingDetails.totalAmount,
+    });
+
     const bookingResponse = await newBooking.save();
-    res.redirect(`/order-success?bookingId=${bookingResponse._id}`);
+
+    res.redirect(`https://spotstay.netlify.app/order-success?bookingId=${bookingResponse._id}`);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'An error occurred while processing the successful payment.' });
   }
 },
+
 paymentOrder: async (req, res) => {
   try {
+    console.log("de");
     const { amount } = req.body;
-    const options = {
+    // console.log(amount);
+    var options = {
       amount: amount * 100, // Convert amount to the smallest currency unit
       currency: "INR",
     };
-    instance.orders.create(options, (err, order) => {
+    instance.orders.create(options, function (err, order) {
       if (err) {
+        console.log(err);
         res.json({ err: true, message: "Server error" });
       } else {
         res.json({ err: false, order });
       }
     });
   } catch (error) {
+    console.log(error);
     res.status(500).json({ err: true, message: "An unexpected error occurred" });
   }
 },
-
 paymentVerify: async (req, res) => {
   try {
     const { userId, listingId, checkInDate, checkOutDate, guests, numberOfNights, totalAmount } = req.body.details;
     const { response } = req.body;
-    const body = response.razorpay_order_id + "|" + response.razorpay_payment_id;
-    
-    // Calculate the signature
-    const expectedSignature = crypto
-      .createHmac('sha256', process.env.Razro_pay_KEY_ID)
-      .update(body)
-      .digest('hex');
 
+    const body = `${response.razorpay_order_id}|${response.razorpay_payment_id}`;
+    const listing=await propertyModel.findById(listingId)
+    // Calculate the signature
+    const hmac = crypto.createHmac('sha256', process.env.RAZOR_PAY_SECERET_KEY);
+    hmac.update(body);
+    const expectedSignature = hmac.digest('hex');
     if (expectedSignature === response.razorpay_signature) {
+      // Payment signature matches, proceed with booking
       try {
         await hostModel.findByIdAndUpdate(listing.hostId, { $inc: { wallet: +totalAmount } });
         const bookingResponse = await bookingModel.create({
-          userId, listingId, hostId, checkInDate, checkOutDate, guests, numberOfNights, totalAmount
+          userId, listingId, hostId:listing.hostId, checkInDate, checkOutDate, guests, numberOfNights, totalAmount
         });
         return res.json({
           err: false,
@@ -130,6 +142,8 @@ paymentVerify: async (req, res) => {
         });
       }
     } else {
+      // Signature doesn't match, indicate payment verification failure
+      console.log("Payment verification failed");
       return res.json({
         err: true,
         message: "Payment verification failed"

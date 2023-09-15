@@ -31,7 +31,7 @@ function ReservationHistoryCard({ data, currentUser }) {
     return (
         listing && (
 
-            <div className="col-span-1 cursor-pointer group mx-2">
+            <div className="col-span-1 cursor-pointer group mx-2 p-4 shadow-xl">
                 <div className="flex flex-col gap-2 w-full">
                     <div className="aspect-square w-full relative overflow-hidden rounded-xl">
                         <img

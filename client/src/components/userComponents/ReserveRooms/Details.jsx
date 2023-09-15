@@ -40,7 +40,7 @@ function Details({ checkInDate, checkOutDate, guests, onDatesChange, onGuestsCha
   };
 
   return (
-    <div className="bg-gray-100 p-4 sm:p-8">
+    <div className="bg-white p-4 sm:p-8">
     <div>
       <span className='text-2xl ml-5 font-semibold'>
         Book Your Stay
@@ -53,7 +53,7 @@ function Details({ checkInDate, checkOutDate, guests, onDatesChange, onGuestsCha
         </span>
       </div>
 
-      <div className='mt-6 sm:w-72'>
+      <div className='mt-6 w-72 md:w-full'>
         <div className='flex'>
           <div>
             <span className='text-base font-semibold'>
@@ -74,7 +74,7 @@ function Details({ checkInDate, checkOutDate, guests, onDatesChange, onGuestsCha
           <span>Check-out: {checkOutDate.toDateString()}</span>
         </div>
       </div>
-      <div className='mt-6 sm:w-72'>
+      <div className='mt-6 w-72 md:w-full'>
         <div className='flex'>
           <div>
             <span className='text-base font-semibold'>

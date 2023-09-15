@@ -35,7 +35,7 @@ function ListingCard({ data, currentUser,filter }) {
   };
 
   return (
-    <div className="col-span-1 cursor-pointer group">
+    <div className="col-span-1 cursor-pointer group shadow-lg p-[15px] rounded-lg">
       <div className="flex flex-col gap-2 w-full">
         <div className="aspect-square w-full relative overflow-hidden rounded-xl">
           <img
@@ -48,9 +48,10 @@ function ListingCard({ data, currentUser,filter }) {
           </div>
         </div>
         <div  onClick={navigateToRoomDetails} >
-        <div className="font-semibold text-lg h-14">
-          {locationData ? `${locationData.text}` : 'Loading location...'}
-        </div>
+        <div className={`font-semibold h-7 ${locationData && locationData.text.length > 20 ? 'text-sm' : 'text-lg'}`}>
+  {locationData ? `${locationData.text}` : 'Loading location...'}
+</div>
+
         <div className="flex flex-row items-center gap-1">
           <div className="font-semibold">
             ₹ {data.pricePerNight}

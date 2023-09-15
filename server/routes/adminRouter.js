@@ -32,6 +32,6 @@ router.get('/bookings',checkAdmin, adminControllers.getBookings);
 
 // Get user and booking details by their IDs
 router.get('/getUserById/:userId',checkAdmin, adminControllers.getUserById);
-router.get('/getBookingById/:bookingId',checkAdmin, adminControllers.getBookingById);
+router.get('/getBookingById/:bookingId', adminControllers.getBookingById);
 
 export default router;

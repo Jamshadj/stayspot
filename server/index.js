@@ -38,7 +38,7 @@ socketConnect(io, activeUsers);
 // Middleware
 app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 app.use(express.json({ limit: '50mb' }));
-app.use(cors({ origin: [process.env.ORIGIN], credentials: true }));
+app.use(cors({ origin:[process.env.ORIGIN], credentials: true }));
 app.use(cookieParser());
 
 // Route handling

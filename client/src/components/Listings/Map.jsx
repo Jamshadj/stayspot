@@ -1,3 +1,4 @@
+import React from 'react';
 import L from 'leaflet';
 import { MapContainer, Marker, TileLayer } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
@@ -20,8 +21,11 @@ const Map = ({ center }) => {
 
   const mapCenter = center ? L.latLng(center.latitude, center.longitude) : L.latLng(51, -0.09);
 
+  // Adjust the zoom level for the marker
+  const zoomLevel = center ? 12 : 4; // You can change the zoom level here
+
   return (
-    <MapContainer center={mapCenter} zoom={center ? 4 : 2} scrollWheelZoom={false} className="h-[35vh] rounded-lg">
+    <MapContainer center={mapCenter} zoom={zoomLevel} scrollWheelZoom={false} className="h-[35vh] rounded-lg">
       <TileLayer url={url} attribution={attribution} />
       {center && <Marker position={mapCenter} icon={customIcon} />}
     </MapContainer>

@@ -87,6 +87,7 @@ function ReserveRooms() {
     }
   }
   const handleBooking = async () => {
+    
     const { data } = await axios.post("/payment", { amount: calculateTotalAmount() });
     console.log(data, "data");
     if (!data.err) {
@@ -106,6 +107,9 @@ function ReserveRooms() {
 
 
   const handleRazroPay = async (order) => {
+    const numberOfNights = calculateNumberOfNights();
+    const totalAmount = calculateTotalAmount() * 100; // Convert to paise
+    
     const details = {
       userId: user.details._id,
       hostId: listing.hostId,
@@ -113,28 +117,32 @@ function ReserveRooms() {
       checkOutDate: currentCheckOutDate,
       listingId,
       guests: currentGuest,
-      numberOfNights: calculateNumberOfNights(), // You should have a function to calculate this
-      totalAmount: calculateTotalAmount() // Ensure this value is a valid numeric value
+      numberOfNights: numberOfNights,
+      totalAmount: totalAmount, // Use the calculated total amount in paise
     };
-
+  
     try {
       console.log(order.id, "order id");
       const options = {
-        key: "rzp_test_3qgmRXzHbaIU3G",
-        amount: order.amount,
-        currency: order.currency,
-        name: "Acme Corp",
+        key:process.env.RAZOR_PAY_KEY_ID,
+        amount: totalAmount,
+        currency: "INR", // Set the currency to your desired currency code
+        name: "Stayspot Corp",
         description: "Test Transaction",
         order_id: order.id,
         handler: async (response) => {
           try {
-            const { data } = await axios.post("/payment/verify", { details, response });
-            console.log(data, "dataaa");
-            if (data.err) {
+            console.log("Payment response:", response);
+  
+            // Make a request to your server to verify the payment
+            const verifyResponse = await axios.post("/payment/verify", { details, response });
+            console.log(verifyResponse.data, "verification data");
+  
+            if (verifyResponse.data.err) {
               Swal.fire({
                 icon: 'error',
                 title: 'Oops...',
-                text: data.message,
+                text: verifyResponse.data.message,
               });
             } else {
               Swal.fire(
@@ -142,15 +150,15 @@ function ReserveRooms() {
                 'Successfully Booked',
                 'success'
               );
-              navigate("/profile");
+              navigate("/reservationHistory");
             }
           } catch (error) {
-            console.error(error);
+            console.log("Error verifying payment:", error);
             // Handle error here
           }
         }
       };
-
+  
       const paymentObject = new window.Razorpay(options);
       paymentObject.open();
     } catch (error) {
@@ -158,6 +166,8 @@ function ReserveRooms() {
       // Handle error here
     }
   };
+  
+  
 
 
   useEffect(() => {
@@ -210,13 +220,13 @@ function ReserveRooms() {
   }
   return (
     <div>
-      <div>
-        <Navbar reservation={true} />
-      </div>
-      <div className='pb-20 pt-20'>
+    
+        {/* <Navbar reservation={true} /> */}
+      
+      <div className=''>
         <div className='md:m-10 lg:m-20'>
           <div className='md:flex flex-col lg:flex-row'>
-            <div className='md:w-full lg:w-1/2 mb-10 md:mb-0'>
+            <div className='md:w-full lg:w-1/2 mb-10 md:mb-0 shadow-xl'>
               <Details
                 checkInDate={currentCheckInDate}
                 checkOutDate={currentCheckOutDate}
@@ -226,15 +236,15 @@ function ReserveRooms() {
               />
               <hr />
               {/* Required for your trip sections */}
-              <div className='mt-3 sm:w-full md:w-full text-black flex'>
+              <div className='mt-3 sm:w-full  p-3 md:w-full text-black flex'>
                 <div>
                   <div className=''>
-                    <span className='text-base font-medium ml-4'>
+                    <span className='text-base font-medium '>
                       Message the host
                     </span>
                   </div>
                   <div>
-                    <span className='text-base font-normal text-gray-700 ml-4'>
+                    <span className='text-base font-normal text-gray-700 '>
                       Let the host know why you're travelling and when you'll check in.
                     </span>
                   </div>
@@ -244,15 +254,15 @@ function ReserveRooms() {
                 </div>
               </div>
               {!user.details.phoneNumber &&
-              <div className='mt-3 sm:w-full md:w-full text-black flex'>
+              <div className='mt-3 p-3 sm:w-full md:w-full text-black flex'>
                 <div>
                   <div>
-                    <span className='text-base font-medium ml-4'>
+                    <span className='text-base font-medium '>
                       Phone Number
                     </span>
                   </div>
                   <div>
-                    <span className='text-base font-normal text-gray-700 ml-4'>
+                    <span className='text-base font-normal text-gray-700 '>
                       Add and confirm your phone number to get trip updates.
                     </span>
                   </div>
@@ -267,21 +277,21 @@ function ReserveRooms() {
              
               {/* Ground rules sections */}
               <hr />
-              <div className='mt-3 text-black'>
+              <div className='mt-3  text-black'>
                 <div>
-                  <span className='ml-4 text-xl font-medium text-black'>
+                  <span className='p-3 text-xl font-medium text-black'>
                     Pay With
                   </span>
                 </div>
-                <div className='flex'>
+                <div className='flex p-3'>
                   <div>
                     <div className='mt-4'>
-                      <span className='text-base font-medium ml-4'>
+                      <span className='text-base font-medium'>
                         Pay using card
                       </span>
                     </div>
                     <div>
-                      <span className='text-base font-normal text-gray-700 ml-4'>
+                      <span className='text-base font-normal text-gray-700 '>
                         Let the host know why you're travelling and when you'll check in.
                       </span>
                     </div>
@@ -292,15 +302,15 @@ function ReserveRooms() {
                     </Button>
                   </div>
                 </div>
-                <div className='flex'>
+                <div className='flex p-3'>
                   <div>
                     <div className='mt-4'>
-                      <span className='text-base font-medium ml-4'>
+                      <span className='text-base font-medium '>
                         Pay using UPI
                       </span>
                     </div>
                     <div>
-                      <span className='text-base font-normal text-gray-700 ml-4'>
+                      <span className='text-base font-normal text-gray-700 '>
                         Let the host know why you're travelling and when you'll check in.
                       </span>
                     </div>
@@ -319,7 +329,7 @@ function ReserveRooms() {
                 <div className='md:flex -mr-11'>
                   <div className='md:w-1/3 md:ml-28'>
                     {listing && listing.images && listing.images.length > 0 && (
-                      <img className='max-w-[66%] border-r-2 rounded-md' src={listing.images[0]} alt="" />
+                      <img className='max-w-[100%] border-r-2 rounded-md' src={listing.images[0]} alt="" />
                     )}
                   </div>
                   <div>

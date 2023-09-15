@@ -67,8 +67,8 @@ function Favorites() {
               </div>
             ) : (
               wishlistDetails.map((item) => (
-                <Card className="w-96" key={item._id}>
-                  <CardHeader color="blue-gray" className="relative h-56">
+                <Card className="w-[20vw]" key={item._id}>
+                  <CardHeader color="blue-gray" className="relative h-56 mt-4">
                     {item.images && item.images[0] && <img src={item.images[0]} alt="card-image" />}
                   </CardHeader>
                   <CardBody>
