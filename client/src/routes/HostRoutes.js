@@ -35,10 +35,14 @@ import ErrorPage from "../components/ErrorPage/ErrorPage.jsx";
 export default function HostRoutes() {
   const { host, refresh } = useSelector((state) => state);
   const dispatch = useDispatch();
-
+  
   useEffect(() => {
-    axios
-      .get('/host/auth')
+    const token = localStorage.getItem('HostToken'); // Retrieve the token from localStorage
+    axios.get('/host/auth', {
+      headers: {
+        Authorization: `Bearer ${token}`, // Include the token as a Bearer Token
+      },
+    })
       .then((response) => {
         console.log("HOST:", response.data);
         dispatch({ type: 'host', payload: { login: response.data.loggedIn, details: response.data.host } });

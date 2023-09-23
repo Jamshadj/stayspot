@@ -8,13 +8,13 @@ import bookingModel from "../models/BookingModel.js";
 import otpGenerator from 'otp-generator';
 // Helper function to create a token
 const createToken = (userId) => {
-  return jwt.sign({ id: userId }, process.env.TOKEN_SECERET_KEY);
+  return jwt.sign({ id: userId }, process.env.TOKEN_SECRET_KEY);
 };
 let storedOtp=null;
 
 export default {
  // User registration endpoint
-postSignUp: async (req, res) => {
+postUserSignUp: async (req, res) => {
   try {
     console.log("rded");
     const existingEmail = await userModel.findOne({ email: req.body.email });
@@ -38,7 +38,7 @@ postSignUp: async (req, res) => {
         {
           otp: otp
         },
-        process.env.TOKEN_SECERET_KEY
+        process.env.TOKEN_SECRET_KEY
       );
 
       // Set the token in a cookie and respond with success message
@@ -56,7 +56,7 @@ postSignUp: async (req, res) => {
 },
 
 // OTP verification endpoint
-postOtpVerify: async (req, res) => {
+postUserOtpVerify: async (req, res) => {
   try {
     let otp = req.body.otp;
     let userToken = req.cookies.signUpToken;
@@ -64,7 +64,7 @@ postOtpVerify: async (req, res) => {
     // Verify the OTP token
     const OtpToken = jwt.verify(
       userToken,
-      process.env.TOKEN_SECERET_KEY
+      process.env.TOKEN_SECRET_KEY
     );
 
     // Hash the user's password
@@ -81,15 +81,10 @@ postOtpVerify: async (req, res) => {
       });
 
       // Generate a token for the new user
-      const userToken = createToken(user._id);
+      const token = createToken(user._id);
 
       // Set the user token in a cookie and respond with success message
-      return res.cookie("userToken", userToken, {
-        httpOnly: true,
-        secure: true,
-        maxAge: 1000 * 60 * 60 * 24 * 7,
-        sameSite: "none",
-      }).json({ err: false, message: 'User registration success' });
+      return res.json({ err: false,token, message: 'User registration success' });
     } else {
       // Respond with error message if OTP is incorrect
       res.json({ err: true, message: 'Check otp' });
@@ -101,33 +96,43 @@ postOtpVerify: async (req, res) => {
 
 // Get logged-in user details endpoint
 getLoggedInUser: async (req, res) => {
-  console.log("rded");
   try {
-    const token = req.cookies.userToken;
+    const token = req.headers.authorization;
+
     if (!token) {
-      return res.json({ loggedIn: false, error: true, message: "No token" });
+      return res.status(401).json({ loggedIn: false, error: true, message: "No token" });
     }
 
+    // Split the token to remove the "Bearer " prefix
+    const tokenParts = token.split(' ');
+    if (tokenParts.length !== 2 || tokenParts[0] !== 'Bearer') {
+      return res.status(401).json({ loggedIn: false, error: true, message: "Invalid token format" });
+    }
+    
+    const jwtToken = tokenParts[1];
+    console.log(jwtToken);
     // Verify the user's token and retrieve user details
-    const verifiedJWT = jwt.verify(token, process.env.TOKEN_SECERET_KEY);
+    const verifiedJWT = jwt.verify(jwtToken, process.env.TOKEN_SECRET_KEY);
+    console.log(verifiedJWT);
+
     const user = await userModel.findById(verifiedJWT.id, { password: 0 });
 
     if (!user) {
-      return res.json({ loggedIn: false, error: true, message: "User not found" });
+      return res.status(404).json({ loggedIn: false, error: true, message: "User not found" });
     }
     if (user.blocked) {
-      return res.json({ loggedIn: false, error: true, message: "User is blocked" });
+      return res.status(403).json({ loggedIn: false, error: true, message: "User is blocked" });
     }
 
     // Respond with user details and token
-    return res.json({ loggedIn: true, user, token });
+    return res.status(200).json({ loggedIn: true, user, token: jwtToken });
   } catch (err) {
-    res.json({ loggedIn: false, error: true, message: err.message });
+    res.status(500).json({ loggedIn: false, error: true, message: err.message });
   }
 },
 
 // User login endpoint
-postLogIn: async (req, res) => {
+postUserLogIn: async (req, res) => {
   try {
     const { email, password } = req.body;
     const existingUser = await userModel.findOne({ email: email });
@@ -139,12 +144,7 @@ postLogIn: async (req, res) => {
         const token = createToken(existingUser._id);
 
         // Set the user token in a cookie and respond with success message
-        return res.cookie("userToken", token, {
-          httpOnly: true,
-          secure: true,
-          maxAge: 1000 * 60 * 60 * 24 * 7,
-          sameSite: "none",
-        }).json({ err: false, message: 'User login success' });
+        return res.json({ err: false,token, message: 'User login success' });
       } else {
         return res.json({ err: true, message: 'Incorrect password' });
       }
@@ -155,8 +155,9 @@ postLogIn: async (req, res) => {
     res.json({ err: true, message: error.message });
   }
 },
+
 // Google authentication endpoint
-googleAuth: async (req, res) => {
+userGoogleAuth: async (req, res) => {
   try {
     if (req.body.access_token) {
       const response = await axios.get(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${req.body.access_token}`);
@@ -228,8 +229,9 @@ getBookingById: async (req, res) => {
     res.status(500).json({ error: 'An error occurred while getting booking details' });
   }
 },
+
 // Update user details endpoint
-updateDetails: async (req, res) => {
+updateUserDetails: async (req, res) => {
   try {
     const { userId } = req.params;
     const { details } = req.body;
@@ -251,7 +253,7 @@ updateDetails: async (req, res) => {
 },
 
 // Update user profile image endpoint
-updateProfile: async (req, res) => {
+updateUserProfile: async (req, res) => {
   try {
     const { userId } = req.params;
     const { details } = req.body;
@@ -270,7 +272,7 @@ updateProfile: async (req, res) => {
 },
 
 // Forgot password endpoint
-forgotPassword: async (req, res) => {
+forgotUserPassword: async (req, res) => {
   try {
     const email = req.body.data;
     const result = await userModel.findOne({ email });
@@ -286,7 +288,7 @@ forgotPassword: async (req, res) => {
 },
 
 // Verify OTP endpoint
-verifyOTP: async (req, res) => {
+verifyUserOTP: async (req, res) => {
   try {
     const receivedOtp = req.body.data;
     if (receivedOtp === storedOtp) {
@@ -302,7 +304,7 @@ verifyOTP: async (req, res) => {
 },
 
 // Update password endpoint
-postUpdatePassword: async (req, res) => {
+postUpdateUserPassword: async (req, res) => {
   try {
     const { email, password } = req.body.data;
     const hashedPassword = await bcrypt.hash(password, 10);

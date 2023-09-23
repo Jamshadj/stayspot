@@ -28,6 +28,7 @@ const OTPModal = ({ onClose, formData }) => {
       if (formData.user) {
         response = await postUserOtp(otp, formData);
         if (!response.data.err) {
+          localStorage.setItem('UserToken',response.data.token)
           dispatch({type:'refresh'})
           console.log(response.data);
          return navigate('/')
@@ -37,6 +38,7 @@ const OTPModal = ({ onClose, formData }) => {
       } else if (formData.host) {
         response = await postHostOtp(otp, formData);
         if (!response.data.err) {
+          localStorage.setItem('HostToken',response.data.token)
           console.log('hostsignup completed');
           dispatch({type:'refresh'})
           console.log(response.data);

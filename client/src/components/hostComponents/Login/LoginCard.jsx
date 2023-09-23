@@ -4,12 +4,15 @@ import { Card, Input, Button, Typography } from "@material-tailwind/react";
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { logInSchema } from '../../../validations/logInValidation';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { postLogin } from '../../../api/hostApi';
 import HostGoogleAuth from '../HostGoogleAuth/HostGoogleAuth';
+import { useDispatch } from 'react-redux';
 
 function LoginCard() {
     const [error, setError] = useState('');
+    const navigate=useNavigate()
+    const dispatch = useDispatch();
     const {
         register,
         handleSubmit,
@@ -23,8 +26,9 @@ function LoginCard() {
             const response = await postLogin(data);
 
             if (!response.data.err) {
-                console.log("login Sucessfull");
-                dispatch({ type: "refresh" })
+                localStorage.setItem('HostToken',response.data.token)
+                console.log("ws");
+             dispatch({ type: "refresh" })
                 return navigate('/host')
             } else {
                 setError(response.data.message);

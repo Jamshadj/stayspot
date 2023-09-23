@@ -82,6 +82,7 @@ export default {
       res.status(500).json({ success: false, message: 'Error occurred during updating dates' });
     }
   },
+
   // Get all properties associated with a specific host
   getProperties: async (req, res) => {
     try {
@@ -145,6 +146,7 @@ export default {
       res.status(500).json({ success: false, message: 'Error occurred during updating field' });
     }
   },
+
   // Update property price per night
   postPropertyEditPrice: async (req, res) => {
     try {
@@ -208,6 +210,7 @@ export default {
       res.status(500).json({ error: error.message });
     }
   },
+  
   // Request withdrawal
   withdrawRequest: async (req, res) => {
     try {

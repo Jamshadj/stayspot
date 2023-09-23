@@ -22,7 +22,7 @@ export default {
                 return res.json({ err: true, message: 'Incorrect password' });
             }
 
-            const token = jwt.sign({ id: admin._id }, process.env.TOKEN_SECERET_KEY);
+            const token = jwt.sign({ id: admin._id }, process.env.TOKEN_SECRET_KEY);
 
             res.cookie('adminToken', token, {
                 httpOnly: true,
@@ -44,7 +44,7 @@ export default {
                 return res.json({ loggedIn: false, error: true, message: 'No token' });
             }
 
-            const verifiedJWT = jwt.verify(token, process.env.TOKEN_SECERET_KEY);
+            const verifiedJWT = jwt.verify(token, process.env.TOKEN_SECRET_KEY);
             const admin = await adminModel.findById(verifiedJWT.id, { password: 0 });
 
             if (!admin) {
@@ -129,7 +129,6 @@ export default {
             res.status(500).json({ error: error.message });
         }
     },
-
 
     // Block a host
     postBlockHost: async (req, res) => {
@@ -226,8 +225,6 @@ export default {
         }
     },
 
-
-
     // Admin logout
     adminLogout: async (req, res) => {
         console.log("admin logout");
@@ -264,7 +261,6 @@ export default {
         }
     },
     
-
     // Add a new host
     postAddHost: async (req, res) => {
         try {

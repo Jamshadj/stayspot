@@ -47,8 +47,8 @@ function Options() {
       >
         Inbox
       </div>
-      <div
-        // onClick={()=>navigate('/host')}
+      {/* <div
+      onClick={()=>navigate('/host')}
         className="
           hidden
           md:block
@@ -62,10 +62,10 @@ function Options() {
           cursor-pointer
         "
       >
-        Calendar {/* Corrected spelling here */}
-      </div>
-      <div
-        // onClick={()=>navigate('/host')}
+        Calendar
+      </div> */}
+      {/* <div
+        onClick={()=>navigate('/host')}
         className="
           hidden
           md:block
@@ -80,7 +80,7 @@ function Options() {
         "
       >
         Insights
-      </div>
+      </div> */}
       <div onClick={toggleOpen} className='flex '>
         <div
           // onClick={()=>navigate('/host')}

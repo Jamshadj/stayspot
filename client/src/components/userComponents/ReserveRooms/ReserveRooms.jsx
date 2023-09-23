@@ -51,7 +51,7 @@ function ReserveRooms() {
       const updatedPhoneNumber = phoneNumberInput.value;
       const userId = user.details._id
       try {
-        await axios.patch('/updatephonemunber', { phoneNumber: updatedPhoneNumber, _id: userId });
+        await axios.patch('/updatephonenumber', { phoneNumber: updatedPhoneNumber, _id: userId });
         // Show success message
         Swal.fire('Phone Number Updated', 'Your phone number has been updated successfully!', 'success');
       } catch (error) {

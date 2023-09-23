@@ -2,10 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai';
 import Swal from 'sweetalert2';
 import { addToWishList, removeFromWishList, getWishlist } from '../../../api/userApi';
+import { useNavigate } from 'react-router-dom';
 
 function HeartButton({ listingId, currentUser, favorites, updateWishlist }) {
   const [hasFavorited, setHasFavorited] = useState(false);
-
+ const navigate=useNavigate()
   useEffect(() => {
     const fetchWishlistAndCheckFavorite = async () => {
       try {

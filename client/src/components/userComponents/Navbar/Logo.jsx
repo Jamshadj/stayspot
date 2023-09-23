@@ -6,7 +6,8 @@ function Logo(link) {
   const navigate = useNavigate();
 
   const handleLogoClick = () => {
-    navigate(link);
+
+    navigate(link.link);
   };
 
   return (

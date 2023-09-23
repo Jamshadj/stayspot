@@ -90,5 +90,6 @@
     "@babel/preset-react": "^7.22.5",
     "@types/leaflet": "^1.9.3",
     "daisyui": "^3.2.1"
-  }
+  },
+  "main": "tailwind.config.js"
 }

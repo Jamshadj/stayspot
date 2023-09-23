@@ -7,18 +7,18 @@ import checkUser from '../middlewares/checkUser.js';
 const router = Express.Router();
 
 // User authentication routes
-router.post('/signup',userAuthController.postSignUp);
-router.post('/otp', userAuthController.postOtpVerify);
-router.post('/login', userAuthController.postLogIn);
+router.post('/signup',userAuthController.postUserSignUp);
+router.post('/otp', userAuthController.postUserOtpVerify);
+router.post('/login', userAuthController.postUserLogIn);
 router.post('/logout', userAuthController.userLogout);
 router.get('/auth', userAuthController.getLoggedInUser);
-router.post('/auth/login/google', userAuthController.googleAuth);
+router.post('/auth/login/google', userAuthController.userGoogleAuth);
 router.patch('/updatePhoneNumber', userAuthController.userPhoneNumber);
-router.post('/updateDetails/:userId', userAuthController.updateDetails);
-router.post('/updateProfile/:userId', userAuthController.updateProfile);
-router.post('/forgotpassword', userAuthController.forgotPassword);
-router.post('/verifyotp', userAuthController.verifyOTP);
-router.post('/updatepassword', userAuthController.postUpdatePassword);
+router.post('/updateDetails/:userId', userAuthController.updateUserDetails);
+router.post('/updateProfile/:userId', userAuthController.updateUserProfile);
+router.post('/forgotpassword', userAuthController.forgotUserPassword);
+router.post('/verifyotp', userAuthController.verifyUserOTP);
+router.post('/updatepassword', userAuthController.postUpdateUserPassword);
 
 // User property routes
 router.get('/getListings', userPropertyController.getListings);

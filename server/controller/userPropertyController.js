@@ -8,18 +8,17 @@ export default {
 getListings: async (req, res) => {
   try {
     const structure = req.query.structure;
-    console.log(req.query,"de");
     const baseQuery = { status: "Listed" };
     let listings;
     if (structure) {
-      console.log('Query:', { ...baseQuery, structure, message: 'listings' });
+   
       listings = await propertyModel.find({ structure });
     } else {
       console.log('Query:', baseQuery);
       listings = await propertyModel.find(baseQuery);
     }
     
-    console.log(listings);
+ 
     res.json({ error: false, listings });
   } catch (error) {
     console.error('Error retrieving listings:', error);

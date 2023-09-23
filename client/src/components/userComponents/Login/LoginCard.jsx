@@ -137,6 +137,7 @@ function LoginCard() {
       const response = await postLogin(data);
 
       if (!response.data.err) {
+        localStorage.setItem('UserToken',response.data.token)
         dispatch({ type: "refresh" });
         return navigate('/');
       } else {

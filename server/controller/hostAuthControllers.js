@@ -8,7 +8,7 @@ import otpGenerator from 'otp-generator';
 
 // Helper function to create a token
 const createToken = (hostId) => {
-  return jwt.sign({ id: hostId }, process.env.TOKEN_SECERET_KEY);
+  return jwt.sign({ id: hostId }, process.env.TOKEN_SECRET_KEY);
 };
 
 export default {
@@ -32,12 +32,11 @@ export default {
       } else {
         const otp = otpGenerator.generate(4, { digits: true, alphabets: false, specialChars: false });
         const otpSent = await sentOTP(req.body.email, otp);
-
         const signUpToken = jwt.sign(
           {
             otp: otp
           },
-          process.env.TOKEN_SECERET_KEY
+          process.env.TOKEN_SECRET_KEY
         );
 
         res.cookie("signUpToken", signUpToken, {
@@ -60,7 +59,7 @@ export default {
       const hostToken = req.cookies.signUpToken;
       const OtpToken = jwt.verify(
         hostToken,
-        process.env.TOKEN_SECERET_KEY
+        process.env.TOKEN_SECRET_KEY
       );
 
       const bcrypPassword = await bcrypt.hash(req.body.password, 10);
@@ -75,13 +74,8 @@ export default {
           blocked: false
         });
 
-        const hostToken = createToken(host._id);
-        return res.cookie("hostToken", hostToken, {
-          httpOnly: true,
-          secure: true,
-          maxAge: 1000 * 60 * 60 * 24 * 7,
-          sameSite: "none",
-        }).json({ err: false, message: 'Host registration success' });
+        const token = createToken(host._id);
+        return res.json({ err: false,token, message: 'Host registration success' });
       } else {
         res.json({ err: true, message: 'Check OTP' });
       }
@@ -90,7 +84,6 @@ export default {
       res.json({ err: true, message: error.message });
     }
   },
-
 
   // Host login endpoint
   postLogIn: async (req, res) => {
@@ -103,12 +96,7 @@ export default {
           return res.json({ err: true, message: 'Sorry, you are banned' });
         } else if (bcrypt.compareSync(password, existingHost.password)) {
           const token = createToken(existingHost._id);
-          return res.cookie("hostToken", token, {
-            httpOnly: true,
-            secure: true,
-            maxAge: 1000 * 60 * 60 * 24 * 7,
-            sameSite: "none",
-          }).json({ err: false, message: 'Host login success' });
+          return res.json({ err: false,token, message: 'Host login success' });
         } else {
           return res.json({ err: true, message: 'Incorrect password' });
         }
@@ -124,28 +112,45 @@ export default {
   // Get logged-in host details
   getLoggedInHost: async (req, res) => {
     try {
-      const token = req.cookies.hostToken;
+      const token = req.headers.authorization;
+    console.log(token);
       if (!token) {
-        return res.json({ loggedIn: false, error: true, message: "No token" });
+        return res.status(401).json({ loggedIn: false, error: true, message: "No token" });
       }
-
-      const verifiedJWT = jwt.verify(token, process.env.TOKEN_SECERET_KEY);
+  
+      const tokenParts = token.split(' ');
+  
+      if (tokenParts.length !== 2 || tokenParts[0] !== 'Bearer') {
+        return res.status(401).json({ loggedIn: false, error: true, message: "Invalid token format" });
+      }
+   
+      const jwtToken = tokenParts[1];
+    
+      if (!jwtToken) {
+        console.log("wd");
+        return res.status(401).json({ loggedIn: false, error: true, message: "No token" });
+      }
+  
+      // Verify the user's token and retrieve user details
+      const verifiedJWT = jwt.verify(jwtToken, process.env.TOKEN_SECRET_KEY);
+  
       const host = await hostModel.findById(verifiedJWT.id, { password: 0 });
-
+  
       if (!host) {
-        return res.json({ loggedIn: false, error: true, message: "Host not found" });
+        return res.status(404).json({ loggedIn: false, error: true, message: "Host not found" });
       }
+  
       if (host.blocked) {
-        return res.json({ loggedIn: false, error: true, message: "Host is blocked" });
+        return res.status(403).json({ loggedIn: false, error: true, message: "Host is blocked" });
       }
-
-      return res.json({ loggedIn: true, host, token });
+  
+      return res.status(200).json({ loggedIn: true, host, token: jwtToken });
     } catch (err) {
-      console.log(err);
-      res.json({ loggedIn: false, error: true, message: err.message });
+      console.error(err);
+      res.status(500).json({ loggedIn: false, error: true, message: err.message });
     }
   },
-
+  
 // Google authentication for hosts
   googleAuth: async (req, res) => {
     try {
@@ -160,12 +165,7 @@ export default {
           if (!host.blocked) {
             // Generate a token for the host
             const token = createToken(host._id);
-            return res.cookie("hostToken", token, {
-              httpOnly: true,
-              secure: true,
-              maxAge: 1000 * 60 * 60 * 24 * 7,
-              sameSite: "none",
-            }).json({ created: true, host, token, message: "Login Success" });
+            return res.json({ created: true, host, token, message: "Login Success" });
           } else {
             return res.status(200).json({ host, message: "Sorry, you are banned!" });
           }
@@ -184,12 +184,7 @@ export default {
 
           // Generate a token for the new host
           const token = createToken(newHost._id);
-          return res.cookie("hostToken", token, {
-            httpOnly: true,
-            secure: true,
-            maxAge: 1000 * 60 * 60 * 24 * 7,
-            sameSite: "none",
-          }).json({ created: true, host: newHost, token, message: "Signup Success" });
+          return res.json({ created: true, host: newHost, token, message: "Signup Success" });
         }
       } else {
         return res.status(401).json({ message: "Not authorized" });

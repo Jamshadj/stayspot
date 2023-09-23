@@ -9,9 +9,9 @@ function UserProfile() {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state);
   const profile = user.details.image || "https://imgs.search.brave.com/ltN-AHqc6pHIeJ2056RPITzZ_px0QapnUdkbzH4Uio4/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9jZG4u/dmVjdG9yc3RvY2su/Y29tL2kvcHJldmll/dy0xeC80NS83OS9t/YWxlLWF2YXRhci1w/cm9maWxlLXBpY3R1/cmUtc2lsaG91ZXR0/ZS1saWdodC12ZWN0/b3ItNDY4NDU3OS5q/cGc";
-
+ 
   const handleEdit = async (field) => {
-    const { value } = await Swal.fire({
+    Swal.fire({
       title: `Edit ${field}`,
       input: 'text',
       inputValue: user.details[field],
@@ -26,19 +26,25 @@ function UserProfile() {
         }
         return null; // Return null for no validation errors
       },
+      onBeforeOpen: () => {
+        // Show the loading state for the "Save" button
+        Swal.showLoading();
+      },
+      preConfirm: async (value) => {
+        try {
+          // Call the API to update the user's field
+          await updateDetails(user.details._id, { [field]: value });
+          dispatch({ type: 'refresh' }); // Make sure to use the correct action type
+          Swal.hideLoading(); // Hide the loading state
+          Swal.fire('Updated', '', 'success');
+        } catch (error) {
+          Swal.hideLoading(); // Hide the loading state on error
+          Swal.fire('Failed to update. Please try again.', '', 'error');
+        }
+      },
     });
-
-    if (value) {
-      try {
-        // Call the API to update the user's field
-        await updateDetails(user.details._id, { [field]: value });
-        dispatch({ type: "refresh" }); // Make sure to use the correct action type
-        Swal.fire('Updated', '', 'success');
-      } catch (error) {
-        Swal.fire('Failed to update. Please try again.', '', 'error');
-      }
-    }
   };
+  
   const isValidImage = (file) => { // Updated function name to isValidImage
     const validExtensions = ['jpg', 'png', 'jpeg', 'gif'];
     const fileExtension = file.name.split('.').pop().toLowerCase();

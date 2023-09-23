@@ -26,9 +26,15 @@ export default function UserRoutes() {
   const { user, refresh } = useSelector((state) => state);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    axios
-      .get('/auth')
+useEffect(() => {
+  const token = localStorage.getItem('UserToken'); // Retrieve the token from localStorage
+
+  if (token) {
+    axios.get('/auth', {
+      headers: {
+        Authorization: `Bearer ${token}`, // Include the token as a Bearer Token
+      },
+    })
       .then((response) => {
         console.log("USER:", response.data);
         dispatch({ type: 'user', payload: { login: response.data.loggedIn, details: response.data.user } });
@@ -36,7 +42,10 @@ export default function UserRoutes() {
       .catch((error) => {
         console.log(error);
       });
-  }, [refresh, dispatch]);
+  } else {
+    // Handle the case when the token is not available
+  }
+}, [refresh, dispatch]);
 
   return (
     <Routes>
