@@ -1,7 +1,7 @@
 import React from 'react';
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
-import Heading from './Heading';
+import Heading from '../Heading/Heading';
 
 function ListingHead({ title, locationValue, imageSrc }) {
   return (

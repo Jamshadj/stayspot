@@ -31,9 +31,9 @@ function MenuItems() {
 
       // If the user confirms the logout, proceed with the logout process
       if (shouldLogout.isConfirmed) {
-        const response = await postHostLogout();
+        localStorage.removeItem('HostToken');
         // Dispatch a refresh action to update the user state
-        dispatch({ type: 'refresh' });
+        dispatch({ type: 'host', payload:  { login: false, details: null} }); 
 
         // Redirect the user to the login page after successful logout
         navigate('/host/login'); // Replace '/host/login' with your desired login page URL for hosts

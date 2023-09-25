@@ -113,7 +113,6 @@ export default {
   getLoggedInHost: async (req, res) => {
     try {
       const token = req.headers.authorization;
-    console.log(token);
       if (!token) {
         return res.status(401).json({ loggedIn: false, error: true, message: "No token" });
       }
@@ -127,7 +126,6 @@ export default {
       const jwtToken = tokenParts[1];
     
       if (!jwtToken) {
-        console.log("wd");
         return res.status(401).json({ loggedIn: false, error: true, message: "No token" });
       }
   
@@ -194,17 +192,6 @@ export default {
       res.status(500).json({ created: false, message: "Internal server error" });
     }
   },
-
-  // Host logout
-  hostLogout: async (req, res) => {
-    return res.cookie("hostToken", '', {
-      httpOnly: true,
-      secure: true,
-      maxAge: 0, // Set the maxAge to 0 to expire the cookie immediately
-      sameSite: "none",
-    }).json({ err: false, message: 'Logged out successfully' });
-  },
-
 
   // Update host details
   updateDetails: async (req, res) => {

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getBookingByPropertyId } from '../../api/userApi';
+import { getBookingByPropertyId } from '../../../api/userApi';
 import { Rating } from "@material-tailwind/react";
 
 function Reviews({ id }) {

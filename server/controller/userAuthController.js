@@ -110,10 +110,9 @@ getLoggedInUser: async (req, res) => {
     }
     
     const jwtToken = tokenParts[1];
-    console.log(jwtToken);
+
     // Verify the user's token and retrieve user details
     const verifiedJWT = jwt.verify(jwtToken, process.env.TOKEN_SECRET_KEY);
-    console.log(verifiedJWT);
 
     const user = await userModel.findById(verifiedJWT.id, { password: 0 });
 

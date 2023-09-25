@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Button } from "@material-tailwind/react";
 import { IoIosArrowDropdown } from 'react-icons/io';
 import { useNavigate } from 'react-router-dom';
-import { getBookingByPropertyId } from '../../api/userApi';
+import { getBookingByPropertyId } from '../../../api/userApi';
 import Swal from 'sweetalert2';
 import { useSelector } from 'react-redux';
 

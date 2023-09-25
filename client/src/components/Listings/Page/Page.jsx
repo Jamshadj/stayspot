@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
-import Container from '../userComponents/Container';
-import Logo from '../userComponents/Navbar/Logo';
-import Search from '../userComponents/Navbar/Search';
-import UserMenu from '../userComponents/Navbar/UserMenu';
-import { getListingById } from '../../api/userApi';
-import ListingClient from './ListingClient';
+import Container from '../../userComponents/Container';
+import Logo from '../../userComponents/Navbar/Logo';
+import Search from '../../userComponents/Navbar/Search';
+import UserMenu from '../../userComponents/Navbar/UserMenu';
+import { getListingById } from '../../../api/userApi';
+
 import { useSelector } from 'react-redux';
+import ListingClient from '../Client/ListingClient';
 
 function Page() {
   const { propertyId } = useParams(); // Use destructuring to get propertyId from the URL params

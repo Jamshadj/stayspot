@@ -22,45 +22,46 @@ function UserMenu() {
   const navigate = useNavigate();
 
   const handleLogout = async () => {
-    try {
-      // Ask for logout confirmation
-      const shouldLogout = await Swal.fire({
-        title: 'Logout Confirmation',
-        text: 'Are you sure you want to log out?',
-        icon: 'question',
-        showCancelButton: true,
-        confirmButtonText: 'Yes, log out',
-        cancelButtonText: 'Cancel',
-      });
+    
+  try {
+    // Ask for logout confirmation
+    const shouldLogout = await Swal.fire({
+      title: 'Logout Confirmation',
+      text: 'Are you sure you want to log out?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, log out',
+      cancelButtonText: 'Cancel',
+    });
 
-      // If the user confirms the logout, proceed with the logout process
-      if (shouldLogout.isConfirmed) {
-        const response = await userLogout();
-        console.log(response.data.message);
+    // If the user confirms the logout, proceed with the logout process
+    if (shouldLogout.isConfirmed) {
+      localStorage.removeItem('UserToken'); // Corrected 'UserToken'
 
-        await Swal.fire({
-          title: 'Logged Out',
-          text: response.data.message,
-          icon: 'success',
-          confirmButtonText: 'OK',
-        });
-
-        // Dispatch a refresh action to update the user state
-        dispatch({ type: 'refresh' });
-
-        // Redirect the user to the login page after successful logout
-        navigate('/login');
-      }
-    } catch (error) {
-      console.error('Error logging out:', error);
-
-      await Swal.fire({
-        title: 'Error',
-        text: 'Failed to log out. Please try again.',
-        icon: 'error',
+      Swal.fire({
+        title: 'Logged Out',
+        text:"sucessfully", // Make sure you have 'response' defined
+        icon: 'success',
         confirmButtonText: 'OK',
       });
+
+      // Dispatch a refresh action to update the user state
+      dispatch({ type: 'user', payload:  { login: false, details: null} }); // Corrected 'host'
+
+      // Redirect the user to the login page after successful logout
+      // Example using a router if you are using a client-side router (e.g., React Router):
+      // navigate('/login');
     }
+  } catch (error) {
+    console.error('Error logging out:', error);
+
+    await Swal.fire({
+      title: 'Error',
+      text: 'Failed to log out. Please try again.',
+      icon: 'error',
+      confirmButtonText: 'OK',
+    });
+  }
   };
 
   // Handle the loading state

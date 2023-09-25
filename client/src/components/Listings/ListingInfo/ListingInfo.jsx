@@ -1,10 +1,10 @@
 import React from 'react';
 import { RxAvatar } from 'react-icons/rx';
-import ListingCategory from './ListingCategory';
-import Map from './Map';
-import ListingAmentie from './ListingAmentie';
+import ListingCategory from '../Categories/ListingCategory';
+import Map from '../Map/Map';
+import ListingAmentie from '../Amenities/ListingAmentie';
 import { useNavigate } from 'react-router-dom';
-import { createChat } from '../../api/chatRequests';
+import { createChat } from '../../../api/chatRequests';
 
 function ListingInfo({ user, amenities, category, description, floorplan, locationValue, host }) {
   const navigate = useNavigate()

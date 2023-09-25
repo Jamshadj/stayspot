@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import Container from '../userComponents/Container';
-import ListingHead from './ListingHead';
-import categories from '../hostComponents/AddProperty/StructureData';
-import amenities from '../hostComponents/AddProperty/AmenitiesData';
-import ListingInfo from './ListingInfo';
-import Calendar from './Calendar';
+import Container from '../../userComponents/Container';
+import ListingHead from '../ListingHead/ListingHead';
+import categories from '../../hostComponents/AddProperty/StructureData';
+import amenities from '../../hostComponents/AddProperty/AmenitiesData';
+import ListingInfo from '../ListingInfo/ListingInfo';
 
-import { getHostById } from '../../api/userApi'; // Make sure to have the getHostById function implemented in the userApi file or elsewhere.
-import { fetchLocationData } from '../../constant/Mapbox';
-import CheckAvaliablityCard from './CheckAvaliablityCard';
 
-import Reviews from './Reviews';
+import { getHostById } from '../../../api/userApi'; // Make sure to have the getHostById function implemented in the userApi file or elsewhere.
+import { fetchLocationData } from '../../../constant/Mapbox';
+import CheckAvaliablityCard from '../CheckAvailability/CheckAvaliablityCard';
+
+import Reviews from '../Review/Reviews';
 
 function ListingClient({ listing, currentUser }) {
   const category = categories.find((item) => item.label === listing.structure);
@@ -64,7 +64,7 @@ function ListingClient({ listing, currentUser }) {
                   locationValue={listing.coordinates}
                   host={host}
                 />
-                {/* <Calendar/> */}
+
               </div>
               <div className=" md:w-1/3 md:ml-[8%] mr-0 mb-2">
               <CheckAvaliablityCard listing={listing} />
