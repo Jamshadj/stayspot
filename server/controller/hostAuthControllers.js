@@ -191,7 +191,7 @@ export default {
       console.log(error);
       res.status(500).json({ created: false, message: "Internal server error" });
     }
-  },
+  }, 
 
   // Update host details
   updateDetails: async (req, res) => {
