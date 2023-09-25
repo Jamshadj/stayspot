@@ -24,12 +24,7 @@ export default {
 
             const token = jwt.sign({ id: admin._id }, process.env.TOKEN_SECRET_KEY);
 
-            res.cookie('adminToken', token, {
-                httpOnly: true,
-                secure: true,
-                maxAge: 1000 * 60 * 60 * 24 * 7,
-                sameSite: 'none'
-            }).json({ err: false, message: 'Admin login success' });
+            res.json({ err: false,token, message: 'Admin login success' });
         } catch (error) {
             console.log(error);
             res.json({ err: true, message: error.message });
@@ -225,16 +220,6 @@ export default {
         }
     },
 
-    // Admin logout
-    adminLogout: async (req, res) => {
-        console.log("admin logout");
-        return res.cookie("adminToken", '', {
-            httpOnly: true,
-            secure: true,
-            maxAge: 0, // Set the maxAge to 0 to expire the cookie immediately
-            sameSite: "none",
-        }).json({ err: false, message: 'Logged out successfully' });
-    },
 
     // Get properties
     getProperties: async (req, res) => {

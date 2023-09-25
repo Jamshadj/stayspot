@@ -62,8 +62,8 @@ function ReserveRooms() {
     }
   };
 
-  console.log(checkInDate, "checking date");
   const handleStripePay = async () => {
+  
     try {
       const details = {
         userId: user.details._id,

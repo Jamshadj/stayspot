@@ -98,7 +98,7 @@ postUserOtpVerify: async (req, res) => {
 getLoggedInUser: async (req, res) => {
   try {
     const token = req.headers.authorization;
-
+console.log(token);
     if (!token) {
       return res.status(401).json({ loggedIn: false, error: true, message: "No token" });
     }
@@ -182,9 +182,7 @@ userGoogleAuth: async (req, res) => {
           password: bcrypPassword,
         });
         const token = createToken(newUser._id);
-        return res.cookie("userToken", token, {
-          httpOnly: true, secure: true, maxAge: 1000 * 60 * 60 * 24 * 7, sameSite: "none",
-        }).json({ created: true, user: newUser, token, message: "Signup Success" });
+        return res.json({ created: true, user: newUser, token, message: "Signup Success" });
       }
     } else {
       return res.status(401).json({ message: "Not authorized" });

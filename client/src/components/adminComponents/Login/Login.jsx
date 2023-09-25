@@ -25,6 +25,7 @@ const dispatch=useDispatch()
       const response = await postLogin(data);
       
       if (!response.data.err) {
+        localStorage.setItem('AdminToken',response.data.token)
         dispatch({type:"refresh"})
         return navigate('/admin')
 

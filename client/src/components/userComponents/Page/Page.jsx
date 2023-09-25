@@ -13,7 +13,9 @@ function Page() {
   const location = useLocation(); // Get the current location object
   const searchParams = new URLSearchParams(location.search);
   const selectedCategory = searchParams.get('category'); // Get the selected category from the URL parameter
-
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(10); // You can set your desired default value
+  
   useEffect(() => {
     const fetchListings = async () => {
       try {
@@ -45,6 +47,9 @@ function Page() {
           ))
         )}
       </div>
+         <button onClick={() => setCurrentPage(currentPage - 1)} disabled={currentPage === 1}>Previous</button>
+  <span>Page {currentPage}</span>
+  <button onClick={() => setCurrentPage(currentPage + 1)}>Next</button>
     </Container>
   );
 }

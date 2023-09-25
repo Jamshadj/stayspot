@@ -1,7 +1,16 @@
-import axios from "../axios";
+import axiosInstance from "../axios";
 
-export const createHostChat = (data) => axios.post('/host/chat', data);
+// Create a host chat
+export const createHostChat = (data) => {
+  return axiosInstance('HostToken').post('/host/chat', data);
+};
 
-export const getHostChats = (id) => axios.get(`/host/chat/${id}`);
+// Get host chats by host ID
+export const getHostChats = (id) => {
+  return axiosInstance('HostToken').get(`/host/chat/${id}`);
+};
 
-export const findHostChat = (userId, hostId) => axios.get(`/host/chat/find/${userId}/${hostId}`);
+// Find a host chat by user ID and host ID
+export const findHostChat = (userId, hostId) => {
+  return axiosInstance('HostToken').get(`/host/chat/find/${userId}/${hostId}`);
+};

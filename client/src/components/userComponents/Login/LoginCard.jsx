@@ -12,7 +12,6 @@ import Swal from 'sweetalert2';
 
 function LoginCard() {
   const [error, setError] = useState('');
-  const [email, setEmail] = useState('');
   const {
     register,
     handleSubmit,
@@ -134,6 +133,7 @@ function LoginCard() {
 
   const onSubmit = async (data) => {
     try {
+
       const response = await postLogin(data);
 
       if (!response.data.err) {

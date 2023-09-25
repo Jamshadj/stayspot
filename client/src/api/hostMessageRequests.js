@@ -1,5 +1,11 @@
-import axios from "../axios";
+import axiosInstance from "../axios";
 
-export const getHostMessages = (id) => axios.get(`/host/message/${id}`);
+// Get host messages by ID
+export const getHostMessages = (id) => {
+  return axiosInstance('HostToken').get(`/host/message/${id}`);
+};
 
-export const addHostMessage = (data) => axios.post('/host/message/', data);
+// Add a host message
+export const addHostMessage = (data) => {
+  return axiosInstance('HostToken').post('/host/message/', data);
+};

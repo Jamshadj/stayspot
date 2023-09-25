@@ -1,50 +1,61 @@
-import axios from "../axios";
+import axiosInstance from "../axios";
 
+// User registration
 export async function postSignUp(data) {
-      return axios.post('/host/signup', data);
+  return axiosInstance('HostToken').post('/host/signup', data);
 }
+
+// Verify host OTP
 export async function postHostOtp(otp, formData) {
-    return axios.post('/host/otp', { otp, ...formData });
-  }
-  export async function postLogin(data) {
-    return axios.post('/host/login',  data);
-  }
-  export const loginWithGoogle = (data) => {
-    return axios.post('/host/auth/login/google', data);
-  };
-  export const postHostLogout = () => {
-    return axios.post('/host/logout');
-  };
-  export const postAddProperty = (data) => {
-    console.log("data",data);
-    return axios.post('/host/add-property',{...data});
-  };
-  export const setDates = (data) => {
-    console.log("deeded");
-    return axios.post('/host/set-date', data);
-  };
-  export const updateDetails = async (hostId,details) => {
-    console.log(details,hostId, "hodt");
-    return axios.post(`/host/updateDetails/${hostId}`, { details }); // Assuming you have the user's id available
-  };
+  return axiosInstance('HostToken').post('/host/otp', { otp, ...formData });
+}
 
-  export async function getBookingByHostId(Id) {
-    return await axios.get(`/host/getBookingById/${Id}`);
-  }
-  export async function getWithdrawById(hostId) {
-    return await axios.get(`/host/withdraw/${hostId}`)
-  }
-  
-  // export async function getBookingsById(hostId) {
-  //   return await axios.get(`/host/getbookings/${hostId}`)
-  // }
+// User login
+export async function postLogin(data) {
+  return axiosInstance('HostToken').post('/host/login', data);
+}
 
-  export async function updateBookingStatus(bookingId, status,hostId) {
-    return await axios.post(`/host/updatestatus/${bookingId}`, { status ,hostId});
-  }
+// Login with Google
+export const loginWithGoogle = (data) => {
+  return axiosInstance('HostToken').post('/host/auth/login/google', data);
+}
 
-  export async function withdrawRequest(withdrawalRequest) {
-    return await axios.post('/host/withdraw' ,{ withdrawalRequest});
-  }
-  
-  
+// Host logout
+export const postHostLogout = () => {
+  return axiosInstance('HostToken').post('/host/logout');
+}
+
+// Add a property
+export const postAddProperty = (data) => {
+  return axiosInstance('HostToken').post('/host/add-property', { ...data });
+}
+
+// Set dates for a property
+export const setDates = (data) => {
+  return axiosInstance('HostToken').post('/host/set-date', data);
+}
+
+// Update host details
+export async function updateDetails(hostId, details) {
+  return axiosInstance('HostToken').post(`/host/updateDetails/${hostId}`, { details });
+}
+
+// Get bookings by host ID
+export async function getBookingByHostId(Id) {
+  return axiosInstance('HostToken').get(`/host/getBookingById/${Id}`);
+}
+
+// Get withdrawal by host ID
+export async function getWithdrawById(hostId) {
+  return axiosInstance('HostToken').get(`/host/withdraw/${hostId}`);
+}
+
+// Update booking status
+export async function updateBookingStatus(bookingId, status, hostId) {
+  return axiosInstance('HostToken').post(`/host/updatestatus/${bookingId}`, { status, hostId });
+}
+
+// Request a withdrawal
+export async function withdrawRequest(withdrawalRequest) {
+  return axiosInstance('HostToken').post('/host/withdraw', { withdrawalRequest });
+}

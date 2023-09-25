@@ -5,7 +5,6 @@ import UserModel from '../models/UserModel.js';
 const checkUser = async (req, res, next) => {
   try {
     const token = req.headers.authorization;
-
     if (!token) {
       return res.status(401).json({ err: true, message: 'Unauthorized: No token provided' });
     }

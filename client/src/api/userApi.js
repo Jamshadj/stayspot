@@ -1,66 +1,54 @@
-import axios from '../axios';
-// import axios from 'axios'
-// User registration
-export const postSignUp = (data) => {
-  console.log('wdrffe');
-  return axios.post('/signup', data);
-};
+import axiosInstance from '../axios';
 
-// Verify user OTP
-export const postUserOtp = (otp, formData) => {
-  return axios.post('/otp', { otp, ...formData });
+// User registration and authentication
+
+// User registration - Sign up a user
+export const postSignUp = (data) => {
+  return axiosInstance('UserToken').post('/signup', data);
 };
 
 // User login
 export const postLogin = (data) => {
-  return axios.post('/login', data);
+  return axiosInstance('UserToken').post('/login', data);
 };
-export const postForgotPassword = (data) => {
-  console.log(data,"daa");
-  return axios.post('/forgotpassword',{data});
-};
-export const postVerifyOtp= (data) => {
-  console.log(data,"daa");
-  return axios.post('/verifyotp',{data});
-};
-export const postUpdatePassword= (data) => {
-  console.log(data,"daa");
-  return axios.post('/updatepassword',{data});
-};
-
 
 // Login with Google
 export const loginWithGoogle = (data) => {
-  return axios.post('/auth/login/google', data);
+  return axiosInstance('UserToken').post('/auth/login/google', data);
 };
 
 // User logout
 export const userLogout = () => {
-  return axios.post('/logout');
+  return axiosInstance('UserToken').post('/logout');
 };
 
-// Get property listings
-export const getListings = (structure) => {
-  // Only send the structure parameter if it's not null
-  const params = structure ? { structure } : {};
-  return axios.get('/getListings', { params });
+// Password management
+
+// Request a password reset
+export const postForgotPassword = (data) => {
+  return axios.post('/forgotpassword', { data });
 };
 
-
-// Get listing by ID
-export const getListingById = (propertyId) => {
-  return axios.get(`/getListingById/${propertyId}`);
+// Verify OTP for password reset
+export const postVerifyOtp = (data) => {
+  return axiosInstance('UserToken').post('/verifyotp', { data });
 };
 
-// Get host by ID
-export const getHostById = (hostId) => {
-  return axios.get(`/getHostById/${hostId}`);
+// Update user password
+export const postUpdatePassword = (data) => {
+  return axiosInstance('UserToken').post('/updatepassword', { data });
 };
 
+// Verify user OTP
+export const postUserOtp = (otp, formData) => {
+  return axiosInstance('UserToken').post('/otp', { otp, ...formData });
+};
 
-// Process payment checkout
-export const postCheckout = (details) => {
-  return axios.post('/checkOut', details);
+// User data retrieval and management
+
+// Get user's reservations
+export const getReservationById = async (userId) => {
+  return axiosInstance('UserToken').get(`/getReservations/${userId}`);
 };
 
 // Get user's bookings
@@ -68,53 +56,77 @@ export const getBookingById = (id) => {
   return axios.get(`/booking?id=${id}`);
 };
 
-// Add property to wishlist
-export const addToWishList = (propertyId, userId) => {
-  return axios.post('/addToWishList', { propertyId, userId });
+// Get user chats
+export const userChats = async (id) => {
+  return axiosInstance('UserToken').get(`/chat/${id}`);
 };
 
-// Remove property from wishlist
-export const removeFromWishList = (propertyId, userId) => {
-  return axios.post('/removeFromWishList', { propertyId, userId });
+// Get messages for a chat
+export const getMessages = async (id) => {
+  return axiosInstance('UserToken').get(`/chat/messages/${id}`);
+};
+
+// User profile management
+
+// Update user details
+export const updateDetails = async (userId, details) => {
+  return axiosInstance('UserToken').post(`/updateDetails/${userId}`, { details });
+};
+
+// Update user profile
+export const updateProfile = async (userId, details) => {
+  return axiosInstance('UserToken').post(`/updateProfile/${userId}`, { details });
+};
+
+// Property and listing management
+
+// Get property listings
+export const getListings = (structure) => {
+  // Only send the structure parameter if it's not null
+  const params = structure ? { structure } : {};
+  return axiosInstance('UserToken').get('/getListings', { params });
+};
+
+// Get listing by ID
+export const getListingById = (propertyId) => {
+  return axiosInstance('UserToken').get(`/getListingById/${propertyId}`);
+};
+
+// Get host by ID
+export const getHostById = (hostId) => {
+  return axiosInstance('UserToken').get(`/getHostById/${hostId}`);
+};
+
+// Property wishlist management
+
+// Add property to wishlist
+export const addToWishList = (propertyId, userId) => {
+  return axiosInstance('UserToken').post('/addToWishList', { propertyId, userId });
 };
 
 // Get user's wishlist
 export const getWishlist = (userId) => {
-  return axios.get(`/getWishlist/${userId}`);
+  return axiosInstance('UserToken').get(`/getWishlist/${userId}`);
 };
 
-// Get matching listings based on coordinates
-export const getMatchingListings = (coordinates) => {
-  return axios.get('/getMatchingListings', { params: { coordinates } });
+// Remove property from wishlist
+export const removeFromWishList = (propertyId, userId) => {
+  return axiosInstance('UserToken').post('/removeFromWishList', { propertyId, userId });
 };
 
-// Update user details
-export const updateDetails = async (userId, details) => {
-  console.log(details,"fur");
-  return axios.post(`/updateDetails/${userId}`, { details });
-};
+// Property booking and review management
 
-export const updateProfile = async (userId, details) => {
-  console.log(details,"fur");
-  return axios.post(`/updateProfile/${userId}`, { details });
-};
-// Get user's reservations
-export const getReservationById = async (userId) => {
-  return axios.get(`/getReservations/${userId}`);
+// Process payment checkout
+export const postCheckout = (details) => {
+  return axiosInstance('UserToken').post('/checkOut', details);
 };
 
 // Get booking by property ID
 export const getBookingByPropertyId = async (propertyId) => {
-  return axios.get(`/getBookingByPropertyId/${propertyId}`);
+  return axiosInstance('UserToken').get(`/getBookingByPropertyId/${propertyId}`);
 };
 
-export const addReview=async (reviewDetails)=>{
-  return axios.post('/addReview',{reviewDetails})
-}
-export const userChats=async (id)=>{
-  return axios.get(`/chat/${id}`)
-}
-export const getMessages=async(id)=>{
-  return axios.get(`/chat/messages/${id}`)
-}
-
+// Add a review
+export const addReview = async (reviewDetails) => {
+  return axiosInstance('UserToken').post('/addReview', { reviewDetails });
+};

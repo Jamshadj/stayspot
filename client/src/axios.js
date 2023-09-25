@@ -1,9 +1,22 @@
 import axios from "axios";
-import {BASE_URL} from './constant/constant'
+import { BASE_URL } from './constant/constant';
 
-const instance = axios.create({
+const axiosInstance = (tokenName) => {
+  const instance = axios.create({
     baseURL: BASE_URL,
-    withCredentials:true,
+    withCredentials: true,
+    headers: {
+      'Content-Type': 'application/json'
+    }
   });
 
-  export default instance; 
+  instance.interceptors.request.use((request) => {
+    const token = localStorage.getItem(tokenName);
+    request.headers.Authorization = `Bearer ${token}`;
+    return request;
+  });
+
+  return instance;
+};
+
+export default axiosInstance;

@@ -7,7 +7,6 @@ const router = Express.Router();
 
 // Admin authentication and session endpoints
 router.post('/login', adminControllers.postLogIn);
-router.post('/logout', adminControllers.adminLogout);
 router.get('/auth', adminControllers.getLoggedInAdmin);
 
 // User and host management endpoints

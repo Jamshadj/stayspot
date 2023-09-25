@@ -1,5 +1,11 @@
-import axios from "../axios";
+import axiosInstance from "../axios";
 
-export const getMessages = (id) => axios.get(`/message/${id}`);
+// Get messages by ID
+export const getMessages = (id) => {
+  return axiosInstance('UserToken').get(`/message/${id}`);
+};
 
-export const addMessage = (data) => axios.post('/message/', data);
+// Add a message
+export const addMessage = (data) => {
+  return axiosInstance('UserToken').post('/message/', data);
+};

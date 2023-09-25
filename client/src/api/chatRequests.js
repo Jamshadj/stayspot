@@ -1,10 +1,16 @@
-import axios from "../axios";
+import axiosInstance from "../axios";
 
+// Create a chat
 export const createChat = (data) => {
-    console.log(data,'daaaaa'); // Logging the data object
-    return axios.post('/chat/', data); // Making the POST request using axios
-  };
+  return axiosInstance('UserToken').post('/chat/', data); // Making the POST request using axiosInstance with UserToken
+};
 
-export const getUserChats = (id) => axios.get(`/chat/${id}`);
+// Get user chats by user ID
+export const getUserChats = (id) => {
+  return axiosInstance('UserToken').get(`/chat/${id}`);
+};
 
-export const findChat = (userId, hostId) => axios.get(`/chat/find/${userId}/${hostId}`);
+// Find a chat by user ID and host ID
+export const findChat = (userId, hostId) => {
+  return axiosInstance('UserToken').get(`/chat/find/${userId}/${hostId}`);
+};

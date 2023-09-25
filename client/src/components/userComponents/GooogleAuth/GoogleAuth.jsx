@@ -19,7 +19,7 @@ function GoogleAuth() {
             if(response.data.user.blocked) {
              
             }else{
-             
+              localStorage.setItem('UserToken',response.data.token)
               console.log("auth sucess");
               dispatch({type:"refresh"})
               return navigate('/')

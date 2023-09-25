@@ -14,7 +14,7 @@ function HostGoogleAuth() {
               console.log("login with google");
               loginWithGoogle(codeResponse)
                   .then((response) => {
-
+                    localStorage.setItem('HostToken',response.data.token)
                       console.log("res", response);
                       if (response.data.host.blocked) {
 
