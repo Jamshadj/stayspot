@@ -28,7 +28,7 @@ router.get('/getHostById/:hostId', userPropertyController.getHostById);
 // Payment routes
 router.post('/payment', checkUser, paymentController.paymentOrder);
 router.post('/payment/verify', checkUser, paymentController.paymentVerify);
-router.get('/order-success', checkUser, paymentController.getOrderSuccess);
+router.get('/order-success',  paymentController.getOrderSuccess);
 router.post('/checkout', checkUser, paymentController.postCheckout);
 
 // Booking

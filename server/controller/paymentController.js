@@ -1,14 +1,14 @@
-import Razorpay from 'razorpay'
-import crypto from 'crypto'
+import Razorpay from 'razorpay';
+import crypto from 'crypto';
 import Stripe from 'stripe';
 import bookingModel from '../models/BookingModel.js';
 import userModel from '../models/UserModel.js';
 import propertyModel from '../models/PropertyModel.js';
 import hostModel from '../models/HostModel.js';
 
-const stripe = Stripe(process.env.STRIPE_SECRET_KEY)
-let instance = new Razorpay({
-  key_id:  process.env.RAZOR_PAY_KEY_ID,
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+const instance = new Razorpay({
+  key_id: process.env.RAZOR_PAY_KEY_ID,
   key_secret: process.env.RAZOR_PAY_SECRET_KEY,
 });
 

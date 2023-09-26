@@ -47,9 +47,9 @@ function Page() {
           ))
         )}
       </div>
-         <button onClick={() => setCurrentPage(currentPage - 1)} disabled={currentPage === 1}>Previous</button>
+         {/* <button onClick={() => setCurrentPage(currentPage - 1)} disabled={currentPage === 1}>Previous</button>
   <span>Page {currentPage}</span>
-  <button onClick={() => setCurrentPage(currentPage + 1)}>Next</button>
+  <button onClick={() => setCurrentPage(currentPage + 1)}>Next</button> */}
     </Container>
   );
 }
