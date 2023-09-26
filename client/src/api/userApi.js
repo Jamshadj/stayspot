@@ -36,7 +36,7 @@ export const postVerifyOtp = (data) => {
 
 // Update user password
 export const postUpdatePassword = (data) => {
-  return axiosInstance('UserToken').post('/updatepassword', { data });
+  return axiosInstance('UserToken').patch('/updatepassword', { data });
 };
 
 // Verify user OTP

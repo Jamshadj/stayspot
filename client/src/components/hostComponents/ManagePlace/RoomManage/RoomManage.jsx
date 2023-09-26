@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Swal from 'sweetalert2';
-import axios from '../../../../axios'; // Make sure to install axios using `npm install axios`
+import axiosInstance from '../../../../axios';
 
 function RoomManage() {
   const { propertyDetails } = useSelector((state) => state);
@@ -37,7 +37,7 @@ function RoomManage() {
 
   const handleSaveStructure = async () => {
     try {
-      await axios.post('/host/update-property-field', {
+      await axiosInstance("HostToken").post('/host/update-property-field', {
         propertyId: propertyDetails._id,
         fieldName: 'structure',
         fieldValue: editedStructure,

@@ -6,9 +6,9 @@ import Details from './Details';
 import { Button } from "@material-tailwind/react";
 import { getListingById, postCheckout } from '../../../api/userApi';
 import { useSelector } from 'react-redux';
-import axios from '../../../axios'
 import Swal from 'sweetalert2';
 import { createChat } from '../../../api/chatRequests';
+import axiosInstance from '../../../axios';
 function ReserveRooms() {
   const { user } = useSelector((state) => state);
 
@@ -51,7 +51,7 @@ function ReserveRooms() {
       const updatedPhoneNumber = phoneNumberInput.value;
       const userId = user.details._id
       try {
-        await axios.patch('/updatephonenumber', { phoneNumber: updatedPhoneNumber, _id: userId });
+        await axiosInstance("UserToken").patch('/updatephonenumber', { phoneNumber: updatedPhoneNumber, _id: userId });
         // Show success message
         Swal.fire('Phone Number Updated', 'Your phone number has been updated successfully!', 'success');
       } catch (error) {
@@ -88,7 +88,7 @@ function ReserveRooms() {
   }
   const handleBooking = async () => {
     
-    const { data } = await axios.post("/payment", { amount: calculateTotalAmount() });
+    const { data } = await axiosInstance("UserToken").post("/payment", { amount: calculateTotalAmount() });
     console.log(data, "data");
     if (!data.err) {
       handleRazroPay(data.order);
@@ -135,7 +135,7 @@ function ReserveRooms() {
             console.log("Payment response:", response);
   
             // Make a request to your server to verify the payment
-            const verifyResponse = await axios.post("/payment/verify", { details, response });
+            const verifyResponse = await axiosInstance("UserToken").post("/payment/verify", { details, response });
             console.log(verifyResponse.data, "verification data");
   
             if (verifyResponse.data.err) {

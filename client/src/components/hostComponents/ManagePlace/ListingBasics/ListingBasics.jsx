@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import axios from '../../../../axios';
 import { GrClose } from 'react-icons/gr';
 import Swal from 'sweetalert2';
 import { useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+import axiosInstance from '../../../../axios';
 
 function ListingBasics() {
   const { propertyDetails } = useSelector((state) => state);
@@ -69,7 +69,7 @@ function ListingBasics() {
   const handleSave = async () => {
     try {
       // Send the updated data to the backend using Axios (replace '/host/edit-data' with the actual endpoint URL)
-      const response = await axios.post('/host/edit-data', {
+      const response = await axiosInstance.post('/host/edit-data', {
         propertyId,
         title: changedTitle,
         description: changedDescription,

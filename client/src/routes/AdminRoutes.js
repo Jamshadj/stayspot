@@ -1,10 +1,7 @@
 import React, { useEffect } from "react";
 import { Route, Routes, Navigate } from "react-router-dom";
-import Login from "../components/adminComponents/Login/Login";
-import Home from "../components/adminComponents/Home/Home";
-import OTPModal from "../components/userComponents/Otp/Otp";
+
 import { useDispatch, useSelector } from "react-redux";
-import axios from "../axios.js";
 
 import AdminLogin from "../pages/AdminPages/AdminLogin";
 import AdminHosts from "../pages/AdminPages/AdminHosts";
@@ -16,6 +13,7 @@ import AdminBookings from "../pages/AdminPages/AdminBookings";
 import AdminBookingDetails from "../pages/AdminPages/AdminBookingDetails";
 import AdminWithdrawRequest from "../pages/AdminPages/AdminWithdrawRequest";
 import ErrorPage from "../components/ErrorPage/ErrorPage";
+import axiosInstance from "../axios.js";
 
 export default function AdminRoutes() {
   const { admin, refresh } = useSelector((state) => state);
@@ -23,7 +21,7 @@ export default function AdminRoutes() {
   const token = localStorage.getItem('AdminToken'); // Retrieve the token from localStorage
 
   useEffect(() => {
-    axios
+    axiosInstance("AdminToken")
       .get('/admin/auth', {
         headers: {
           Authorization: `Bearer ${token}`, // Include the token as a Bearer Token

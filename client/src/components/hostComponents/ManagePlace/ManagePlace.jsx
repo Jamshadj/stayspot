@@ -4,12 +4,12 @@ import { useParams } from 'react-router-dom';
 
 import HostNavbar from '../HostNavBar/HostNavbar';
 
-import axios from '../../../axios';
 import ListingImages from './ListingImages/ListingImages';
 import ListingBasics from './ListingBasics/ListingBasics';
 import Location from './Location/Location';
 import RoomManage from './RoomManage/RoomManage';
 import PricePerNight from './PricePerNight/PricePerNight';
+import axiosInstance from '../../../axios';
 
 function ManagePlace() {
   // Get the propertyId from the URL params
@@ -26,7 +26,7 @@ function ManagePlace() {
     const fetchProperties = async () => {
       try {
         // Fetch property details from the API
-        const response = await axios.get(`/host/property/${propertyId}`);
+        const response = await axiosInstance("HostToken").get(`/host/property/${propertyId}`);
         const propertyDetails = response.data.propertyDetails;
         console.log("pr", propertyDetails);
         // Dispatch an action to set property details in Redux store

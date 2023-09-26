@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { Route, Routes, Navigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import axios from "../axios.js";
 import HostSignup from "../pages/HostPages/HostSignup";
 import HostHome from "../pages/HostPages/HostHome";
 import HostLogin from "../pages/HostPages/HostLogin";
@@ -30,6 +29,7 @@ import ReservationHistory from "../components/hostComponents/Reversations/Reserv
 import PaymentHistoryPage from "../pages/HostPages/PaymentHistoryPage";
 import HostChat from "../components/hostComponents/HostChat/HostChat.jsx";
 import ErrorPage from "../components/ErrorPage/ErrorPage.jsx";
+import axiosInstance from "../axios.js";
 
  
 export default function HostRoutes() {
@@ -38,7 +38,7 @@ export default function HostRoutes() {
   
   useEffect(() => {
     const token = localStorage.getItem('HostToken'); // Retrieve the token from localStorage
-    axios.get('/host/auth', {
+    axiosInstance("HostToken").get('/host/auth', {
       headers: {
         Authorization: `Bearer ${token}`, // Include the token as a Bearer Token
       },

@@ -3,7 +3,7 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import SignUp from "../components/userComponents/SignUp/SignUp.";
 import OTPModal from "../components/userComponents/Otp/Otp";
 import { useDispatch, useSelector } from "react-redux";
-import axios from "../axios";
+import axiosInstance from "../axios";
 
 import UserSignup from "../pages/userPages/UserSignup";
 import UserLogin from "../pages/userPages/UserLogin";
@@ -30,7 +30,7 @@ useEffect(() => {
   const token = localStorage.getItem('UserToken'); // Retrieve the token from localStorage
 
   if (token) {
-    axios.get('/auth', {
+    axiosInstance("UserToken").get('/auth', {
       headers: {
         Authorization: `Bearer ${token}`, // Include the token as a Bearer Token
       },

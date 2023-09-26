@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Swal from 'sweetalert2';
-import axios from '../../../../axios';
+import axiosInstance from '../../../../axios';
+
 
 function PricePerNight() {
   const { propertyDetails } = useSelector((state) => state);
@@ -22,7 +23,7 @@ function PricePerNight() {
 
   const handleSavePricePerNight = async () => {
     try {
-      await axios.post('/host/update-price', {
+      await axiosInstance("HostToken").post('/host/update-price', {
         propertyId: propertyDetails._id,
         pricePerNight: editedPricePerNight,
       });

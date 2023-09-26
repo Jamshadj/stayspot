@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Swal from 'sweetalert2';
-import axios from '../../../../axios';
+import axiosInstance from '../../../../axios';
+
 
 function Location() {
   const dispatch = useDispatch();
@@ -29,7 +30,7 @@ function Location() {
   // Function to handle saving the edited address
   const handleSaveAddress = async () => {
     try {
-      const response = await axios.post('/host/edit-address', {
+      const response = await axiosInstance.post('/host/edit-address', {
         editedAddress,
         propertyId: propertyDetails._id,
       });

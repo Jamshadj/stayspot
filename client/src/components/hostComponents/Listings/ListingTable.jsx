@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import axios from '../../../axios.js';
 import { useSelector } from 'react-redux';
 import { IoIosPower } from 'react-icons/io';
 import { AiOutlineClockCircle } from 'react-icons/ai';
 import { useNavigate } from 'react-router-dom';
+import axiosInstance from '../../../axios';
 
 function ListingTable() {
   const { host } = useSelector((state) => state);
@@ -12,7 +12,7 @@ function ListingTable() {
   useEffect(() => {
     const fetchProperties = async () => {
       try {
-        const response = await axios.get(`/host/properties/${host.details._id}`);
+        const response = await axiosInstance("HostToken").get(`/host/properties/${host.details._id}`);
         setProperties(response.data.properties);
       } catch (error) {
         console.error("Error fetching properties:", error);
