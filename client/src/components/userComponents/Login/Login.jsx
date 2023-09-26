@@ -1,7 +1,8 @@
 import React from 'react';
 import Navbar from './Navbar';
 import LoginCard from './LoginCard';
-import LoginCardImage from './LoginCardImage';
+import LoginCardImage from '../../LoginCardImage/LoginCardImage.jsx';
+import StaySpot from "../../../assets/images/stayspot.jpg"
 
 function Login() {
   return (
@@ -10,7 +11,7 @@ function Login() {
       <hr />
       <div className="flex flex-col md:flex-row mt-11">
         <div className="md:w-1/2 ">
-          <LoginCardImage />
+          <LoginCardImage image={StaySpot}/>
         </div>
 
         <div className=" md:w-1/2">
