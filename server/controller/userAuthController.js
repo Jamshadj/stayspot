@@ -1,11 +1,12 @@
-import userModel from "../models/UserModel.js";
-import sentOTP from "../constant/sentOTP.js";
 import jwt from "jsonwebtoken";
 import bcrypt from 'bcrypt';
 import axios from "axios";
 import cloudinary from '../constant/config.js';
-import bookingModel from "../models/BookingModel.js";
+import sentOTP from "../constant/sentOTP.js";
 import otpGenerator from 'otp-generator';
+import userModel from "../models/UserModel.js";
+import bookingModel from "../models/BookingModel.js";
+
 // Helper function to create a token
 const createToken = (userId) => {
   return jwt.sign({ id: userId }, process.env.TOKEN_SECRET_KEY);
@@ -13,10 +14,11 @@ const createToken = (userId) => {
 let storedOtp=null;
 
 export default {
+
  // User registration endpoint
 postUserSignUp: async (req, res) => {
   try {
-    console.log("rded");
+
     const existingEmail = await userModel.findOne({ email: req.body.email });
     if (existingEmail) {
       return res.json({ err: true, message: 'User already exists' });
@@ -32,7 +34,7 @@ postUserSignUp: async (req, res) => {
     } else {
       // Generate and send an OTP for email verification
       const otp = otpGenerator.generate(4, { digits: true, alphabets: false, specialChars: false });
-      let otpSent = await sentOTP(req.body.email, otp);
+     await sentOTP(req.body.email, otp);
       // Create a token with OTP for email verification
       const signUpToken = jwt.sign(
         {
@@ -98,7 +100,6 @@ postUserOtpVerify: async (req, res) => {
 getLoggedInUser: async (req, res) => {
   try {
     const token = req.headers.authorization;
-console.log(token);
     if (!token) {
       return res.status(401).json({ loggedIn: false, error: true, message: "No token" });
     }
@@ -160,17 +161,24 @@ userGoogleAuth: async (req, res) => {
   try {
     if (req.body.access_token) {
       const response = await axios.get(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${req.body.access_token}`);
-      const user = await userModel.findOne({ googleId: response.data.id, loginWithGoogle: true }, { password: 0 });
+
+      // Find the user by email and check if loginWithGoogle is false
+      const user = await userModel.findOne({ email: response.data.email, loginWithGoogle: false });
+
       if (user) {
+        // Update the user's loginWithGoogle and googleId fields
+        user.loginWithGoogle = true;
+        user.googleId = response.data.id;
+        await user.save();
+
         if (!user.blocked) {
           const token = createToken(user._id);
-          return res.cookie("userToken", token, {
-            httpOnly: true, secure: true, maxAge: 1000 * 60 * 60 * 24 * 7, sameSite: "none",
-          }).json({ created: true, user, token, message: "Login Success" });
+          return res.json({ created: true, user, token, message: "Login Success" });
         } else {
-          return res.status(200).json({ user, message: "Sorry, you are banned!" });
+          return res.status(200).json({ user, message: "Sorry, you are blocked!" });
         }
       } else {
+        // Create a new user if they don't exist
         let bcrypPassword = await bcrypt.hash(response.data.id, 10);
         const newUser = await userModel.create({
           googleId: response.data.id,
@@ -193,15 +201,8 @@ userGoogleAuth: async (req, res) => {
   }
 },
 
-// User logout endpoint
-userLogout: async (req, res) => {
-  return res.cookie("userToken", '', {
-    httpOnly: true, secure: true, maxAge: 0, sameSite: "none",
-  }).json({ err: false, message: 'Logged out successfully' });
-},
-
 // Update user phone number endpoint
-userPhoneNumber: async (req, res) => {
+UpdateUserPhoneNumber: async (req, res) => {
   try {
     const { phoneNumber, _id } = req.body;
     await userModel.findByIdAndUpdate(_id, { phoneNumber });

@@ -12,9 +12,8 @@ getListings: async (req, res) => {
     let listings;
     if (structure) {
    
-      listings = await propertyModel.find({ structure });
+      listings = await propertyModel.find({ structure,baseQuery });
     } else {
-      console.log('Query:', baseQuery);
       listings = await propertyModel.find(baseQuery);
     }
     
@@ -33,7 +32,7 @@ getListingById: async (req, res) => {
     const property = await propertyModel.findById(propertyId);
 
     if (!property) {
-      return res.status(404).json({ error: 'Property not found' });
+      return res.status(404).json({ error: 'Listing not found' });
     }
 
     res.json(property);
@@ -148,12 +147,13 @@ getReservationsById: async (req, res) => {
       return res.status(404).json({ message: 'Booking not found' });
     }
 
-    res.json({ message: 'Booking item status fetched', bookings });
+    res.json({ message: 'Booking item  fetched', bookings });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Internal server error' });
   }
 },
+
 // Get bookings by property ID endpoint
 getBookingByPropertyId: async (req, res) => {
   try {

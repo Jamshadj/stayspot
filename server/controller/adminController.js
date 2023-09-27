@@ -128,7 +128,6 @@ export default {
     // Block a host
     postBlockHost: async (req, res) => {
         try {
-            console.log("block host");
             const { hostId } = req.body;
 
             const host = await hostModel.findById(hostId);
@@ -150,7 +149,6 @@ export default {
     postUnBlockHost: async (req, res) => {
         try {
             const { hostId } = req.body;
-            console.log("Unblock host", hostId);
             const host = await hostModel.findById(hostId);
 
             if (!host) {
@@ -220,7 +218,6 @@ export default {
         }
     },
 
-
     // Get properties
     getProperties: async (req, res) => {
         try {
@@ -232,6 +229,7 @@ export default {
             res.status(500).json({ error: error });
         }
     },
+
     // Update listing status
     postUpdateListingStatus: async (req, res) => {
         try {

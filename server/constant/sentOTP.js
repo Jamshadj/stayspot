@@ -3,7 +3,6 @@ import nodemailer from "nodemailer"
 export default function sentOTP(email, otp) {
 
   return new Promise((resolve, reject) => {
-    console.log("hy");
     let transporter = nodemailer.createTransport({
       host: "smtp.gmail.com", // SMTP server address (usually mail.your-domain.com)
       port: 465, // Port for SMTP (usually 465)

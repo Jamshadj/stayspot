@@ -2,12 +2,12 @@ import mongoose from 'mongoose';
 const bookingSchema = new mongoose.Schema({
   userId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'userDetails', // Reference to the User model (adjust the model name if needed)
+    ref: 'userDetails', // Reference to the User model 
     required: true
   },
   hostId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Host', // Reference to the User model (adjust the model name if needed)
+    ref: 'Host', // Reference to the User model 
     required: true
   },
   checkInDate: {
@@ -20,7 +20,7 @@ const bookingSchema = new mongoose.Schema({
   },
   listingId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Property', // Reference to the Property model (adjust the model name if needed)
+    ref: 'Property', // Reference to the Property model
     required: true
   },
   guests: {

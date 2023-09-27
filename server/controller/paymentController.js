@@ -26,7 +26,6 @@ postCheckout: async (req, res) => {
       userId,
       totalAmount,
     } = req.body;
-   console.log("ed");
     // Validate input data here
 
     const listing = await propertyModel.findById(listingId);

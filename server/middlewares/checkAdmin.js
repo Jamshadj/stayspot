@@ -1,4 +1,3 @@
-import jwt from 'jsonwebtoken';
 
 const checkAdmin = async (req, res, next) => {
   try {
@@ -11,12 +10,6 @@ const checkAdmin = async (req, res, next) => {
     if (tokenParts.length !== 2 || tokenParts[0] !== 'Bearer') {
       return res.status(401).json({ err: true, error: true, message: "Invalid token format" });
     }
-
-    const jwtToken = tokenParts[1];
-    
-    // Verify the user's token and retrieve user details
-    const verifiedJWT = jwt.verify(jwtToken, process.env.TOKEN_SECRET_KEY);
- 
     next();
   } catch (error) {
     console.error(error);
