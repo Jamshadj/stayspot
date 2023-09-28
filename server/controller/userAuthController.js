@@ -6,11 +6,9 @@ import sentOTP from "../constant/sentOTP.js";
 import otpGenerator from 'otp-generator';
 import userModel from "../models/UserModel.js";
 import bookingModel from "../models/BookingModel.js";
+import { createToken } from "../constant/jwtToken.js";
 
-// Helper function to create a token
-const createToken = (userId) => {
-  return jwt.sign({ id: userId }, process.env.TOKEN_SECRET_KEY);
-};
+
 let storedOtp=null;
 
 export default {
