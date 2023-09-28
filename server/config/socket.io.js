@@ -23,7 +23,7 @@ export default function socketConnect(io, activeUsers){
         }); 
         socket.on("send-message", (data) => {
             const { receiverId } = data;
-            // console.log("receiverid", receiverId)
+          
             const user = activeUsers[receiverId];
             // console.log("User", user)
             // console.log("Active User", activeUsers)
