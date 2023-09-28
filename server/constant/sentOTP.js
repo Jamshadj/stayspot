@@ -22,7 +22,7 @@ export default function sentOTP(email, otp) {
       subject: "StaySpot Email verification",
       html: `
               <h1>Verify Your Email For stayspot</h1>
-                <h3>use this code to verify your email</h3>
+                <h3>Use this code to verify your email</h3>
                 <h2>${otp}</h2>
               `,
     }
