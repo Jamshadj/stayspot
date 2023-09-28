@@ -5,13 +5,13 @@ import bcrypt from 'bcrypt';
 import hostModel from "../models/HostModel.js";
 import axios from "axios";
 import otpGenerator from 'otp-generator';
+import { createToken } from "../constant/jwtToken.js";
 
-// Helper function to create a token
-const createToken = (hostId) => {
-  return jwt.sign({ id: hostId }, process.env.TOKEN_SECRET_KEY);
-};
+
 
 export default {
+
+
   // User sign-up endpoint
   postSignUp: async (req, res) => {
     try {
