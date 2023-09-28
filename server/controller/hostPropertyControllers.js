@@ -6,6 +6,7 @@ import propertyModel from '../models/PropertyModel.js';
 import WithdrawModel from '../models/WithdrawModel.js';
 
 export default {
+  
   // Add a new property to the database
   postAddProperty: async (req, res) => {
     try {
