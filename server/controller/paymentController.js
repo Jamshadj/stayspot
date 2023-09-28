@@ -91,6 +91,8 @@ getOrderSuccess: async (req, res) => {
   }
 },
 
+
+//razor pay controller
 paymentOrder: async (req, res) => {
   try {
     const { amount } = req.body;
