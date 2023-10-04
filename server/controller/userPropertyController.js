@@ -4,6 +4,7 @@ import userModel from '../models/UserModel.js';
 import bookingModel from '../models/BookingModel.js';
 
 export default {
+  
  // Get listings endpoint
 getListings: async (req, res) => {
   try {
@@ -190,4 +191,6 @@ addReview: async (req, res) => {
     res.status(500).json({ error: 'An error occurred while adding the review' });
   }
 }
+
+
 };
