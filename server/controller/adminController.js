@@ -13,18 +13,17 @@ export default {
         try {
             const { email, password } = req.body;
             const admin = await adminModel.findOne({ email });
-
             if (!admin) {
-                return res.json({ err: true, message: 'Email does not exist' });
+                return res.json({ err: true, message: 'Emailss does not exist' });
             }
 
-            if (bcrypt.compareSync(password, admin.password) ){
+            if (bcrypt.compareSync(password, admin.password)) {
                 return res.json({ err: true, message: 'Incorrect password' });
             }
 
             const token = jwt.sign({ id: admin._id }, process.env.TOKEN_SECRET_KEY);
 
-            res.json({ err: false,token, message: 'Admin login success' });
+            res.json({ err: false, token, message: 'Admin login success' });
         } catch (error) {
             console.log(error);
             res.json({ err: true, message: error.message });
@@ -34,21 +33,24 @@ export default {
     // Get admin status
     getLoggedInAdmin: async (req, res) => {
         try {
-            const token = req.cookies.adminToken;
+            const token = req.headers.authorization;
             if (!token) {
-                return res.json({ loggedIn: false, error: true, message: 'No token' });
+                return res.status(401).json({ loggedIn: false, error: true, message: "No token" });
             }
 
-            const verifiedJWT = jwt.verify(token, process.env.TOKEN_SECRET_KEY);
-            const admin = await adminModel.findById(verifiedJWT.id, { password: 0 });
-
-            if (!admin) {
-                return res.json({ loggedIn: false, error: true, message: 'User not found' });
+            // Split the token to remove the "Bearer " prefix
+            const tokenParts = token.split(' ');
+            if (tokenParts.length !== 2 || tokenParts[0] !== 'Bearer') {
+                return res.status(401).json({ loggedIn: false, error: true, message: "Invalid token format" });
             }
 
-            return res.json({ loggedIn: true, admin, token });
+            const jwtToken = tokenParts[1];
+
+            // Verify the user's token and retrieve user details
+            const verifiedJWT = jwt.verify(jwtToken, process.env.TOKEN_SECRET_KEY);
+            // Respond with user details and token
+            return res.status(200).json({ loggedIn: true, token: jwtToken })
         } catch (err) {
-            console.log(err);
             res.json({ loggedIn: false, error: true, message: err.message });
         }
     },
@@ -235,7 +237,7 @@ export default {
         try {
             const { propertyId } = req.params;
             const { status } = req.body; // Get the status string from the request body
-            
+
             const property = await propertyModel.updateOne({ _id: propertyId }, { status: status.status });
             res.json({ message: 'Listing status updated successfully' });
         } catch (error) {
@@ -243,7 +245,7 @@ export default {
             res.status(500).json({ error: 'Failed to update listing status' });
         }
     },
-    
+
     // Add a new host
     postAddHost: async (req, res) => {
         try {

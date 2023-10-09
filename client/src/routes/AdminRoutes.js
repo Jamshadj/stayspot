@@ -28,7 +28,7 @@ export default function AdminRoutes() {
         },
       })
       .then((response) => {
-        console.log("Admin:", response.data);
+        console.log("Adminn:", response.data);
         dispatch({ type: 'admin', payload: { login: response.data.loggedIn, details: response.data.host } });
       })
       .catch((error) => {

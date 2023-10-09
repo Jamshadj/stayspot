@@ -5,7 +5,7 @@ const checkAdmin = async (req, res, next) => {
     if (!token) {
       return res.status(401).json({ err: true, message: 'Unauthorized: No token provided' });
     }
-
+    console.log(token);
     const tokenParts = token.split(' ');
     if (tokenParts.length !== 2 || tokenParts[0] !== 'Bearer') {
       return res.status(401).json({ err: true, error: true, message: "Invalid token format" });

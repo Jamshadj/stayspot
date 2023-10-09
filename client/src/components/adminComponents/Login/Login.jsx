@@ -24,6 +24,7 @@ const dispatch=useDispatch()
      
       const response = await postLogin(data);
       
+      console.log(response.data);
       if (!response.data.err) {
         localStorage.setItem('AdminToken',response.data.token)
         dispatch({type:"refresh"})

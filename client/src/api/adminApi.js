@@ -2,6 +2,7 @@ import axiosInstance from "../axios";
 
 // Admin login
 export async function postLogin(data) {
+  console.log("heee");
   return axiosInstance('AdminToken').post('/admin/login', data);
 }
 
