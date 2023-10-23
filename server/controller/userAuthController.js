@@ -161,7 +161,7 @@ userGoogleAuth: async (req, res) => {
       const response = await axios.get(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${req.body.access_token}`);
 
       // Find the user by email and check if loginWithGoogle is false
-      const user = await userModel.findOne({ email: response.data.email, loginWithGoogle: false });
+      const user = await userModel.findOne({ googleId: response.data.id, loginWithGoogle: true }, { password: 0 });
 
       if (user) {
         // Update the user's loginWithGoogle and googleId fields
