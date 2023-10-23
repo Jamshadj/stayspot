@@ -14,7 +14,7 @@ export const postLogin = (data) => {
 
 // Login with Google
 export const loginWithGoogle = (data) => {
-  return axiosInstance('UserToken').post('/auth/login/google', data);
+  return axiosInstance.post('/auth/login/google', data);
 };
 
 // User logout
