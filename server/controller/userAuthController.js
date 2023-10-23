@@ -1,4 +1,4 @@
-import jwt from "jsonwebtoken";
+
 import bcrypt from 'bcrypt';
 import axios from "axios";
 import cloudinary from '../constant/config.js';
