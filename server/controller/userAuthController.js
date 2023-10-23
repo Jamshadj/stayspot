@@ -7,7 +7,7 @@ import otpGenerator from 'otp-generator';
 import userModel from "../models/UserModel.js";
 import bookingModel from "../models/BookingModel.js";
 import { createToken } from "../constant/jwtToken.js";
-import { Jwt } from 'jsonwebtoken';
+import  jwt  from 'jsonwebtoken';
 
 let storedOtp=null;
 
