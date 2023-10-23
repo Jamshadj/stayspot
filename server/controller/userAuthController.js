@@ -157,46 +157,49 @@ postUserLogIn: async (req, res) => {
 // Google authentication endpoint
 userGoogleAuth: async (req, res) => {
   try {
-    if (req.body.access_token) {
-      const response = await axios.get(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${req.body.access_token}`);
-
-      // Find the user by email and check if loginWithGoogle is false
-      const user = await userModel.findOne({ googleId: response.data.id, loginWithGoogle: true }, { password: 0 });
-
-      if (user) {
-        // Update the user's loginWithGoogle and googleId fields
-        user.loginWithGoogle = true;
-        user.googleId = response.data.id;
-        await user.save();
-
-        if (!user.blocked) {
-          const token = createToken(user._id);
-          return res.json({ created: true, user, token, message: "Login Success" });
-        } else {
-          return res.status(200).json({ user, message: "Sorry, you are blocked!" });
-        }
-      } else {
-        // Create a new user if they don't exist
-        let bcrypPassword = await bcrypt.hash(response.data.id, 10);
-        const newUser = await userModel.create({
-          googleId: response.data.id,
-          firstName: response.data.given_name,
-          lastName: response.data.family_name,
-          email: response.data.email,
-          image: response.data.picture,
-          loginWithGoogle: true,
-          password: bcrypPassword,
-        });
-        const token = createToken(newUser._id);
-        return res.json({ created: true, user: newUser, token, message: "Signup Success" });
-      }
-    } else {
-      return res.status(401).json({ message: "Not authorized" });
+    const { access_token } = req.body;
+  
+    if (!access_token) {
+      return res.status(401).json({ message: 'Not authorized' });
     }
+  
+    // Fetch user data from Google API
+    const response = await axios.get(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${access_token}`);
+    const { id, given_name, family_name, email, picture } = response.data;
+  
+    // Find the user by email
+    let user = await userModel.findOne({ email });
+  
+    if (user) {
+      // User exists, update fields
+      user.loginWithGoogle = true;
+      user. googleId=id;
+      await user.save();
+    } else {
+      // User does not exist, create a new user
+      user = await userModel.create({
+        googleId: id,
+        firstName: given_name,
+        lastName: family_name,
+        email: email,
+        image: picture,
+        loginWithGoogle: true,
+        password: null,
+      });
+    }
+  
+    if (user.blocked) {
+      return res.status(200).json({ user, message: 'Sorry, you are blocked!' });
+    }
+  
+    const token = createToken(user._id);
+    console.log("token",token)
+    return res.json({ created: true, user, token, message: 'Login Success' });
   } catch (error) {
-    console.log(error);
-    res.status(500).json({ created: false, message: "Internal server error" });
+    console.error(error);
+    return res.status(500).json({ created: false, message: 'Internal server error' });
   }
+  
 },
 
 // Update user phone number endpoint

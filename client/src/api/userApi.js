@@ -26,7 +26,7 @@ export const userLogout = () => {
 
 // Request a password reset
 export const postForgotPassword = (data) => {
-  return axios.post('/forgotpassword', { data });
+  return axiosInstance('UserToken').post('/forgotpassword', { data });
 };
 
 // Verify OTP for password reset
