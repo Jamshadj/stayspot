@@ -9,7 +9,7 @@ import bookingModel from "../models/BookingModel.js";
 import { createToken } from "../constant/jwtToken.js";
 import  jwt  from 'jsonwebtoken';
 
-let storedOtp=null;
+var storedOtp=null;
 
 export default {
 
@@ -272,13 +272,19 @@ forgotUserPassword: async (req, res) => {
   try {
     const email = req.body.data;
     const result = await userModel.findOne({ email });
-    // Generate and send OTP
-    const otp = otpGenerator.generate(4, { digits: true, alphabets: false, specialChars: false });
-    storedOtp=otp;
-    await sentOTP(email, otp);
-    res.status(200).json({ success: true });
+    if (result) {
+      
+      // Generate and send OTP
+      const otp = otpGenerator.generate(4, { digits: true, alphabets: false, specialChars: false });
+      storedOtp=otp;
+      console.log(otp,result);
+      await sentOTP(email, otp);
+      res.status(200).json({ success: true });
+    }else{
+      res.status(500).json({ success: false, message: 'email not found' });
+    }
   } catch (error) {
-    console.error(error);
+    console.log(error);
     res.status(500).json({ success: false, message: 'Internal server error' });
   }
 },
@@ -321,7 +327,7 @@ postUpdateUserPassword: async (req, res) => {
       });
     }
   } catch (error) {
-    console.error(error);
+    console.log(error);
     return res.status(500).json({
       success: false,
       message: 'An error occurred while updating the password.'
