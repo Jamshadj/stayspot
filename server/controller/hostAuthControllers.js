@@ -144,7 +144,7 @@ export default {
   
       return res.status(200).json({ loggedIn: true, host, token: jwtToken });
     } catch (err) {
-      console.error(err);
+      // console.error(err);
       res.status(500).json({ loggedIn: false, error: true, message: err.message });
     }
   },

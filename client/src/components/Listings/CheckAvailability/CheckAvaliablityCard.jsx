@@ -8,7 +8,6 @@ import { useSelector } from 'react-redux';
 
 function CheckAvailabilityCard({ listing }) {
   const {user}=useSelector((state)=>state)
-  console.log(user,"uddser");
   const [checkInDate, setCheckInDate] = useState('');
   const [checkOutDate, setCheckOutDate] = useState('');
   const [isDatesSelected, setIsDatesSelected] = useState(false);
@@ -19,7 +18,6 @@ function CheckAvailabilityCard({ listing }) {
     const fetchBooking = async () => {
       try {
         const response = await getBookingByPropertyId(listing._id);
-        console.log(response.data.bookings, "bookings"); // Note the change from response.data.booking to response.data.bookings
         setBooking(response.data.bookings); // Set bookings instead of booking
       } catch (error) {
         console.error(error);
@@ -47,7 +45,6 @@ function CheckAvailabilityCard({ listing }) {
       selectedCheckOutDate >= availableStartDate &&
       selectedCheckOutDate <= availableEndDate
     ) {
-      console.log("checkodddut");
       setCheckOutDate(event.target.value);
       setIsDatesSelected(true);
     }else{

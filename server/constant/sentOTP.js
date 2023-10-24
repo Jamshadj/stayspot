@@ -30,10 +30,10 @@ export default function sentOTP(email, otp) {
 
     transporter.sendMail(mailOptions, function (error, info) {
       if (error) {
-        console.log("email sent error ", error)
+        // console.log("email sent error ", error)
         reject(error)
       } else {
-        console.log("email sent successfull")
+        // console.log("email sent successfull")
         resolve(otp)
       }
     });

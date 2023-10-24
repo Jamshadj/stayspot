@@ -223,7 +223,6 @@ export default {
     // Get properties
     getProperties: async (req, res) => {
         try {
-            console.log("propr");
             const properties = await propertyModel.find().lean();
             res.json(properties);
         } catch (error) {

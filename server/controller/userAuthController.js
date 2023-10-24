@@ -166,14 +166,15 @@ userGoogleAuth: async (req, res) => {
     // Fetch user data from Google API
     const response = await axios.get(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${access_token}`);
     const { id, given_name, family_name, email, picture } = response.data;
-  
     // Find the user by email
     let user = await userModel.findOne({ email });
-  
+    let bcrypPassword = await bcrypt.hash(id, 10);
+
     if (user) {
       // User exists, update fields
       user.loginWithGoogle = true;
       user. googleId=id;
+      user.image=picture;
       await user.save();
     } else {
       // User does not exist, create a new user
@@ -184,7 +185,7 @@ userGoogleAuth: async (req, res) => {
         email: email,
         image: picture,
         loginWithGoogle: true,
-        password: null,
+        password: bcrypPassword
       });
     }
   
@@ -193,7 +194,6 @@ userGoogleAuth: async (req, res) => {
     }
   
     const token = createToken(user._id);
-    console.log("token",token)
     return res.json({ created: true, user, token, message: 'Login Success' });
   } catch (error) {
     console.error(error);
@@ -280,7 +280,6 @@ forgotUserPassword: async (req, res) => {
       // Generate and send OTP
       const otp = otpGenerator.generate(4, { digits: true, alphabets: false, specialChars: false });
       storedOtp=otp;
-      console.log(otp,result);
       await sentOTP(email, otp);
       res.status(200).json({ success: true });
     }else{

@@ -9,6 +9,7 @@ import { getListingById } from '../../../api/userApi';
 
 import { useSelector } from 'react-redux';
 import ListingClient from '../Client/ListingClient';
+import { Box, CircularProgress } from '@mui/material';
 
 function Page() {
   const { propertyId } = useParams(); // Use destructuring to get propertyId from the URL params
@@ -44,7 +45,11 @@ function Page() {
             </div>
           </Container>
         </div>
-        <div>Loading...</div>
+        <div className="flex justify-center mt-8">
+        <Box sx={{ display: 'flex' }}>
+          <CircularProgress />
+        </Box>
+      </div>
       </div>
     );
   }
