@@ -6,25 +6,24 @@ import bookingModel from '../models/BookingModel.js';
 export default {
   
  // Get listings endpoint
-getListings: async (req, res) => {
+ getListings: async (req, res) => {
   try {
     const structure = req.query.structure;
-    const baseQuery = { status: "Listed" };
-    let listings;
+    let query = { status: "Listed" };
+
     if (structure) {
-   
-      listings = await propertyModel.find({ structure,baseQuery });
-    } else {
-      listings = await propertyModel.find(baseQuery);
+      query.structure = structure;
     }
-    
- 
+
+    const listings = await propertyModel.find(query);
+
     res.json({ error: false, listings });
   } catch (error) {
     console.error('Error retrieving listings:', error);
-    res.status(500).json({ error: true, message: 'Error retrieving listings' }); 
+    res.status(500).json({ error: true, message: 'Error retrieving listings' });
   }
 },
+
 
 // Get property by ID endpoint
 getListingById: async (req, res) => {
