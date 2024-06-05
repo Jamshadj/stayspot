@@ -10,7 +10,7 @@ import { useSelector } from 'react-redux'
 import { io } from "socket.io-client";
 
 import { createChat, findChat, getUserChats } from '../../../api/chatRequests'
-const socket = io.connect('https://stayspot.boltt.store');
+const socket = io.connect('http://localhost:4000');
 
 
 export default function Chat({ }) {

@@ -9,7 +9,7 @@ import { findHostChat, getHostChats } from '../../../api/hostChatRequests';
 
 import { io } from "socket.io-client";
 
-const socket = io.connect('https://stayspot.boltt.store'); // Make sure to add 'http://' to the socket URL.
+const socket = io.connect('http://localhost:4000'); // Make sure to add 'http://' to the socket URL.
 
 
 
