@@ -45,13 +45,13 @@ app.use(cors({ origin:['http://localhost:3000'], credentials: true }));
 app.use(cookieParser());
 
 // Route handling
-app.use('/', userRouter);
-app.use('/host', hostRouter);
-app.use('/admin', adminRouter);
-app.use('/chat', chatRouter);
-app.use('/host/chat', hostChatRouter);
-app.use('/message', messageRouter);
-app.use('/host/message/', messageRouter);
+app.use('/api', userRouter);
+app.use('/host/api', hostRouter);
+app.use('/admin/api', adminRouter);
+app.use('/chat/api', chatRouter);
+app.use('/host/chat/api', hostChatRouter);
+app.use('/message/api', messageRouter);
+app.use('/host/message/api', messageRouter);
 
 // Connect to the database
 dbConnect();
