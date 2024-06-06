@@ -10,7 +10,7 @@ import { useSelector } from 'react-redux'
 import { io } from "socket.io-client";
 
 import { createChat, findChat, getUserChats } from '../../../api/chatRequests'
-const socket = io.connect('http://localhost:4000');
+const socket = io.connect('http://3.25.135.114/api');
 
 
 export default function Chat({ }) {

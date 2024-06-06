@@ -3,7 +3,7 @@ import { BASE_URL } from './constant/constant';
 
 const axiosInstance = (tokenName) => {
   const instance = axios.create({
-    baseURL: "http://localhost:4000/api",
+    baseURL: "http://3.25.135.114/api",
     withCredentials: true,
     headers: {
       'Content-Type': 'application/json'
