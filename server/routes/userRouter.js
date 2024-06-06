@@ -10,7 +10,7 @@ const router = Express.Router();
 router.post('/signup',userAuthController.postUserSignUp);
 router.post('/otp', userAuthController.postUserOtpVerify);
 router.post('/login', userAuthController.postUserLogIn);
-router.get('/api/auth', userAuthController.getLoggedInUser);
+router.get('/auth', userAuthController.getLoggedInUser);
 router.post('/auth/login/google', userAuthController.userGoogleAuth);
 router.patch('/updatePhoneNumber', userAuthController.UpdateUserPhoneNumber);
 router.post('/updateDetails/:userId', userAuthController.updateUserDetails);
