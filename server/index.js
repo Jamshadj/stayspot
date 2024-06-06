@@ -37,21 +37,21 @@ socketConnect(io, activeUsers);
 // Middleware
 app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 app.use(express.json({ limit: '50mb' }));
-// app.use(cors({ origin: 'https://spotstay.netlify.app', credentials: true }));
+app.use(cors({ origin: 'http://54.206.52.169', credentials: true }));
 
 
-app.use(cors({ origin:['http://localhost:3000'], credentials: true }));
+// app.use(cors({ origin:['http://localhost:3000'], credentials: true }));
 
 app.use(cookieParser());
 
 // Route handling
 app.use('/api', userRouter);
-app.use('/host/api', hostRouter);
-app.use('/admin/api', adminRouter);
-app.use('/chat/api', chatRouter);
-app.use('/host/chat/api', hostChatRouter);
-app.use('/message/api', messageRouter);
-app.use('/host/message/api', messageRouter);
+app.use('/api/host', hostRouter);
+app.use('/api/admin', adminRouter);
+app.use('/api/chat', chatRouter);
+app.use('/api/host/chat', hostChatRouter);
+app.use('/api/message', messageRouter);
+app.use('/api/host/message', messageRouter);
 
 // Connect to the database
 dbConnect();
