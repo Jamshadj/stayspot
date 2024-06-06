@@ -42,10 +42,10 @@ app.use(express.json({ limit: '50mb' }));
 const _dirname = path.dirname("")
 const buildPath = path.join(_dirname,"../client/build")
 app.use(express.static(buildPath))
-app.use(cors({ origin: '*', credentials: true }));
+// app.use(cors({ origin: '*', credentials: true }));
 
 
-// app.use(cors({ origin:['http://localhost:3000'], credentials: true }));
+app.use(cors({ origin:['http://3.25.135.114'], credentials: true }));
 
 app.use(cookieParser());
 
