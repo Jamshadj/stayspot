@@ -50,7 +50,7 @@ postCheckout: async (req, res) => {
       ],
       mode: 'payment',
       customer_email: user.email,
-      success_url: `https://stayspot.boltt.store/order-success?bookingDetails=${encodeURIComponent(JSON.stringify(req.body))}`,
+      success_url: `http://13.211.197.32/order-success?bookingDetails=${encodeURIComponent(JSON.stringify(req.body))}`,
       cancel_url: `https://spotstay.netlify.app/reserve?listingId=${listingId}&nights=${numberOfNights}&checkIn=${checkInDate}&checkOut=${checkOutDate}&guests=${guests}`,
     });
     // Send a response with the session URL

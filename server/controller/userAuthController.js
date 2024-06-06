@@ -16,7 +16,6 @@ export default {
  // User registration endpoint
 postUserSignUp: async (req, res) => {
   try {
-
     const existingEmail = await userModel.findOne({ email: req.body.email });
     if (existingEmail) {
       return res.json({ err: true, message: 'User already exists' });
@@ -97,6 +96,7 @@ postUserOtpVerify: async (req, res) => {
 // Get logged-in user details endpoint
 getLoggedInUser: async (req, res) => {
   try {
+    console.log("console");
     const token = req.headers.authorization;
     if (!token) {
       return res.status(401).json({ loggedIn: false, error: true, message: "No token" });
@@ -131,6 +131,7 @@ getLoggedInUser: async (req, res) => {
 
 // User login endpoint
 postUserLogIn: async (req, res) => {
+  console.log("ded");
   try {
     const { email, password } = req.body;
     const existingUser = await userModel.findOne({ email: email });
