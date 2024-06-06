@@ -42,10 +42,10 @@ app.use(express.json({ limit: '50mb' }));
 const _dirname = path.dirname("")
 const buildPath = path.join(_dirname,"../client/build")
 app.use(express.static(buildPath))
-// app.use(cors({ origin: '*', credentials: true }));
+app.use(cors({ origin: '*', credentials: true }));
 
 
-app.use(cors({ origin:['http://3.25.135.114'], credentials: true }));
+// app.use(cors({ origin:['http://localhost:3000'], credentials: true }));
 
 app.use(cookieParser());
 
@@ -57,6 +57,10 @@ app.use('/api/chat', chatRouter);
 app.use('/api/host/chat', hostChatRouter);
 app.use('/api/message', messageRouter);
 app.use('/api/host/message', messageRouter);
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(buildPath, 'index.html'));
+});
 
 // Connect to the database
 dbConnect();
