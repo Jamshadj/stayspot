@@ -3,7 +3,7 @@ import { BASE_URL } from './constant/constant';
 
 const axiosInstance = (tokenName) => {
   const instance = axios.create({
-    baseURL: "https://stayspot.jamshad.online/api",
+    baseURL: process.env.BASE_URL,
     withCredentials: true,
     headers: {
       'Content-Type': 'application/json'
