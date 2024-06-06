@@ -7,7 +7,7 @@ import { createServer } from 'http';
 import { Server } from 'socket.io';
 import dbConnect from './config/dbConnect.js'; 
 import socketConnect from './config/socket.io.js'; 
-
+import path from "path"
 // Import routers
 import chatRouter from './routes/chatRouter.js';
 import hostChatRouter from './routes/hostChatRouter.js';
@@ -15,6 +15,7 @@ import messageRouter from './routes/messageRouter.js';
 import userRouter from './routes/userRouter.js';
 import hostRouter from './routes/hostRouter.js';
 import adminRouter from './routes/adminRouter.js';
+
 
 // Create an Express app
 const app = express();
@@ -35,9 +36,13 @@ let activeUsers = {};
 socketConnect(io, activeUsers);
  
 // Middleware
+
 app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 app.use(express.json({ limit: '50mb' }));
-app.use(cors({ origin: 'http://54.206.52.169', credentials: true }));
+const _dirname = path.dirname("")
+const buildPath = path.join(_dirname,"../client/build")
+app.use(express.static(buildPath))
+app.use(cors({ origin: '*', credentials: true }));
 
 
 // app.use(cors({ origin:['http://localhost:3000'], credentials: true }));
