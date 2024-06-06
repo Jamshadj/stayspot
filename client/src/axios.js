@@ -3,7 +3,7 @@ import { BASE_URL } from './constant/constant';
 
 const axiosInstance = (tokenName) => {
   const instance = axios.create({
-    baseURL: BASE_URL,
+    baseURL: "http://54.206.52.169/",
     withCredentials: true,
     headers: {
       'Content-Type': 'application/json'
