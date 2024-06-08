@@ -3,7 +3,7 @@ import { BASE_URL } from './constant/constant';
 
 const axiosInstance = (tokenName) => {
   const instance = axios.create({
-    baseURL: process.env.BASE_URL,
+    baseURL: "https://spotstay.jamshad.online/api",
     withCredentials: true,
     headers: {
       'Content-Type': 'application/json'
