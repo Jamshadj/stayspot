@@ -8,6 +8,7 @@ import { Server } from 'socket.io';
 import dbConnect from './config/dbConnect.js'; 
 import socketConnect from './config/socket.io.js'; 
 import path from "path"
+import { fileURLToPath } from 'url';
 // Import routers
 import chatRouter from './routes/chatRouter.js';
 import hostChatRouter from './routes/hostChatRouter.js';
@@ -35,13 +36,15 @@ let activeUsers = {};
 // Pass the activeUsers object to the socketConnect function
 socketConnect(io, activeUsers);
  
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const buildPath = path.join(__dirname, "../client/build");
+app.use(express.static(buildPath));
+
 // Middleware
 
 app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 app.use(express.json({ limit: '50mb' }));
-const _dirname = path.dirname("")
-const buildPath = path.join(_dirname,"../client/build")
-app.use(express.static(buildPath))
 app.use(cors({ origin: process.env.ORIGIN, credentials: true }));
 
 
@@ -58,9 +61,11 @@ app.use('/api/host/chat', hostChatRouter);
 app.use('/api/message', messageRouter);
 app.use('/api/host/message', messageRouter);
 
-// app.get('*', (req, res) => {
-//   res.sendFile(path.join(buildPath, 'index.html'));
-// });
+app.get('*', (req, res) => {
+  res.sendFile(path.join(buildPath, 'index.html'));
+});
+
+
 
 // Connect to the database
 dbConnect();
